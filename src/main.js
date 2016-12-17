@@ -8,11 +8,39 @@ const frameworkFns = {
   itFn: it
 }
 
-const test = (fn) => {
-  const ctx = context.init(fn)
-  return chain(ctx)
+let _ctx;
+
+const test = (testFn, definerFn) => {
+  // TODO: throw if they're not functions
+  _ctx = context.init(testFn)
+  definerFn()
+  describer(_ctx, frameworkFns)
 }
 
+const given = (...args) => {
+  const { caseIndex, context: ctx } = context.addCase(_ctx, args)
+  _ctx = ctx
+  return newTestCase(caseIndex)
+}
+
+const newTestCase = (caseIndex) => {
+  return {
+    ___caseIndex: caseIndex,
+    expect: getExpectFn(caseIndex)
+  }
+}
+
+const getExpectFn = (caseIndex) => {
+  return (expectedValue) => {
+    _ctx = context.addExpectedValue(_ctx, caseIndex, expectedValue)
+    return newTestCase(caseIndex)
+  }
+}
+
+export { test, given }
+export default { test, given }
+
+/*
 const givenFn = (ctx) => {
   return (...args) => {
     const newCtx = context.addCase(ctx, args)
@@ -33,8 +61,9 @@ const describeFn = (ctx, applyToAll) => {
     return chain(newCtx)
   }
 }
+*/
 
-const runFn = (ctx) => {
+/*const runFn = (ctx) => {
   return () => {
     describer(ctx, frameworkFns)
   }
@@ -51,6 +80,4 @@ const chain = (ctx) => {
       describe: describeFn(ctx, true)
     }
   }
-}
-
-export default chain()
+}*/

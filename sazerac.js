@@ -116,24 +116,30 @@ var addCase = function addCase(ctx, args) {
 
   var argsArray = _get__$1('toArray')(args);
 
+  return {
+    context: _extends({}, ctx, {
+      cases: _get__$1('concat')(ctx.cases, {
+        inputParams: argsArray,
+        describeMessage: _get__$1('describeCase')(argsArray)
+      })
+    }),
+    caseIndex: _get__$1('nextCaseIndex')(ctx)
+  };
+};
+
+var addExpectedValue = function addExpectedValue(ctx, caseIndex, expectedValue) {
   return _extends({}, ctx, {
-    cases: _get__$1('concat')(_get__$1('resetContext')(ctx.cases), {
-      inputParams: argsArray,
-      contextActive: true,
-      describeMessage: _get__$1('describeCase')(argsArray)
+    cases: _get__$1('updateCase')(ctx.cases, caseIndex, function (tCase) {
+      return _extends({}, tCase, {
+        expectedValue: expectedValue,
+        shouldMessage: _get__$1('shouldMessage')(expectedValue)
+      });
     })
   });
 };
 
-var addExpectedValue = function addExpectedValue(ctx, expectedVal) {
-  return _extends({}, ctx, {
-    cases: _get__$1('mapActiveCases')(ctx.cases, function (tCase) {
-      return _extends({}, tCase, {
-        expectedValue: expectedVal,
-        shouldMessage: _get__$1('shouldMessage')(expectedVal)
-      });
-    })
-  });
+var nextCaseIndex = function nextCaseIndex(ctx) {
+  return ctx.cases.length;
 };
 
 var setDescribeMessage = function setDescribeMessage(ctx, applyToAll, message) {
@@ -144,18 +150,17 @@ var setDescribeMessage = function setDescribeMessage(ctx, applyToAll, message) {
   return _extends({}, ctx, { cases: cases });
 };
 
-var mapActiveCases = function mapActiveCases(cases, fn) {
-  return _get__$1('map')(cases, function (tCase) {
-    if (tCase.contextActive) return fn(tCase);
+var updateCase = function updateCase(cases, caseIndex, fn) {
+  return _get__$1('map')(cases, function (tCase, i) {
+    if (caseIndex === i) return fn(tCase);
     return tCase;
   });
 };
 
-var resetContext = function resetContext(cases) {
-  return _get__$1('map')(cases, function (c) {
-    return _extends({}, c, {
-      contextActive: false
-    });
+var mapActiveCases = function mapActiveCases(cases, fn) {
+  return _get__$1('map')(cases, function (tCase) {
+    if (tCase.contextActive) return fn(tCase);
+    return tCase;
   });
 };
 
@@ -232,20 +237,23 @@ function _get_original__$1(variableName) {
     case 'concat':
       return concat;
 
-    case 'resetContext':
-      return resetContext;
-
     case 'describeCase':
       return describeCase;
 
-    case 'mapActiveCases':
-      return mapActiveCases;
+    case 'nextCaseIndex':
+      return nextCaseIndex;
+
+    case 'updateCase':
+      return updateCase;
 
     case 'shouldMessage':
       return shouldMessage;
 
     case 'map':
       return map;
+
+    case 'mapActiveCases':
+      return mapActiveCases;
 
     case 'formatString':
       return formatString;
@@ -557,56 +565,84 @@ var frameworkFns = {
   itFn: it
 };
 
-var test = function test(fn) {
-  var ctx = _get__('context').init(fn);
-  return _get__('chain')(ctx);
+var _ctx = void 0;
+
+var test = function test(testFn, definerFn) {
+  // TODO: throw if they're not functions
+  _assign__('_ctx', _get__('context').init(testFn));
+  definerFn();
+  _get__('describer')(_get__('_ctx'), _get__('frameworkFns'));
 };
 
-var givenFn = function givenFn(ctx) {
-  return function () {
-    for (var _len = arguments.length, args = Array(_len), _key = 0; _key < _len; _key++) {
-      args[_key] = arguments[_key];
-    }
+var given = function given() {
+  for (var _len = arguments.length, args = Array(_len), _key = 0; _key < _len; _key++) {
+    args[_key] = arguments[_key];
+  }
 
-    var newCtx = _get__('context').addCase(ctx, args);
-    return _get__('chain')(newCtx);
-  };
+  var _get__$addCase = _get__('context').addCase(_get__('_ctx'), args),
+      caseIndex = _get__$addCase.caseIndex,
+      ctx = _get__$addCase.context;
+
+  _assign__('_ctx', ctx);
+  return _get__('newTestCase')(caseIndex);
 };
 
-var expectFn = function expectFn(ctx) {
-  return function (expectedVal) {
-    var newCtx = _get__('context').addExpectedValue(ctx, expectedVal);
-    return _get__('chain')(newCtx);
-  };
-};
-
-var describeFn = function describeFn(ctx, applyToAll) {
-  return function (message) {
-    var newCtx = _get__('context').setDescribeMessage(ctx, applyToAll, message);
-    return _get__('chain')(newCtx);
-  };
-};
-
-var runFn = function runFn(ctx) {
-  return function () {
-    _get__('describer')(ctx, _get__('frameworkFns'));
-  };
-};
-
-var chain = function chain(ctx) {
+var newTestCase = function newTestCase(caseIndex) {
   return {
-    test: _get__('test'),
-    given: _get__('givenFn')(ctx),
-    expect: _get__('expectFn')(ctx),
-    run: _get__('runFn')(ctx),
-    describe: _get__('describeFn')(ctx),
-    all: {
-      describe: _get__('describeFn')(ctx, true)
-    }
+    ___caseIndex: caseIndex,
+    expect: _get__('getExpectFn')(caseIndex)
   };
 };
 
-var _DefaultExportValue = _get__('chain')();
+var getExpectFn = function getExpectFn(caseIndex) {
+  return function (expectedValue) {
+    _assign__('_ctx', _get__('context').addExpectedValue(_get__('_ctx'), caseIndex, expectedValue));
+    return _get__('newTestCase')(caseIndex);
+  };
+};
+
+var _DefaultExportValue = { test: _get__('test'), given: _get__('given') };
+/*
+const givenFn = (ctx) => {
+  return (...args) => {
+    const newCtx = context.addCase(ctx, args)
+    return chain(newCtx)
+  }
+}
+
+const expectFn = (ctx) => {
+  return (expectedVal) => {
+    const newCtx = context.addExpectedValue(ctx, expectedVal)
+    return chain(newCtx)
+  }
+}
+
+const describeFn = (ctx, applyToAll) => {
+  return (message) => {
+    const newCtx = context.setDescribeMessage(ctx, applyToAll, message);
+    return chain(newCtx)
+  }
+}
+*/
+
+/*const runFn = (ctx) => {
+  return () => {
+    describer(ctx, frameworkFns)
+  }
+}
+
+const chain = (ctx) => {
+  return {
+    test: test,
+    given: givenFn(ctx),
+    expect: expectFn(ctx),
+    run: runFn(ctx),
+    describe: describeFn(ctx),
+    all: {
+      describe: describeFn(ctx, true)
+    }
+  }
+}*/
 
 var _RewiredData__ = Object.create(null);
 
@@ -647,11 +683,11 @@ function _get__(variableName) {
 
 function _get_original__(variableName) {
   switch (variableName) {
+    case '_ctx':
+      return _ctx;
+
     case 'context':
       return _DefaultExportValue$2;
-
-    case 'chain':
-      return chain;
 
     case 'describer':
       return describer$1;
@@ -659,27 +695,35 @@ function _get_original__(variableName) {
     case 'frameworkFns':
       return frameworkFns;
 
+    case 'newTestCase':
+      return newTestCase;
+
+    case 'getExpectFn':
+      return getExpectFn;
+
     case 'test':
       return test;
 
-    case 'givenFn':
-      return givenFn;
-
-    case 'expectFn':
-      return expectFn;
-
-    case 'runFn':
-      return runFn;
-
-    case 'describeFn':
-      return describeFn;
+    case 'given':
+      return given;
   }
 
   return undefined;
 }
 
+function _assign__(variableName, value) {
+  if (_RewiredData__ === undefined || _RewiredData__[variableName] === undefined) {
+    return _set_original__(variableName, value);
+  } else {
+    return _RewiredData__[variableName] = value;
+  }
+}
+
 function _set_original__(variableName, _value) {
-  switch (variableName) {}
+  switch (variableName) {
+    case '_ctx':
+      return _ctx = _value;
+  }
 
   return undefined;
 }
@@ -754,5 +798,5 @@ if ((_typeOfOriginalExport === 'object' || _typeOfOriginalExport === 'function')
   addNonEnumerableProperty('__RewireAPI__', _RewireAPI__);
 }
 
-export { _get__ as __get__, _get__ as __GetDependency__, _set__ as __Rewire__, _set__ as __set__, _reset__ as __ResetDependency__, _RewireAPI__ as __RewireAPI__ };export default _DefaultExportValue;
+export { test, given, _get__ as __get__, _get__ as __GetDependency__, _set__ as __Rewire__, _set__ as __set__, _reset__ as __ResetDependency__, _RewireAPI__ as __RewireAPI__ };export default _DefaultExportValue;
 //# sourceMappingURL=sazerac.js.map

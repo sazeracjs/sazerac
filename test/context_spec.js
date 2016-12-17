@@ -45,38 +45,59 @@ const tests = [
       [
         [
           'should return context with a new case',
-          (ctx) => { assert.equal(ctx.cases.length, 1) }
+          (ret) => {
+            const { context: ctx } = ret
+            assert.equal(ctx.cases.length, 1)
+          }
         ],
         [
           'should return context with a new case with inputParams set to arguments',
-          (ctx) => { assert.deepEqual(ctx.cases[0].inputParams, ['arg_one', 'arg_two']) }
-        ],
-        [
-          'should return context with a new case with contextActive:true',
-          (ctx) => { assert.isTrue(ctx.cases[0].contextActive) }
+          (ret) => {
+            const { context: ctx } = ret
+            assert.deepEqual(ctx.cases[0].inputParams, ['arg_one', 'arg_two'])
+          }
         ],
         [
           'should return context with a new case with a describe property set to stringified arguments',
-          (ctx) => { assert.equal(ctx.cases[0].describeMessage, "when given 'arg_one' and 'arg_two'") }
+          (ret) => {
+            const { context: ctx } = ret
+            assert.equal(ctx.cases[0].describeMessage, "when given 'arg_one' and 'arg_two'")
+          }
+        ],
+        [
+          'should return caseIndex of 0',
+          (ret) => {
+            const { caseIndex } = ret
+            assert.equal(caseIndex, 0)
+          }
         ]
       ]
     ],
 
     [
-      'when given context with an existing case with contextActive:true',
-      [{ cases: [{ contextActive: true, mockProp: 'existing_case' }] }, {}],
+      'when given context with an existing case',
+      [{ cases: [{ mockProp: 'existing_case' }] }, {}],
       [
         [
           'should return context with a new case',
-          (ctx) => { assert.equal(ctx.cases.length, 2) }
-        ],
-        [ 
-          'should return context where existing case has contextActive:false',
-          (ctx) => { assert.isFalse(ctx.cases[0].contextActive) }
+          (ret) => {
+            const { context: ctx } = ret
+            assert.equal(ctx.cases.length, 2)
+          }
         ],
         [ 
           'should return context where the order of existing cases is unchanged',
-          (ctx) => { assert.equal(ctx.cases[0].mockProp, 'existing_case') }
+          (ret) => {
+            const { context: ctx } = ret
+            assert.equal(ctx.cases[0].mockProp, 'existing_case')
+          }
+        ],
+        [
+          'should return caseIndex of 1',
+          (ret) => {
+            const { caseIndex } = ret
+            assert.equal(caseIndex, 1)
+          }
         ]
       ]
     ],
@@ -87,11 +108,17 @@ const tests = [
       [
         [
           'should return context with a new case with blank inputParams array',
-          (ctx) => { assert.deepEqual(ctx.cases[0].inputParams, []) }
+          (ret) => {
+            const { context: ctx } = ret
+            assert.deepEqual(ctx.cases[0].inputParams, [])
+          }
         ],
         [
           'should return context with a new case with a describe property set to no arguments message',
-          (ctx) => { assert.equal(ctx.cases[0].describeMessage, 'when called') }
+          (ret) => {
+            const { context: ctx } = ret
+            assert.equal(ctx.cases[0].describeMessage, 'when called')
+          }
         ]
       ]
     ],
@@ -102,7 +129,10 @@ const tests = [
       [
         [
           'should return context with a new case with a describe property set from non-string formatted arguments',
-          (ctx) => { assert.equal(ctx.cases[0].describeMessage, 'when given 1 and 2') }
+          (ret) => {
+            const { context: ctx } = ret
+            assert.equal(ctx.cases[0].describeMessage, 'when given 1 and 2')
+          }
         ]
       ]
     ]
@@ -112,54 +142,21 @@ const tests = [
   [context.addExpectedValue, [
 
     [
-      'when given context with a case with contextActive:true',
-      [
-        { 
-          cases: [
-            {contextActive: false, p: 'inactive'}, {contextActive: true, p: 'active'}
-          ] 
-        },
-        'mock_expected_val'
-      ],
+      'when given a context, caseIndex, and expectedValue',
+      [ { cases: [ { p: 'case_0'}, { p: 'case_1' } ] }, 1, 'mock_expected_val' ],
       [
         [
-          'should return context with expected value added to the active case',
-          (ctx) => {
-            assert.equal(ctx.cases[1].p, 'active')
-            assert.equal(ctx.cases[1].expectedValue, 'mock_expected_val')
-          }
+          'should return context with expected value added to the case at caseIndex',
+          (ctx) => { assert.deepPropertyVal(ctx, 'cases[1].expectedValue', 'mock_expected_val') }
         ],
         [
           'should return context with should message set from expected value',
-          (ctx) => {
-            assert.equal(ctx.cases[1].shouldMessage, "should return 'mock_expected_val'")
-          }
-        ]
-      ]
-    ],
-
-    [
-      'when given context with multiple cases with contextActive:true',
-      [
-        { 
-          cases: [
-            {contextActive: false, p: 'inactive_0'},
-            {contextActive: true, p: 'active_1'},
-            {contextActive: true, p: 'active_2'}
-          ] 
-        },
-        'mock_expected_val'
-      ],
-      [
+          (ctx) => { assert.deepPropertyVal(ctx, 'cases[1].shouldMessage', "should return 'mock_expected_val'") }
+        ],
         [
-          'should return context with expected value added to all active cases',
-          (ctx) => {
-            assert.equal(ctx.cases[1].p, 'active_1')
-            assert.equal(ctx.cases[1].expectedValue, 'mock_expected_val')
-            assert.equal(ctx.cases[2].p, 'active_2')
-            assert.equal(ctx.cases[2].expectedValue, 'mock_expected_val')
-          }
-        ]
+          'should return context without expected value added to the case not at caseIndex',
+          (ctx) => { assert.notDeepProperty(ctx, 'cases[0].expectedValue') }
+        ],
       ]
     ]
 

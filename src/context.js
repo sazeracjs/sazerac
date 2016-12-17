@@ -14,27 +14,33 @@ const addCase = (ctx, args) => {
 
   const argsArray = toArray(args)
 
-  return { 
+  return {
+    context: { 
+      ...ctx,
+      cases: concat(ctx.cases, {
+        inputParams: argsArray,
+        describeMessage: describeCase(argsArray)
+      })
+    },
+    caseIndex: nextCaseIndex(ctx)
+  }
+}
+
+const addExpectedValue = (ctx, caseIndex, expectedValue) => {
+  return {
     ...ctx,
-    cases: concat(resetContext(ctx.cases), {
-      inputParams: argsArray,
-      contextActive: true,
-      describeMessage: describeCase(argsArray)
+    cases: updateCase(ctx.cases, caseIndex, (tCase) => {
+      return {
+        ...tCase,
+        expectedValue,
+        shouldMessage: shouldMessage(expectedValue)
+      }
     })
   }
 }
 
-const addExpectedValue = (ctx, expectedVal) => {
-  return {
-    ...ctx,
-    cases: mapActiveCases(ctx.cases, (tCase) => {
-      return {
-        ...tCase,
-        expectedValue: expectedVal,
-        shouldMessage: shouldMessage(expectedVal)
-      }
-    })
-  }
+const nextCaseIndex = (ctx) => {
+  return ctx.cases.length;
 }
 
 const setDescribeMessage = (ctx, applyToAll, message) => {
@@ -46,19 +52,17 @@ const setDescribeMessage = (ctx, applyToAll, message) => {
   return { ...ctx, cases }
 }
 
-const mapActiveCases = (cases, fn) => {
-  return map(cases, (tCase) => {
-    if (tCase.contextActive) return fn(tCase)
+const updateCase = (cases, caseIndex, fn) => {
+  return map(cases, (tCase, i) => {
+    if (caseIndex === i) return fn(tCase)
     return tCase
   })
 }
 
-const resetContext = (cases) => {
-  return map(cases, (c) => {
-    return {
-      ...c,
-      contextActive: false
-    }
+const mapActiveCases = (cases, fn) => {
+  return map(cases, (tCase) => {
+    if (tCase.contextActive) return fn(tCase)
+    return tCase
   })
 }
 
