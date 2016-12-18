@@ -1,43 +1,16 @@
 'use strict'
 
 import context from '../src/context';
+import { runTests } from './helpers'
 import { assert } from 'chai';
 
 function MockFn() { }
 
-const tests = [
+runTests([
 
-  [context.init, [
+  [context.init, 'context.init', []],
 
-    [
-      'when given a function', [MockFn], [
-        [
-          'should return context with a testFunction property set to the function',
-          (ret) => { assert.equal(ret.testFunction, MockFn) }
-        ],
-        [
-          'should return context with a cases property set to an empty array',
-          (ret) => { assert.deepEqual(ret.cases, []) }
-        ],
-        [
-          'should return context with a describe property set to the function name',
-          (ret) => { assert.equal(ret.describeMessage, 'MockFn()') }
-        ]
-      ]
-    ],
-
-    [
-      'when given a function and a describe message', [MockFn, 'mock_describe_msg'], [
-        [
-          'should return context with a describe property set to the describe message param',
-          (ret) => { assert.equal(ret.describeMessage, 'mock_describe_msg') }
-        ]
-      ]
-    ]
-
-  ]],
-
-  [context.addCase, [
+  [context.addCase, 'context.addCase', [
 
     [
       'when given context with no cases',
@@ -139,7 +112,7 @@ const tests = [
 
   ]],
 
-  [context.addExpectedValue, [
+  [context.addExpectedValue, 'context.addExpectedValue', [
 
     [
       'when given a context, caseIndex, and expectedValue',
@@ -162,7 +135,7 @@ const tests = [
 
   ]],
 
-  [context.setDescribeMessage, [
+  [context.setDescribeMessage, 'context.setDescribeMessage', [
 
     [
       'when given a context with multiple cases, applyToAll=undefined, and a message',
@@ -220,40 +193,4 @@ const tests = [
     ]
 
   ]]
-]
-
-tests.forEach((test) => {
-
-  const [testFn, cases] = test
-
-  describe('context.' + testFn.name + '()', () => {
-
-    cases.forEach((testCase) => {
-
-      const [desc, inputArgs, asserts] = testCase
-
-      describe(desc, () => {
-
-        let actual
-
-        beforeEach(() => {
-          actual = testFn.apply(null, inputArgs)
-        })
-
-        asserts.forEach((a) => {
-
-          const [should, assertFn] = a;
-
-          it(should, () => {
-            assertFn(actual)
-          })
-
-        })
-
-      })
-
-    })
-
-  })
-
-})
+])

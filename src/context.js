@@ -1,13 +1,11 @@
 'use strict'
 
 import {concat, map, find, isString, toArray} from 'lodash'
+import { Actions, newAction } from './reducers/Actions'
+import contextReducer from './reducers/context'
 
 const init = (fn, describeMessage) => {
-  return {
-    testFunction: fn,
-    cases: [],
-    describeMessage: describeMessage || fn.name + '()'
-  }
+  return contextReducer({}, newAction(Actions.INIT, { fn, describeMessage }));
 }
 
 const addCase = (ctx, args) => {
