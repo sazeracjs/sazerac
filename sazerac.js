@@ -980,14 +980,6 @@ var nextCaseIndex = function nextCaseIndex(ctx) {
   return ctx.cases.length;
 };
 
-var setDescribeMessage = function setDescribeMessage(ctx, applyToAll, message) {
-  var setMsgProp = function setMsgProp(tCase) {
-    return _extends({}, tCase, { describeMessage: message });
-  };
-  var cases = applyToAll ? _get__$1('map')(ctx.cases, setMsgProp) : _get__$1('mapActiveCases')(ctx.cases, setMsgProp);
-  return _extends({}, ctx, { cases: cases });
-};
-
 var updateCase = function updateCase(cases, caseIndex, fn) {
   return _get__$1('map')(cases, function (tCase, i) {
     if (caseIndex === i) return fn(tCase);
@@ -995,18 +987,10 @@ var updateCase = function updateCase(cases, caseIndex, fn) {
   });
 };
 
-var mapActiveCases = function mapActiveCases(cases, fn) {
-  return _get__$1('map')(cases, function (tCase) {
-    if (tCase.contextActive) return fn(tCase);
-    return tCase;
-  });
-};
-
 var _DefaultExportValue$2 = {
   init: _get__$1('init'),
   addCase: _get__$1('addCase'),
-  addExpectedValue: _get__$1('addExpectedValue'),
-  setDescribeMessage: _get__$1('setDescribeMessage')
+  addExpectedValue: _get__$1('addExpectedValue')
 };
 var _RewiredData__$1 = Object.create(null);
 
@@ -1068,9 +1052,6 @@ function _get_original__$1(variableName) {
     case 'map':
       return map;
 
-    case 'mapActiveCases':
-      return mapActiveCases;
-
     case 'init':
       return init;
 
@@ -1079,9 +1060,6 @@ function _get_original__$1(variableName) {
 
     case 'addExpectedValue':
       return addExpectedValue;
-
-    case 'setDescribeMessage':
-      return setDescribeMessage;
   }
 
   return undefined;
@@ -1412,48 +1390,6 @@ var getExpectFn = function getExpectFn(caseIndex) {
 };
 
 var _DefaultExportValue = { test: _get__('test'), given: _get__('given') };
-/*
-const givenFn = (ctx) => {
-  return (...args) => {
-    const newCtx = context.addCase(ctx, args)
-    return chain(newCtx)
-  }
-}
-
-const expectFn = (ctx) => {
-  return (expectedVal) => {
-    const newCtx = context.addExpectedValue(ctx, expectedVal)
-    return chain(newCtx)
-  }
-}
-
-const describeFn = (ctx, applyToAll) => {
-  return (message) => {
-    const newCtx = context.setDescribeMessage(ctx, applyToAll, message);
-    return chain(newCtx)
-  }
-}
-*/
-
-/*const runFn = (ctx) => {
-  return () => {
-    describer(ctx, frameworkFns)
-  }
-}
-
-const chain = (ctx) => {
-  return {
-    test: test,
-    given: givenFn(ctx),
-    expect: expectFn(ctx),
-    run: runFn(ctx),
-    describe: describeFn(ctx),
-    all: {
-      describe: describeFn(ctx, true)
-    }
-  }
-}*/
-
 var _RewiredData__ = Object.create(null);
 
 var INTENTIONAL_UNDEFINED = '__INTENTIONAL_UNDEFINED__';

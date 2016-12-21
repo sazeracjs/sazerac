@@ -84,64 +84,6 @@ runTests([
       ]
     ]
 
-  ]],
-
-  [context.setDescribeMessage, 'context.setDescribeMessage', [
-
-    [
-      'when given a context with multiple cases, applyToAll=undefined, and a message',
-      [
-        { 
-          cases: [
-            {contextActive: false, p: 'inactive_0'},
-            {contextActive: true, p: 'active_1'},
-            {contextActive: true, p: 'active_2'}
-          ] 
-        },
-        undefined,
-        'mock_msg'
-      ],
-      [
-        [
-          'should set describeMessage to the message for all active cases',
-          (ret) => {
-            assert.deepPropertyVal(ret, 'cases[1].describeMessage', 'mock_msg')
-            assert.deepPropertyVal(ret, 'cases[2].describeMessage', 'mock_msg')
-          }
-        ],
-        [
-          'should not set describeMessage for inactive cases',
-          (ret) => {
-            assert.notDeepProperty(ret, 'cases[0].describeMessage')
-          }
-        ]
-      ]
-    ],
-
-    [
-      'when given a context with multiple cases, applyToAll=true, and a message',
-      [
-        { 
-          cases: [
-            {contextActive: false, p: 'inactive_0'},
-            {contextActive: true, p: 'active_1'},
-            {contextActive: true, p: 'active_2'}
-          ] 
-        },
-        true,
-        'mock_msg'
-      ],
-      [
-        [
-          'should set describeMessage to the message for all cases (active and inactive)',
-          (ret) => {
-            assert.deepPropertyVal(ret, 'cases[0].describeMessage', 'mock_msg')
-            assert.deepPropertyVal(ret, 'cases[1].describeMessage', 'mock_msg')
-            assert.deepPropertyVal(ret, 'cases[2].describeMessage', 'mock_msg')
-          }
-        ]
-      ]
-    ]
-
   ]]
+  
 ])
