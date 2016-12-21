@@ -1,5 +1,3 @@
-'use strict'
-
 import context from '../src/context';
 import { runTests } from './helpers'
 import { assert } from 'chai';

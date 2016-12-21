@@ -1,5 +1,3 @@
-'use strict'
-
 import { lastCaseIndex } from './context'
 import { Actions, doAction } from './reducers/Actions'
 import describer from './describer'
