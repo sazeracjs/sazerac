@@ -24,20 +24,6 @@ runTests([
           }
         ],
         [
-          'should return context with a new case with inputParams set to arguments',
-          (ret) => {
-            const { context: ctx } = ret
-            assert.deepEqual(ctx.cases[0].inputParams, ['arg_one', 'arg_two'])
-          }
-        ],
-        [
-          'should return context with a new case with a describe property set to stringified arguments',
-          (ret) => {
-            const { context: ctx } = ret
-            assert.equal(ctx.cases[0].describeMessage, "when given 'arg_one' and 'arg_two'")
-          }
-        ],
-        [
           'should return caseIndex of 0',
           (ret) => {
             const { caseIndex } = ret
@@ -70,41 +56,6 @@ runTests([
           (ret) => {
             const { caseIndex } = ret
             assert.equal(caseIndex, 1)
-          }
-        ]
-      ]
-    ],
-
-    [
-      'when given no arguments',
-      [{ cases: [] }, {}],
-      [
-        [
-          'should return context with a new case with blank inputParams array',
-          (ret) => {
-            const { context: ctx } = ret
-            assert.deepEqual(ctx.cases[0].inputParams, [])
-          }
-        ],
-        [
-          'should return context with a new case with a describe property set to no arguments message',
-          (ret) => {
-            const { context: ctx } = ret
-            assert.equal(ctx.cases[0].describeMessage, 'when called')
-          }
-        ]
-      ]
-    ],
-
-    [
-      'when given non-string arguments',
-      [{ cases: [] }, {'0':1, '1':2}],
-      [
-        [
-          'should return context with a new case with a describe property set from non-string formatted arguments',
-          (ret) => {
-            const { context: ctx } = ret
-            assert.equal(ctx.cases[0].describeMessage, 'when given 1 and 2')
           }
         ]
       ]

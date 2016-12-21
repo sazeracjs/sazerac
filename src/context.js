@@ -1,6 +1,6 @@
 'use strict'
 
-import {concat, map, toArray} from 'lodash'
+import { map } from 'lodash'
 import { Actions, newAction } from './reducers/Actions'
 import { defaultDescribeCase, defaultShouldMessage } from './messages'
 import state from './reducers/state'
@@ -10,17 +10,8 @@ const init = (fn, describeMessage) => {
 }
 
 const addCase = (ctx, args) => {
-
-  const argsArray = toArray(args)
-
   return {
-    context: { 
-      ...ctx,
-      cases: concat(ctx.cases, {
-        inputParams: argsArray,
-        describeMessage: defaultDescribeCase(argsArray)
-      })
-    },
+    context: state(ctx, newAction(Actions.ADD_CASE, { args })),
     caseIndex: nextCaseIndex(ctx)
   }
 }
