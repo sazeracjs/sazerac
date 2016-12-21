@@ -87,6 +87,24 @@ runTests([
           (cases) => { assert.notDeepProperty(cases, '[0].expectedValue') }
         ],
       ]
+    ],
+
+    [
+      'when given an array of cases, action.type=ADD_DESCRIBE_MESSAGE, action.caseIndex, and action.message',
+      [
+        [ { p: 'case_0'}, { p: 'case_1' } ],
+        { type: 'ADD_DESCRIBE_MESSAGE', caseIndex: 1, message: 'mock_describe_msg' }
+      ],
+      [
+        [
+          'should return cases with describeMessage added to the case at caseIndex',
+          (cases) => { assert.deepPropertyVal(cases, '[1].describeMessage', 'mock_describe_msg') }
+        ],
+        [
+          'should return cases without expected value added to the case not at caseIndex',
+          (cases) => { assert.notDeepProperty(cases, '[0].describeMessage') }
+        ],
+      ]
     ]
 
   ]]

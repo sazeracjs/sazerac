@@ -25,7 +25,15 @@ const given = (...args) => {
 const newTestCase = (caseIndex) => {
   return {
     ___caseIndex: caseIndex,
-    expect: getExpectFn(caseIndex)
+    expect: getExpectFn(caseIndex),
+    describe: getDescribeFn(caseIndex)
+  }
+}
+
+const getDescribeFn = (caseIndex) => {
+  return (message) => {
+    _ctx = doAction(actions.ADD_DESCRIBE_MESSAGE, _ctx, { caseIndex, message })
+    return newTestCase(caseIndex)
   }
 }
 

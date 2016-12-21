@@ -6,7 +6,8 @@ let actions = {}
 const actionsArray = [
   'INIT',
   'ADD_CASE',
-  'ADD_EXPECTED_VALUE'
+  'ADD_EXPECTED_VALUE',
+  'ADD_DESCRIBE_MESSAGE'
 ]
 
 actionsArray.forEach((action) => {
