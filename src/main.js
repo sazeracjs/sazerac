@@ -1,5 +1,5 @@
 import { lastCaseIndex } from './context'
-import { Actions, doAction } from './reducers/Actions'
+import { actions, doAction } from './reducers/actions'
 import describer from './describer'
 
 const frameworkFns = {
@@ -11,13 +11,13 @@ let _ctx;
 
 const test = (testFn, definerFn) => {
   // TODO: throw if they're not functions
-  _ctx = doAction(Actions.INIT, undefined, { testFn })
+  _ctx = doAction(actions.INIT, undefined, { testFn })
   definerFn()
   describer(_ctx, frameworkFns)
 }
 
 const given = (...args) => {
-  _ctx = doAction(Actions.ADD_CASE, _ctx, { args })
+  _ctx = doAction(actions.ADD_CASE, _ctx, { args })
   const caseIndex = lastCaseIndex(_ctx)
   return newTestCase(caseIndex)
 }
@@ -31,7 +31,7 @@ const newTestCase = (caseIndex) => {
 
 const getExpectFn = (caseIndex) => {
   return (expectedValue) => {
-    _ctx = doAction(Actions.ADD_EXPECTED_VALUE, _ctx, { caseIndex, expectedValue })
+    _ctx = doAction(actions.ADD_EXPECTED_VALUE, _ctx, { caseIndex, expectedValue })
     return newTestCase(caseIndex)
   }
 }

@@ -403,14 +403,14 @@ var _DefaultExportValue$5 = function _DefaultExportValue$5() {
 
   switch (action.type) {
 
-    case _get__$4('Actions').ADD_CASE:
+    case _get__$4('actions').ADD_CASE:
       var inputParams = _get__$4('toArray')(action.args);
       return _get__$4('concat')(state, {
         inputParams: inputParams,
         describeMessage: _get__$4('defaultDescribeCase')(inputParams)
       });
 
-    case _get__$4('Actions').ADD_EXPECTED_VALUE:
+    case _get__$4('actions').ADD_EXPECTED_VALUE:
       return _get__$4('updateCase')(state, action.caseIndex, function (tCase) {
         return _extends({}, tCase, {
           expectedValue: action.expectedValue,
@@ -466,8 +466,8 @@ function _get_original__$4(variableName) {
     case 'map':
       return map;
 
-    case 'Actions':
-      return Actions$1;
+    case 'actions':
+      return actions$1;
 
     case 'toArray':
       return toArray;
@@ -567,7 +567,7 @@ if ((_typeOfOriginalExport$4 === 'object' || _typeOfOriginalExport$4 === 'functi
 var _DefaultExportValue$8 = function _DefaultExportValue$8(state, action) {
 
   switch (action.type) {
-    case _get__$6('Actions').INIT:
+    case _get__$6('actions').INIT:
       return action.describeMessage || action.testFn.name + '()';
     default:
       return state;
@@ -613,8 +613,8 @@ function _get__$6(variableName) {
 
 function _get_original__$6(variableName) {
   switch (variableName) {
-    case 'Actions':
-      return Actions$1;
+    case 'actions':
+      return actions$1;
   }
 
   return undefined;
@@ -699,7 +699,7 @@ if ((_typeOfOriginalExport$6 === 'object' || _typeOfOriginalExport$6 === 'functi
 var _DefaultExportValue$9 = function _DefaultExportValue$9(state, action) {
 
   switch (action.type) {
-    case _get__$7('Actions').INIT:
+    case _get__$7('actions').INIT:
       return action.testFn;
     default:
       return state;
@@ -745,8 +745,8 @@ function _get__$7(variableName) {
 
 function _get_original__$7(variableName) {
   switch (variableName) {
-    case 'Actions':
-      return Actions$1;
+    case 'actions':
+      return actions$1;
   }
 
   return undefined;
@@ -967,19 +967,19 @@ if ((_typeOfOriginalExport$3 === 'object' || _typeOfOriginalExport$3 === 'functi
   addNonEnumerableProperty$3('__RewireAPI__', _RewireAPI__$3);
 }
 
-var Actions = {};
+var actions = {};
 
 var actionsArray = ['INIT', 'ADD_CASE', 'ADD_EXPECTED_VALUE'];
 
 _get__$2('actionsArray').forEach(function (action) {
-  _get__$2('Actions')[action] = action;
+  _get__$2('actions')[action] = action;
 });
 
 var doAction = function doAction(type, context, params) {
   return _get__$2('state')(context, _extends({ type: type }, params));
 };
 
-var Actions$1 = _get__$2('Actions');
+var actions$1 = _get__$2('actions');
 
 var _RewiredData__$2 = Object.create(null);
 
@@ -1023,8 +1023,8 @@ function _get_original__$2(variableName) {
     case 'actionsArray':
       return actionsArray;
 
-    case 'Actions':
-      return Actions;
+    case 'actions':
+      return actions;
 
     case 'state':
       return _DefaultExportValue$4;
@@ -1088,17 +1088,17 @@ function _with__$2(object) {
   };
 }
 
-var _typeOfOriginalExport$2 = typeof Actions === 'undefined' ? 'undefined' : _typeof(Actions);
+var _typeOfOriginalExport$2 = typeof actions === 'undefined' ? 'undefined' : _typeof(actions);
 
 function addNonEnumerableProperty$2(name, value) {
-  Object.defineProperty(Actions, name, {
+  Object.defineProperty(actions, name, {
     value: value,
     enumerable: false,
     configurable: true
   });
 }
 
-if ((_typeOfOriginalExport$2 === 'object' || _typeOfOriginalExport$2 === 'function') && Object.isExtensible(Actions)) {
+if ((_typeOfOriginalExport$2 === 'object' || _typeOfOriginalExport$2 === 'function') && Object.isExtensible(actions)) {
   addNonEnumerableProperty$2('__get__', _get__$2);
   addNonEnumerableProperty$2('__GetDependency__', _get__$2);
   addNonEnumerableProperty$2('__Rewire__', _set__$2);
@@ -1325,7 +1325,7 @@ var _ctx = void 0;
 
 var test = function test(testFn, definerFn) {
   // TODO: throw if they're not functions
-  _assign__('_ctx', _get__('doAction')(_get__('Actions').INIT, undefined, { testFn: testFn }));
+  _assign__('_ctx', _get__('doAction')(_get__('actions').INIT, undefined, { testFn: testFn }));
   definerFn();
   _get__('describer')(_get__('_ctx'), _get__('frameworkFns'));
 };
@@ -1335,7 +1335,7 @@ var given = function given() {
     args[_key] = arguments[_key];
   }
 
-  _assign__('_ctx', _get__('doAction')(_get__('Actions').ADD_CASE, _get__('_ctx'), { args: args }));
+  _assign__('_ctx', _get__('doAction')(_get__('actions').ADD_CASE, _get__('_ctx'), { args: args }));
   var caseIndex = _get__('lastCaseIndex')(_get__('_ctx'));
   return _get__('newTestCase')(caseIndex);
 };
@@ -1349,7 +1349,7 @@ var newTestCase = function newTestCase(caseIndex) {
 
 var getExpectFn = function getExpectFn(caseIndex) {
   return function (expectedValue) {
-    _assign__('_ctx', _get__('doAction')(_get__('Actions').ADD_EXPECTED_VALUE, _get__('_ctx'), { caseIndex: caseIndex, expectedValue: expectedValue }));
+    _assign__('_ctx', _get__('doAction')(_get__('actions').ADD_EXPECTED_VALUE, _get__('_ctx'), { caseIndex: caseIndex, expectedValue: expectedValue }));
     return _get__('newTestCase')(caseIndex);
   };
 };
@@ -1400,8 +1400,8 @@ function _get_original__(variableName) {
     case 'doAction':
       return doAction;
 
-    case 'Actions':
-      return Actions;
+    case 'actions':
+      return actions;
 
     case 'describer':
       return describer$1;

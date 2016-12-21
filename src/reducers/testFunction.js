@@ -1,9 +1,9 @@
-import Actions from './Actions'
+import actions from './actions'
 
 export default (state, action) => {
 
   switch(action.type) {
-    case Actions.INIT:
+    case actions.INIT:
       return action.testFn
     default:
       return state

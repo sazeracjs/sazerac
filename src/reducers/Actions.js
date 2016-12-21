@@ -1,7 +1,7 @@
 import { slice } from 'lodash'
 import state from './state'
 
-let Actions = {}
+let actions = {}
 
 const actionsArray = [
   'INIT',
@@ -10,12 +10,12 @@ const actionsArray = [
 ]
 
 actionsArray.forEach((action) => {
-  Actions[action] = action
+  actions[action] = action
 })
 
 const doAction = (type, context, params) => {
   return state(context, { type, ...params })
 }
 
-export { Actions, doAction }
-export default Actions
+export { actions, doAction }
+export default actions
