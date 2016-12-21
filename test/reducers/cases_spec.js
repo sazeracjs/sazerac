@@ -90,10 +90,10 @@ runTests([
     ],
 
     [
-      'when given an array of cases, action.type=ADD_DESCRIBE_MESSAGE, action.caseIndex, and action.message',
+      'when given an array of cases, action.type=SET_CASE_DESCRIBE_MESSAGE, action.caseIndex, and action.message',
       [
         [ { p: 'case_0'}, { p: 'case_1' } ],
-        { type: 'ADD_DESCRIBE_MESSAGE', caseIndex: 1, message: 'mock_describe_msg' }
+        { type: 'SET_CASE_DESCRIBE_MESSAGE', caseIndex: 1, message: 'mock_describe_msg' }
       ],
       [
         [

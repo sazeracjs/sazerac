@@ -31,7 +31,7 @@ export default (state = [], action) => {
         }
       })
 
-    case actions.ADD_DESCRIBE_MESSAGE:
+    case actions.SET_CASE_DESCRIBE_MESSAGE:
       return updateCase(state, action.caseIndex, (tCase) => {
         return {
           ...tCase,

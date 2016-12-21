@@ -418,7 +418,7 @@ var _DefaultExportValue$5 = function _DefaultExportValue$5() {
         });
       });
 
-    case _get__$4('actions').ADD_DESCRIBE_MESSAGE:
+    case _get__$4('actions').SET_CASE_DESCRIBE_MESSAGE:
       return _get__$4('updateCase')(state, action.caseIndex, function (tCase) {
         return _extends({}, tCase, {
           describeMessage: action.message
@@ -976,7 +976,7 @@ if ((_typeOfOriginalExport$3 === 'object' || _typeOfOriginalExport$3 === 'functi
 
 var actions = {};
 
-var actionsArray = ['INIT', 'ADD_CASE', 'ADD_EXPECTED_VALUE', 'ADD_DESCRIBE_MESSAGE'];
+var actionsArray = ['INIT', 'ADD_CASE', 'ADD_EXPECTED_VALUE', 'SET_CASE_DESCRIBE_MESSAGE'];
 
 _get__$2('actionsArray').forEach(function (action) {
   _get__$2('actions')[action] = action;
@@ -1355,16 +1355,16 @@ var newTestCase = function newTestCase(caseIndex) {
   };
 };
 
-var getDescribeFn = function getDescribeFn(caseIndex) {
-  return function (message) {
-    _assign__('_ctx', _get__('doAction')(_get__('actions').ADD_DESCRIBE_MESSAGE, _get__('_ctx'), { caseIndex: caseIndex, message: message }));
+var getExpectFn = function getExpectFn(caseIndex) {
+  return function (expectedValue) {
+    _assign__('_ctx', _get__('doAction')(_get__('actions').ADD_EXPECTED_VALUE, _get__('_ctx'), { caseIndex: caseIndex, expectedValue: expectedValue }));
     return _get__('newTestCase')(caseIndex);
   };
 };
 
-var getExpectFn = function getExpectFn(caseIndex) {
-  return function (expectedValue) {
-    _assign__('_ctx', _get__('doAction')(_get__('actions').ADD_EXPECTED_VALUE, _get__('_ctx'), { caseIndex: caseIndex, expectedValue: expectedValue }));
+var getDescribeFn = function getDescribeFn(caseIndex) {
+  return function (message) {
+    _assign__('_ctx', _get__('doAction')(_get__('actions').SET_CASE_DESCRIBE_MESSAGE, _get__('_ctx'), { caseIndex: caseIndex, message: message }));
     return _get__('newTestCase')(caseIndex);
   };
 };

@@ -30,16 +30,16 @@ const newTestCase = (caseIndex) => {
   }
 }
 
-const getDescribeFn = (caseIndex) => {
-  return (message) => {
-    _ctx = doAction(actions.ADD_DESCRIBE_MESSAGE, _ctx, { caseIndex, message })
+const getExpectFn = (caseIndex) => {
+  return (expectedValue) => {
+    _ctx = doAction(actions.ADD_EXPECTED_VALUE, _ctx, { caseIndex, expectedValue })
     return newTestCase(caseIndex)
   }
 }
 
-const getExpectFn = (caseIndex) => {
-  return (expectedValue) => {
-    _ctx = doAction(actions.ADD_EXPECTED_VALUE, _ctx, { caseIndex, expectedValue })
+const getDescribeFn = (caseIndex) => {
+  return (message) => {
+    _ctx = doAction(actions.SET_CASE_DESCRIBE_MESSAGE, _ctx, { caseIndex, message })
     return newTestCase(caseIndex)
   }
 }
