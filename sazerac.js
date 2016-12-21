@@ -788,7 +788,7 @@ if ((_typeOfOriginalExport$3 === 'object' || _typeOfOriginalExport$3 === 'functi
 }
 
 var init = function init(fn, describeMessage) {
-  return _get__$1('contextReducer')({}, _get__$1('newAction')(_get__$1('Actions').INIT, { fn: fn, describeMessage: describeMessage }));
+  return _get__$1('state')({}, _get__$1('newAction')(_get__$1('Actions').INIT, { fn: fn, describeMessage: describeMessage }));
 };
 
 var addCase = function addCase(ctx, args) {
@@ -910,7 +910,7 @@ function _get__$1(variableName) {
 
 function _get_original__$1(variableName) {
   switch (variableName) {
-    case 'contextReducer':
+    case 'state':
       return _DefaultExportValue$3;
 
     case 'newAction':

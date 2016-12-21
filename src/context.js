@@ -2,10 +2,10 @@
 
 import {concat, map, find, isString, toArray} from 'lodash'
 import { Actions, newAction } from './reducers/Actions'
-import contextReducer from './reducers/context'
+import state from './reducers/state'
 
 const init = (fn, describeMessage) => {
-  return contextReducer({}, newAction(Actions.INIT, { fn, describeMessage }));
+  return state({}, newAction(Actions.INIT, { fn, describeMessage }));
 }
 
 const addCase = (ctx, args) => {
