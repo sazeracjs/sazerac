@@ -1,7 +1,8 @@
 'use strict'
 
-import {concat, map, find, isString, toArray} from 'lodash'
+import {concat, map, toArray} from 'lodash'
 import { Actions, newAction } from './reducers/Actions'
+import { defaultDescribeCase, defaultShouldMessage } from './messages'
 import state from './reducers/state'
 
 const init = (fn, describeMessage) => {
@@ -17,7 +18,7 @@ const addCase = (ctx, args) => {
       ...ctx,
       cases: concat(ctx.cases, {
         inputParams: argsArray,
-        describeMessage: describeCase(argsArray)
+        describeMessage: defaultDescribeCase(argsArray)
       })
     },
     caseIndex: nextCaseIndex(ctx)
@@ -31,7 +32,7 @@ const addExpectedValue = (ctx, caseIndex, expectedValue) => {
       return {
         ...tCase,
         expectedValue,
-        shouldMessage: shouldMessage(expectedValue)
+        shouldMessage: defaultShouldMessage(expectedValue)
       }
     })
   }
@@ -62,26 +63,6 @@ const mapActiveCases = (cases, fn) => {
     if (tCase.contextActive) return fn(tCase)
     return tCase
   })
-}
-
-const describeCase = (args = []) => {
-  if (args.length > 0) {
-    const formattedArgs = args.map((arg) => {
-      return formatString(arg)
-    })
-    return 'when given ' + formattedArgs.join(' and ')
-  } else {
-    return 'when called'
-  }
-}
-
-const shouldMessage = (expectedValue) => {
-  return 'should return ' + formatString(expectedValue)
-}
-
-const formatString = (str) => {
-  if (isString(str)) return "'" + str + "'"
-  return str
 }
 
 export default {
