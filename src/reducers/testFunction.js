@@ -4,7 +4,7 @@ export default (state, action) => {
 
   switch(action.type) {
     case Actions.INIT:
-      return action.fn
+      return action.testFn
     default:
       return state
   }

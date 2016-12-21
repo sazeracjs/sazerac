@@ -1,3 +1,6 @@
+import { slice } from 'lodash'
+import state from './state'
+
 let Actions = {}
 
 const actionsArray = [
@@ -10,9 +13,9 @@ actionsArray.forEach((action) => {
   Actions[action] = action
 })
 
-const newAction = (type, params) => {
-  return { type, ...params }
+const doAction = (type, context, params) => {
+  return state(context, { type, ...params })
 }
 
-export { Actions, newAction }
+export { Actions, doAction }
 export default Actions

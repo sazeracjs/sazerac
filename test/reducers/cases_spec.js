@@ -3,6 +3,7 @@ import { runTests } from '../helpers'
 import cases from '../../src/reducers/cases'
 
 cases.__Rewire__('defaultDescribeCase', (args) => { return JSON.stringify(args) })
+cases.__Rewire__('defaultShouldMessage', (args) => { return JSON.stringify(args) })
 
 runTests([
 
@@ -63,6 +64,28 @@ runTests([
             assert.deepPropertyVal(ret, '[0].describeMessage', '["one","two"]')
           }
         ]
+      ]
+    ],
+
+    [
+      'when given an array of cases, action.type=ADD_EXPECTED_VALUE, action.caseIndex, and action.expectedValue',
+      [
+        [ { p: 'case_0'}, { p: 'case_1' } ],
+        { type: 'ADD_EXPECTED_VALUE', caseIndex: 1, expectedValue: 'mock_expected_val' }
+      ],
+      [
+        [
+          'should return cases with expected value added to the case at caseIndex',
+          (cases) => { assert.deepPropertyVal(cases, '[1].expectedValue', 'mock_expected_val') }
+        ],
+        [
+          'should return cases with should message set from expected value',
+          (cases) => { assert.deepPropertyVal(cases, '[1].shouldMessage', '"mock_expected_val"') }
+        ],
+        [
+          'should return cases without expected value added to the case not at caseIndex',
+          (cases) => { assert.notDeepProperty(cases, '[0].expectedValue') }
+        ],
       ]
     ]
 

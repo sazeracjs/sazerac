@@ -4,7 +4,7 @@ import { newAction } from '../../src/reducers/Actions'
 
 runTests([
 
-  [newAction, 'newAction', [
+  /*[newAction, 'newAction', [
 
     [
       'given a type and no parameters', ['INIT'], [
@@ -16,6 +16,6 @@ runTests([
         ]
       ]
     ]
-  ]]
+  ]]*/
 
 ])

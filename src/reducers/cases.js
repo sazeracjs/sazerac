@@ -1,6 +1,15 @@
-import { concat, toArray } from 'lodash'
+import { concat, map, toArray } from 'lodash'
 import Actions from './Actions'
-import { defaultDescribeCase } from '../messages'
+import { defaultDescribeCase, defaultShouldMessage } from '../messages'
+
+const updateCase = (cases, caseIndex, fn) => {
+  return map(cases, (tCase, i) => {
+    if (caseIndex === i) {
+      return fn(tCase)
+    }
+    return tCase
+  })
+}
 
 export default (state = [], action) => {
 
@@ -14,7 +23,13 @@ export default (state = [], action) => {
       })
 
     case Actions.ADD_EXPECTED_VALUE:
-      return state
+      return updateCase(state, action.caseIndex, (tCase) => {
+        return {
+          ...tCase,
+          expectedValue: action.expectedValue,
+          shouldMessage: defaultShouldMessage(action.expectedValue)
+        }
+      })
 
     default:
       return state
