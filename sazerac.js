@@ -567,6 +567,13 @@ var _DefaultExportValue$3 = function _DefaultExportValue$3() {
         });
       });
 
+    case _get__$5('actionTypes').SET_CASE_SHOULD_MESSAGE:
+      return _get__$5('updateCase')(state, action.caseIndex, function (tCase) {
+        return _extends({}, tCase, {
+          shouldMessage: action.message
+        });
+      });
+
     default:
       return state;
 
@@ -1124,7 +1131,7 @@ var actionTypes = {};
 var state = {};
 var listenerFns = [];
 
-var actionsArray = ['INIT', 'ADD_CASE', 'ADD_EXPECTED_VALUE', 'SET_CASE_DESCRIBE_MESSAGE'];
+var actionsArray = ['INIT', 'ADD_CASE', 'ADD_EXPECTED_VALUE', 'SET_CASE_DESCRIBE_MESSAGE', 'SET_CASE_SHOULD_MESSAGE'];
 
 _get__$2('actionsArray').forEach(function (action) {
   _get__$2('actions')[_get__$2('convertCase')(action)] = function (params) {
@@ -1519,7 +1526,8 @@ var newTestCase = function newTestCase(caseIndex) {
   return {
     ___caseIndex: caseIndex,
     expect: _get__$10('testCaseFn')(caseIndex, 'addExpectedValue', 'expectedValue'),
-    describe: _get__$10('testCaseFn')(caseIndex, 'setCaseDescribeMessage', 'message')
+    describe: _get__$10('testCaseFn')(caseIndex, 'setCaseDescribeMessage', 'message'),
+    should: _get__$10('testCaseFn')(caseIndex, 'setCaseShouldMessage', 'message')
   };
 };
 

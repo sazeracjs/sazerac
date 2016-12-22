@@ -39,6 +39,14 @@ export default (state = [], action) => {
         }
       })
 
+    case actionTypes.SET_CASE_SHOULD_MESSAGE:
+      return updateCase(state, action.caseIndex, (tCase) => {
+        return {
+          ...tCase,
+          shouldMessage: action.message
+        }
+      })
+
     default:
       return state
 

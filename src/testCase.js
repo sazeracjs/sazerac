@@ -4,7 +4,8 @@ const newTestCase = (caseIndex) => {
   return {
     ___caseIndex: caseIndex,
     expect: testCaseFn(caseIndex, 'addExpectedValue', 'expectedValue'),
-    describe: testCaseFn(caseIndex, 'setCaseDescribeMessage', 'message')
+    describe: testCaseFn(caseIndex, 'setCaseDescribeMessage', 'message'),
+    should: testCaseFn(caseIndex, 'setCaseShouldMessage', 'message')
   }
 }
 
