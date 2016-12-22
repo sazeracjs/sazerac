@@ -5,4 +5,4 @@ const lastCaseIndex = (ctx) => {
 }
 
 export { lastCaseIndex }
-export default { lastCaseIndex }
+export default lastCaseIndex

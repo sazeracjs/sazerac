@@ -1,47 +1,27 @@
-import { lastCaseIndex } from './context'
-import { actions, doAction } from './reducers/actions'
+import lastCaseIndex from './lastCaseIndex'
+import { actions, listener } from './reducers/actions'
 import describer from './describer'
+import { newTestCase } from './testCase'
 
 const frameworkFns = {
   describeFn: describe,
   itFn: it
 }
 
-let _ctx;
+let _state;
+
+listener((state) => { _state = state })
 
 const test = (testFn, definerFn) => {
-  // TODO: throw if they're not functions
-  _ctx = doAction(actions.INIT, undefined, { testFn })
+  actions.init({ testFn })
   definerFn()
-  describer(_ctx, frameworkFns)
+  describer(_state, frameworkFns)
 }
 
 const given = (...args) => {
-  _ctx = doAction(actions.ADD_CASE, _ctx, { args })
-  const caseIndex = lastCaseIndex(_ctx)
+  const state = actions.addCase({ args })
+  const caseIndex = lastCaseIndex(state)
   return newTestCase(caseIndex)
-}
-
-const newTestCase = (caseIndex) => {
-  return {
-    ___caseIndex: caseIndex,
-    expect: getExpectFn(caseIndex),
-    describe: getDescribeFn(caseIndex)
-  }
-}
-
-const getExpectFn = (caseIndex) => {
-  return (expectedValue) => {
-    _ctx = doAction(actions.ADD_EXPECTED_VALUE, _ctx, { caseIndex, expectedValue })
-    return newTestCase(caseIndex)
-  }
-}
-
-const getDescribeFn = (caseIndex) => {
-  return (message) => {
-    _ctx = doAction(actions.SET_CASE_DESCRIBE_MESSAGE, _ctx, { caseIndex, message })
-    return newTestCase(caseIndex)
-  }
 }
 
 export { test, given }

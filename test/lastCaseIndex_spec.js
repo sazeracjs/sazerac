@@ -1,4 +1,4 @@
-import context from '../src/context';
+import lastCaseIndex from '../src/lastCaseIndex';
 import { runTests } from './helpers'
 import { assert } from 'chai';
 
@@ -6,7 +6,7 @@ function MockFn() { }
 
 runTests([
 
-  [context.lastCaseIndex, 'context.lastCaseIndex', [
+  [lastCaseIndex, 'lastCaseIndex', [
 
     [
       'when given a context with no cases',

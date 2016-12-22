@@ -1,5 +1,5 @@
 import { concat, map, toArray } from 'lodash'
-import actions from './actions'
+import { actionTypes } from './actions'
 import { defaultDescribeCase, defaultShouldMessage } from '../messages'
 
 const updateCase = (cases, caseIndex, fn) => {
@@ -15,14 +15,14 @@ export default (state = [], action) => {
 
   switch(action.type) {
     
-    case actions.ADD_CASE:
+    case actionTypes.ADD_CASE:
       const inputParams = toArray(action.args)
       return concat(state, {
         inputParams: inputParams,
         describeMessage: defaultDescribeCase(inputParams)
       })
 
-    case actions.ADD_EXPECTED_VALUE:
+    case actionTypes.ADD_EXPECTED_VALUE:
       return updateCase(state, action.caseIndex, (tCase) => {
         return {
           ...tCase,
@@ -31,7 +31,7 @@ export default (state = [], action) => {
         }
       })
 
-    case actions.SET_CASE_DESCRIBE_MESSAGE:
+    case actionTypes.SET_CASE_DESCRIBE_MESSAGE:
       return updateCase(state, action.caseIndex, (tCase) => {
         return {
           ...tCase,
