@@ -7,10 +7,10 @@ cases.__Rewire__('defaultShouldMessage', (args) => { return JSON.stringify(args)
 
 runTests([
 
-  [cases, 'cases', [
+  [cases, 'cases() ADD_CASE', [
 
     [
-      'when given an undefined state, an action with type:ADD_CASE, and an args array',
+      'when given an undefined state, and action.args is an array',
       [undefined, { type: 'ADD_CASE', args: ['one', 'two'] }],
       [
         [
@@ -40,7 +40,7 @@ runTests([
     ],
 
     [
-      'when given a populated array, an action with type:ADD_CASE, and an args array',
+      'when given a populated array, and action.args is an array',
       [['obj'], { type: 'ADD_CASE', args: ['one', 'two'] }],
       [
         [
@@ -55,7 +55,7 @@ runTests([
     ],
 
     [
-      'when given an action with type:ADD_CASE and an args array-like object',
+      'when action.args is an array-like object',
       [undefined, { type: 'ADD_CASE', args: {'0':'one', '1':'two'} }],
       [
         [
@@ -65,10 +65,16 @@ runTests([
           }
         ]
       ]
-    ],
+    ]
+  ]]
+])
+
+runTests([
+
+  [cases, 'cases() SET_CASE_EXPECTED_VALUE', [
 
     [
-      'when given an array of cases, action.type=SET_CASE_EXPECTED_VALUE, action.caseIndex, and action.expectedValue',
+      'when given an array of cases, action.caseIndex, and action.expectedValue',
       [
         [ { p: 'case_0'}, { p: 'case_1' } ],
         { type: 'SET_CASE_EXPECTED_VALUE', caseIndex: 1, expectedValue: 'mock_expected_val' }
@@ -90,8 +96,7 @@ runTests([
     ],
 
     [
-      'when given a case with shouldMessage set, action.type=SET_CASE_EXPECTED_VALUE, ' +
-        'action.caseIndex, and action.expectedValue',
+      'when given a case with shouldMessage set, action.caseIndex, and action.expectedValue',
       [
         [ { shouldMessage: 'mock_should_msg' } ],
         { type: 'SET_CASE_EXPECTED_VALUE', caseIndex: 0, expectedValue: 'mock_expected_val' }
@@ -102,10 +107,16 @@ runTests([
           (cases) => { assert.deepPropertyVal(cases, '[0].shouldMessage', 'mock_should_msg') }
         ]
       ]
-    ],
+    ]
+  ]]
+])
+
+runTests([
+
+  [cases, 'cases() SET_CASE_DESCRIBE_MESSAGE', [
 
     [
-      'when given an array of cases, action.type=SET_CASE_DESCRIBE_MESSAGE, action.caseIndex, and action.message',
+      'when given an array of cases, action.caseIndex, and action.message',
       [
         [ { p: 'case_0'}, { p: 'case_1' } ],
         { type: 'SET_CASE_DESCRIBE_MESSAGE', caseIndex: 1, message: 'mock_describe_msg' }
@@ -120,10 +131,16 @@ runTests([
           (cases) => { assert.notDeepProperty(cases, '[0].describeMessage') }
         ],
       ]
-    ],
+    ]
+  ]]
+])
+
+runTests([
+
+  [cases, 'cases() SET_CASE_SHOULD_MESSAGE', [
 
     [
-      'when given an array of cases, action.type=SET_CASE_SHOULD_MESSAGE, action.caseIndex, and action.message',
+      'when given an array of cases, action.caseIndex, and action.message',
       [
         [ { p: 'case_0'}, { p: 'case_1' } ],
         { type: 'SET_CASE_SHOULD_MESSAGE', caseIndex: 1, message: 'mock_should_msg' }

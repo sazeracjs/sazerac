@@ -7,8 +7,12 @@ const stringifyArgs = (args) => {
   }).join(',')
 }
 
+const fnName = (n) => {
+  return n + (n.indexOf('()') >= 0 ? '' : '()')
+}
+
 const runFuncTest = (testFn, testFnName, cases) => {
-  describe(testFnName + '()', () => {
+  describe(fnName(testFnName), () => {
     cases.forEach((testCase) => {
       const { args, expect } = testCase
       describe('when given ' + stringifyArgs(args), () => {
@@ -24,7 +28,7 @@ const runTests = (tests) => {
 
   tests.forEach((test) => {
     const [testFn, testFnName, cases] = test
-    describe(testFnName + '()', () => {
+    describe(fnName(testFnName), () => {
       cases.forEach((testCase) => {
         const [desc, inputArgs] = testCase
         const asserts = testCase.length === 3 ? testCase[2] : testCase[3]
