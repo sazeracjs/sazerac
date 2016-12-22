@@ -4,7 +4,7 @@ const stringifyArgs = (args) => {
   return args.map((a) => {
     if (typeof a === 'undefined') return "`undefined`"
     return JSON.stringify(a)
-  }).join(',')
+  }).join(', ')
 }
 
 const fnName = (n) => {
@@ -14,9 +14,11 @@ const fnName = (n) => {
 const runFuncTest = (testFn, testFnName, cases) => {
   describe(fnName(testFnName), () => {
     cases.forEach((testCase) => {
-      const { args, expect } = testCase
-      describe('when given ' + stringifyArgs(args), () => {
-        it('should return ' + expect, () => {
+      const { args, expect, before, after, describe: desc, should } = testCase
+      describe(desc || 'when given args [' + stringifyArgs(args) + ']', () => {
+        if(before) beforeEach(() => { before() })
+        if(after) afterEach(() => { after() })
+        it(should || 'should return ' + expect, () => {
           assert.equal(testFn.apply(null, args), expect)
         })
       })
