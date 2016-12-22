@@ -1,3 +1,25 @@
+import { assert } from 'chai'
+
+const stringifyArgs = (args) => {
+  return args.map((a) => {
+    if (typeof a === 'undefined') return "`undefined`"
+    return JSON.stringify(a)
+  }).join(',')
+}
+
+const runFuncTest = (testFn, testFnName, cases) => {
+  describe(testFnName + '()', () => {
+    cases.forEach((testCase) => {
+      const { args, expect } = testCase
+      describe('when given ' + stringifyArgs(args), () => {
+        it('should return ' + expect, () => {
+          assert.equal(testFn.apply(null, args), expect)
+        })
+      })
+    })
+  })
+}
+
 const runTests = (tests) => {
 
   tests.forEach((test) => {
@@ -39,4 +61,4 @@ const runTests = (tests) => {
 
 }
 
-export { runTests }
+export { runTests, runFuncTest }

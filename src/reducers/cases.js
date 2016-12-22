@@ -11,6 +11,12 @@ const updateCase = (cases, caseIndex, fn) => {
   })
 }
 
+const setCaseProps = (state, caseIndex, props) => {
+  return updateCase(state, caseIndex, (tCase) => {
+    return { ...tCase, ...props }
+  })
+}
+
 export default (state = [], action) => {
 
   switch(action.type) {
@@ -23,29 +29,16 @@ export default (state = [], action) => {
       })
 
     case actionTypes.ADD_EXPECTED_VALUE:
-      return updateCase(state, action.caseIndex, (tCase) => {
-        return {
-          ...tCase,
+      return setCaseProps(state, action.caseIndex, {
           expectedValue: action.expectedValue,
           shouldMessage: defaultShouldMessage(action.expectedValue)
-        }
       })
 
     case actionTypes.SET_CASE_DESCRIBE_MESSAGE:
-      return updateCase(state, action.caseIndex, (tCase) => {
-        return {
-          ...tCase,
-          describeMessage: action.message
-        }
-      })
+      return setCaseProps(state, action.caseIndex, { describeMessage: action.message })
 
     case actionTypes.SET_CASE_SHOULD_MESSAGE:
-      return updateCase(state, action.caseIndex, (tCase) => {
-        return {
-          ...tCase,
-          shouldMessage: action.message
-        }
-      })
+      return setCaseProps(state, action.caseIndex, { shouldMessage: action.message })
 
     default:
       return state

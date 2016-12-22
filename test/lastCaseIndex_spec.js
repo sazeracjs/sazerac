@@ -2,8 +2,6 @@ import lastCaseIndex from '../src/lastCaseIndex';
 import { runTests } from './helpers'
 import { assert } from 'chai';
 
-function MockFn() { }
-
 runTests([
 
   [lastCaseIndex, 'lastCaseIndex', [

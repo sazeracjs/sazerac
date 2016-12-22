@@ -538,6 +538,12 @@ var updateCase = function updateCase(cases, caseIndex, fn) {
   });
 };
 
+var setCaseProps = function setCaseProps(state, caseIndex, props) {
+  return _get__$5('updateCase')(state, caseIndex, function (tCase) {
+    return _extends({}, tCase, props);
+  });
+};
+
 var _DefaultExportValue$3 = function _DefaultExportValue$3() {
   var state = arguments.length > 0 && arguments[0] !== undefined ? arguments[0] : [];
   var action = arguments[1];
@@ -553,26 +559,16 @@ var _DefaultExportValue$3 = function _DefaultExportValue$3() {
       });
 
     case _get__$5('actionTypes').ADD_EXPECTED_VALUE:
-      return _get__$5('updateCase')(state, action.caseIndex, function (tCase) {
-        return _extends({}, tCase, {
-          expectedValue: action.expectedValue,
-          shouldMessage: _get__$5('defaultShouldMessage')(action.expectedValue)
-        });
+      return _get__$5('setCaseProps')(state, action.caseIndex, {
+        expectedValue: action.expectedValue,
+        shouldMessage: _get__$5('defaultShouldMessage')(action.expectedValue)
       });
 
     case _get__$5('actionTypes').SET_CASE_DESCRIBE_MESSAGE:
-      return _get__$5('updateCase')(state, action.caseIndex, function (tCase) {
-        return _extends({}, tCase, {
-          describeMessage: action.message
-        });
-      });
+      return _get__$5('setCaseProps')(state, action.caseIndex, { describeMessage: action.message });
 
     case _get__$5('actionTypes').SET_CASE_SHOULD_MESSAGE:
-      return _get__$5('updateCase')(state, action.caseIndex, function (tCase) {
-        return _extends({}, tCase, {
-          shouldMessage: action.message
-        });
-      });
+      return _get__$5('setCaseProps')(state, action.caseIndex, { shouldMessage: action.message });
 
     default:
       return state;
@@ -622,6 +618,9 @@ function _get_original__$5(variableName) {
     case 'map':
       return map;
 
+    case 'updateCase':
+      return updateCase;
+
     case 'actionTypes':
       return actionTypes;
 
@@ -634,8 +633,8 @@ function _get_original__$5(variableName) {
     case 'defaultDescribeCase':
       return defaultDescribeCase;
 
-    case 'updateCase':
-      return updateCase;
+    case 'setCaseProps':
+      return setCaseProps;
 
     case 'defaultShouldMessage':
       return defaultShouldMessage;
