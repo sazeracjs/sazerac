@@ -558,7 +558,7 @@ var _DefaultExportValue$3 = function _DefaultExportValue$3() {
         describeMessage: _get__$5('defaultDescribeCase')(inputParams)
       });
 
-    case _get__$5('actionTypes').ADD_EXPECTED_VALUE:
+    case _get__$5('actionTypes').SET_CASE_EXPECTED_VALUE:
       return _get__$5('setCaseProps')(state, action.caseIndex, {
         expectedValue: action.expectedValue,
         shouldMessage: _get__$5('defaultShouldMessage')(action.expectedValue)
@@ -1130,7 +1130,7 @@ var actionTypes = {};
 var state = {};
 var listenerFns = [];
 
-var actionsArray = ['INIT', 'ADD_CASE', 'ADD_EXPECTED_VALUE', 'SET_CASE_DESCRIBE_MESSAGE', 'SET_CASE_SHOULD_MESSAGE'];
+var actionsArray = ['INIT', 'ADD_CASE', 'SET_CASE_EXPECTED_VALUE', 'SET_CASE_DESCRIBE_MESSAGE', 'SET_CASE_SHOULD_MESSAGE'];
 
 _get__$2('actionsArray').forEach(function (action) {
   _get__$2('actions')[_get__$2('convertCase')(action)] = function (params) {
@@ -1524,7 +1524,7 @@ if ((_typeOfOriginalExport$9 === 'object' || _typeOfOriginalExport$9 === 'functi
 var newTestCase = function newTestCase(caseIndex) {
   return {
     ___caseIndex: caseIndex,
-    expect: _get__$10('testCaseFn')(caseIndex, 'addExpectedValue', 'expectedValue'),
+    expect: _get__$10('testCaseFn')(caseIndex, 'setCaseExpectedValue', 'expectedValue'),
     describe: _get__$10('testCaseFn')(caseIndex, 'setCaseDescribeMessage', 'message'),
     should: _get__$10('testCaseFn')(caseIndex, 'setCaseShouldMessage', 'message')
   };

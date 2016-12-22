@@ -28,7 +28,7 @@ export default (state = [], action) => {
         describeMessage: defaultDescribeCase(inputParams)
       })
 
-    case actionTypes.ADD_EXPECTED_VALUE:
+    case actionTypes.SET_CASE_EXPECTED_VALUE:
       return setCaseProps(state, action.caseIndex, {
           expectedValue: action.expectedValue,
           shouldMessage: defaultShouldMessage(action.expectedValue)

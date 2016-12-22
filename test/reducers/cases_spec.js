@@ -68,10 +68,10 @@ runTests([
     ],
 
     [
-      'when given an array of cases, action.type=ADD_EXPECTED_VALUE, action.caseIndex, and action.expectedValue',
+      'when given an array of cases, action.type=SET_CASE_EXPECTED_VALUE, action.caseIndex, and action.expectedValue',
       [
         [ { p: 'case_0'}, { p: 'case_1' } ],
-        { type: 'ADD_EXPECTED_VALUE', caseIndex: 1, expectedValue: 'mock_expected_val' }
+        { type: 'SET_CASE_EXPECTED_VALUE', caseIndex: 1, expectedValue: 'mock_expected_val' }
       ],
       [
         [
