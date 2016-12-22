@@ -1,3 +1,4 @@
+import { isArray } from 'lodash'
 import actions from './reducers/actions'
 
 const newTestCase = (caseIndex) => {
@@ -5,14 +6,18 @@ const newTestCase = (caseIndex) => {
     ___caseIndex: caseIndex,
     expect: testCaseFn(caseIndex, 'setCaseExpectedValue', 'expectedValue'),
     describe: testCaseFn(caseIndex, 'setCaseDescribeMessage', 'message'),
-    should: testCaseFn(caseIndex, 'setCaseShouldMessage', 'message')
+    should: testCaseFn(caseIndex, 'setCaseShouldMessage', 'message'),
+    assert: testCaseFn(caseIndex, 'addCaseAssertion', ['message', 'assertFn'])
   }
 }
 
-const testCaseFn = (caseIndex, action, paramName) => {
-  return (param) => {
+const testCaseFn = (caseIndex, action, paramNames) => {
+  paramNames = isArray(paramNames) ? paramNames : [paramNames]
+  return (...params) => {
     let actionArgs = { caseIndex }
-    actionArgs[paramName] = param
+    paramNames.forEach((n, i) => {
+      actionArgs[n] = params[i]
+    })
     actions[action](actionArgs)
     return newTestCase(caseIndex)
   }

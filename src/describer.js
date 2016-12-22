@@ -1,4 +1,4 @@
-import { forEach, map } from 'lodash'
+import { forEach, map, filter, isUndefined } from 'lodash'
 import { assert } from 'chai'
 
 const describer = (context, frameworkFunctions) => {
@@ -8,44 +8,78 @@ const describer = (context, frameworkFunctions) => {
 const executeDescribers = (def) => {
   const { func, message, calls, test } = def
   func(message, () => {
-    test ? testExecuter.apply(null, test) : forEach(calls, (call) => { executeDescribers(call) })
+    if (test) {
+      const { testFn, inputParams, expectedValue, assertFn } = test
+      if (expectedValue) {
+        testExecuter(testFn, inputParams, expectedValue)
+      } else if (assertFn) {
+        assertionExecuter(testFn, inputParams, assertFn)
+      }
+    } else {
+      forEach(calls, (call) => { executeDescribers(call) })
+    }
   })
 }
 
-const testExecuter = (testFunction, inputParams, expectedValue) => {
-  const actualVal = testFunction.apply(null, inputParams)
+const testExecuter = (testFn, inputParams, expectedValue) => {
+  const actualVal = testFn.apply(null, inputParams)
   assert.deepEqual(actualVal, expectedValue)
+}
+
+const assertionExecuter = (testFn, inputParams, assertFn) => {
+  const actualVal = testFn.apply(null, inputParams)
+  assertFn(actualVal)
 }
 
 const buildDescriberDefinition = (context, frameworkFunctions) => {
   const { describeFn } = frameworkFunctions
-  const { testFunction, cases, describeMessage } = context
+  const { describeMessage } = context
   return {
     func: describeFn,
     message: describeMessage,
-    calls: map(cases, (tCase) => {
-      return getCaseDescriberDef(tCase, frameworkFunctions, testFunction)
-    })
+    calls: getCaseDescriberCalls(context, frameworkFunctions)
   }
 }
 
-const getCaseDescriberDef = (tCase, frameworkFunctions, testFunction) => {
+const getCaseDescriberCalls = (context, frameworkFunctions) => {
+  const { testFunction, cases, caseAssertions } = context
+  return map(cases, (tCase, caseIndex) => {
+    const assertions = filter(caseAssertions, ['caseIndex', caseIndex])
+    return getCaseDescriberDef(tCase, frameworkFunctions, testFunction, assertions)
+  })
+}
+
+const getCaseDescriberDef = (tCase, frameworkFunctions, testFn, assertions) => {
   const { describeFn, itFn } = frameworkFunctions
   return {
     func: describeFn,
     message: tCase.describeMessage,
-    calls: [getCaseShouldDef(tCase, itFn, testFunction)]
+    calls: getCaseItCalls(tCase, itFn, testFn, assertions)
   }
 }
 
-const getCaseShouldDef = (tCase, itFn, testFunction) => {
+const getCaseItCalls = (tCase, itFn, testFn, assertions) => {
   const { shouldMessage, inputParams, expectedValue } = tCase
-  return {
-    func: itFn,
-    message: shouldMessage,
-    test: [testFunction, inputParams, expectedValue]
+  let calls = [];
+  if (!isUndefined(expectedValue)) {
+    calls.push({
+      func: itFn,
+      message: shouldMessage,
+      test: { testFn, inputParams, expectedValue }
+    })
   }
+  if (assertions) {
+    assertions.forEach((assertion) => {
+      const { assertFn } = assertion
+      calls.push({
+        func: itFn,
+        message: assertion.shouldMessage,
+        test: { testFn, inputParams, assertFn }
+      })
+    })
+  }
+  return calls
 }
 
 export default describer
-export { describer, buildDescriberDefinition, testExecuter }
+export { describer, buildDescriberDefinition, testExecuter, assertionExecuter }

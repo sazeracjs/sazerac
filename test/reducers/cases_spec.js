@@ -91,7 +91,7 @@ runTests([
         [
           'should return cases without expected value added to the case not at caseIndex',
           (cases) => { assert.notDeepProperty(cases, '[0].expectedValue') }
-        ],
+        ]
       ]
     ],
 
@@ -129,7 +129,7 @@ runTests([
         [
           'should return cases without expected value added to the case not at caseIndex',
           (cases) => { assert.notDeepProperty(cases, '[0].describeMessage') }
-        ],
+        ]
       ]
     ]
   ]]
@@ -153,7 +153,7 @@ runTests([
         [
           'should return cases without expected value added to the case not at caseIndex',
           (cases) => { assert.notDeepProperty(cases, '[0].shouldMessage') }
-        ],
+        ]
       ]
     ]
 

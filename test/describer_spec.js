@@ -46,6 +46,8 @@ describe('testExecuter()', () => {
 
 })
 
+// TODO: test assertionExecuter
+
 describe('buildDescriberDefinition()', () => {
 
   /*
@@ -63,7 +65,11 @@ describe('buildDescriberDefinition()', () => {
             {
               func: 'it_fn_mock',
               message: 'mock_should_msg',
-              test: ['mock_test_fn', 'mock_input_params', 'mock_expected_val']
+              test: {
+                testFn: 'mock_test_fn',
+                inputParams: 'mock_input_params',
+                expectedValue: 'mock_expected_val'
+              }
             }
           ]
         },
@@ -74,7 +80,11 @@ describe('buildDescriberDefinition()', () => {
             {
               func: 'it_fn_mock',
               message: 'mock_should_msg_2',
-              test: ['mock_test_fn', 'mock_input_params_2', 'mock_expected_val_2']
+              test: {
+                testFn: 'mock_test_fn',
+                inputParams: 'mock_input_params_2',
+                assertFn: 'mock_assert_fn'
+              }
             }
           ]
         }
@@ -152,35 +162,119 @@ describe('buildDescriberDefinition()', () => {
           }
         ],
         [
-          s + 'a test array for each it call',
+          s + 'a test object for each it call',
           (def) => {
-            assert.deepPropertyVal(def, 'calls[0].calls[0].test.length', 3)
-            assert.deepPropertyVal(def, 'calls[1].calls[0].test.length', 3)
+            assert.deepProperty(def, 'calls[0].calls[0].test')
+            assert.deepProperty(def, 'calls[1].calls[0].test')
           }
         ],
         [
-          s + 'a test array for each it call with context.testFunction set at index 0',
+          s + 'a test array for each it call with context.testFunction set',
           (def) => {
-            assert.deepPropertyVal(def, 'calls[0].calls[0].test[0]', 'mock_test_fn')
-            assert.deepPropertyVal(def, 'calls[1].calls[0].test[0]', 'mock_test_fn')
+            assert.deepPropertyVal(def, 'calls[0].calls[0].test.testFn', 'mock_test_fn')
+            assert.deepPropertyVal(def, 'calls[1].calls[0].test.testFn', 'mock_test_fn')
           }
         ],
         [
-          s + 'a test array for each it call with the case\'s inputParams set at index 1',
+          s + 'a test array for each it call with the case\'s inputParams set',
           (def) => {
-            assert.deepPropertyVal(def, 'calls[0].calls[0].test[1]', 'mock_input_params')
-            assert.deepPropertyVal(def, 'calls[1].calls[0].test[1]', 'mock_input_params_2')
+            assert.deepPropertyVal(def, 'calls[0].calls[0].test.inputParams', 'mock_input_params')
+            assert.deepPropertyVal(def, 'calls[1].calls[0].test.inputParams', 'mock_input_params_2')
           }
         ],
         [
-          s + 'a test array for each it call with the case\'s expectedValue set at index 2',
+          s + 'a test array for each it call with the case\'s expectedValue set',
           (def) => {
-            assert.deepPropertyVal(def, 'calls[0].calls[0].test[2]', 'mock_expected_val')
-            assert.deepPropertyVal(def, 'calls[1].calls[0].test[2]', 'mock_expected_val_2')
+            assert.deepPropertyVal(def, 'calls[0].calls[0].test.expectedValue', 'mock_expected_val')
+            assert.deepPropertyVal(def, 'calls[1].calls[0].test.expectedValue', 'mock_expected_val_2')
+          }
+        ]
+      ]
+    },
+
+    {
+      inputs: [
+        'when given a valid context object with cases and caseAssertions',
+        {
+          describeMessage: 'myFunc()',
+          testFunction: 'mock_test_fn',
+          cases: [
+            { describeMessage: 'mock_describe_msg_0', inputParams: 'mock_input_params' },
+            { describeMessage: 'mock_describe_msg_1', inputParams: 'mock_input_params_2' }
+          ],
+          caseAssertions: [
+            {
+              assertFn: 'mock_assert_fn_0',
+              shouldMessage: 'mock_assert_should_message_0_case_0',
+              caseIndex: 0,
+            },
+            {
+              assertFn: 'mock_assert_fn_1',
+              shouldMessage: 'mock_assert_should_message_1_case_1',
+              caseIndex: 1,
+            },
+            {
+              assertFn: 'mock_assert_fn_2',
+              shouldMessage: 'mock_assert_should_message_2_case_1',
+              caseIndex: 1,
+            }
+          ]
+        }
+      ],
+      assertions: [
+        
+        [
+          s + 'an it call for each assertion',
+          (def) => {
+            assert.deepPropertyVal(def, 'calls[0].calls.length', 1)
+            assert.deepPropertyVal(def, 'calls[0].calls[0].func', 'it_fn_mock')
+            assert.deepPropertyVal(def, 'calls[1].calls.length', 2)
+            assert.deepPropertyVal(def, 'calls[1].calls[0].func', 'it_fn_mock')
+          }
+        ],
+        [
+          s + 'a message prop for each it call, set based on each assertion\'s shouldMessage',
+          (def) => {
+            assert.deepPropertyVal(def, 'calls[0].calls[0].message', 'mock_assert_should_message_0_case_0')
+            assert.deepPropertyVal(def, 'calls[1].calls[0].message', 'mock_assert_should_message_1_case_1')
+            assert.deepPropertyVal(def, 'calls[1].calls[1].message', 'mock_assert_should_message_2_case_1')
+          }
+        ],
+        [
+          s + 'a test object for each it call',
+          (def) => {
+            assert.deepProperty(def, 'calls[0].calls[0].test')
+            assert.deepProperty(def, 'calls[1].calls[0].test')
+            assert.deepProperty(def, 'calls[1].calls[1].test')
+          }
+        ],
+        [
+          s + 'a test array for each it call with context.testFunction set',
+          (def) => {
+            assert.deepPropertyVal(def, 'calls[0].calls[0].test.testFn', 'mock_test_fn')
+            assert.deepPropertyVal(def, 'calls[1].calls[0].test.testFn', 'mock_test_fn')
+            assert.deepPropertyVal(def, 'calls[1].calls[1].test.testFn', 'mock_test_fn')
+          }
+        ],
+        [
+          s + 'a test array for each it call with each assertion\'s inputParams set',
+          (def) => {
+            assert.deepPropertyVal(def, 'calls[0].calls[0].test.inputParams', 'mock_input_params')
+            assert.deepPropertyVal(def, 'calls[1].calls[0].test.inputParams', 'mock_input_params_2')
+            assert.deepPropertyVal(def, 'calls[1].calls[1].test.inputParams', 'mock_input_params_2')
+          }
+        ],
+        [
+          s + 'a test array for each it call with each assertion\'s assertFn st',
+          (def) => {
+            assert.deepPropertyVal(def, 'calls[0].calls[0].test.assertFn', 'mock_assert_fn_0')
+            assert.deepPropertyVal(def, 'calls[1].calls[0].test.assertFn', 'mock_assert_fn_1')
+            assert.deepPropertyVal(def, 'calls[1].calls[1].test.assertFn', 'mock_assert_fn_2')
           }
         ]
       ]
     }
+
   ].forEach((t) => {
     const { inputs, assertions } = t
     const [ desc, context ] = inputs
