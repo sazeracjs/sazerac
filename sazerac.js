@@ -1,4 +1,4 @@
-import { concat, forEach, isFunction, isString, map, toArray } from 'lodash';
+import { at, concat, forEach, isFunction, isString, map, toArray } from 'lodash';
 import { assert } from 'chai';
 
 var _typeof = typeof Symbol === "function" && typeof Symbol.iterator === "symbol" ? function (obj) {
@@ -544,9 +544,14 @@ var setCaseProps = function setCaseProps(state, caseIndex, props) {
   });
 };
 
+var getCaseProp = function getCaseProp(state, caseIndex, prop) {
+  return _get__$5('at')(state, '[' + caseIndex + '].' + prop)[0];
+};
+
 var _DefaultExportValue$3 = function _DefaultExportValue$3() {
   var state = arguments.length > 0 && arguments[0] !== undefined ? arguments[0] : [];
   var action = arguments[1];
+  var caseIndex = action.caseIndex;
 
 
   switch (action.type) {
@@ -559,16 +564,17 @@ var _DefaultExportValue$3 = function _DefaultExportValue$3() {
       });
 
     case _get__$5('actionTypes').SET_CASE_EXPECTED_VALUE:
-      return _get__$5('setCaseProps')(state, action.caseIndex, {
+      var shouldMsg = _get__$5('getCaseProp')(state, caseIndex, 'shouldMessage');
+      return _get__$5('setCaseProps')(state, caseIndex, {
         expectedValue: action.expectedValue,
-        shouldMessage: _get__$5('defaultShouldMessage')(action.expectedValue)
+        shouldMessage: shouldMsg ? shouldMsg : _get__$5('defaultShouldMessage')(action.expectedValue)
       });
 
     case _get__$5('actionTypes').SET_CASE_DESCRIBE_MESSAGE:
-      return _get__$5('setCaseProps')(state, action.caseIndex, { describeMessage: action.message });
+      return _get__$5('setCaseProps')(state, caseIndex, { describeMessage: action.message });
 
     case _get__$5('actionTypes').SET_CASE_SHOULD_MESSAGE:
-      return _get__$5('setCaseProps')(state, action.caseIndex, { shouldMessage: action.message });
+      return _get__$5('setCaseProps')(state, caseIndex, { shouldMessage: action.message });
 
     default:
       return state;
@@ -621,6 +627,9 @@ function _get_original__$5(variableName) {
     case 'updateCase':
       return updateCase;
 
+    case 'at':
+      return at;
+
     case 'actionTypes':
       return actionTypes;
 
@@ -632,6 +641,9 @@ function _get_original__$5(variableName) {
 
     case 'defaultDescribeCase':
       return defaultDescribeCase;
+
+    case 'getCaseProp':
+      return getCaseProp;
 
     case 'setCaseProps':
       return setCaseProps;

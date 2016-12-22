@@ -90,6 +90,21 @@ runTests([
     ],
 
     [
+      'when given a case with shouldMessage set, action.type=SET_CASE_EXPECTED_VALUE, ' +
+        'action.caseIndex, and action.expectedValue',
+      [
+        [ { shouldMessage: 'mock_should_msg' } ],
+        { type: 'SET_CASE_EXPECTED_VALUE', caseIndex: 0, expectedValue: 'mock_expected_val' }
+      ],
+      [
+        [
+          'should not change from the original shouldMessage value',
+          (cases) => { assert.deepPropertyVal(cases, '[0].shouldMessage', 'mock_should_msg') }
+        ]
+      ]
+    ],
+
+    [
       'when given an array of cases, action.type=SET_CASE_DESCRIBE_MESSAGE, action.caseIndex, and action.message',
       [
         [ { p: 'case_0'}, { p: 'case_1' } ],

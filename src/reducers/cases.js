@@ -1,4 +1,4 @@
-import { concat, map, toArray } from 'lodash'
+import { concat, map, toArray, at } from 'lodash'
 import { actionTypes } from './actions'
 import { defaultDescribeCase, defaultShouldMessage } from '../messages'
 
@@ -17,7 +17,13 @@ const setCaseProps = (state, caseIndex, props) => {
   })
 }
 
+const getCaseProp = (state, caseIndex, prop) => {
+  return at(state, '[' + caseIndex + '].' + prop)[0]
+}
+
 export default (state = [], action) => {
+
+  const { caseIndex } = action
 
   switch(action.type) {
     
@@ -29,16 +35,17 @@ export default (state = [], action) => {
       })
 
     case actionTypes.SET_CASE_EXPECTED_VALUE:
-      return setCaseProps(state, action.caseIndex, {
+      const shouldMsg = getCaseProp(state, caseIndex, 'shouldMessage')
+      return setCaseProps(state, caseIndex, {
           expectedValue: action.expectedValue,
-          shouldMessage: defaultShouldMessage(action.expectedValue)
+          shouldMessage: shouldMsg ? shouldMsg : defaultShouldMessage(action.expectedValue)
       })
 
     case actionTypes.SET_CASE_DESCRIBE_MESSAGE:
-      return setCaseProps(state, action.caseIndex, { describeMessage: action.message })
+      return setCaseProps(state, caseIndex, { describeMessage: action.message })
 
     case actionTypes.SET_CASE_SHOULD_MESSAGE:
-      return setCaseProps(state, action.caseIndex, { shouldMessage: action.message })
+      return setCaseProps(state, caseIndex, { shouldMessage: action.message })
 
     default:
       return state
