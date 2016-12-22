@@ -2,7 +2,40 @@ import messages from '../src/messages';
 import { runTests } from './helpers'
 import { assert } from 'chai';
 
+function mockFunc() {}
+
 runTests([
+
+  [messages.defaultDescribeTest, 'messages.defaultDescribeTest', [
+
+    [
+      'when given a function',
+      [mockFunc],
+      [[
+          'should return the function name with parentheses',
+          (ret) => { assert.equal(ret, 'mockFunc()') }
+      ]]
+    ],
+
+    [
+      'when given undefined',
+      [undefined],
+      [[
+          'should return undefined',
+          (ret) => { assert.isUndefined(ret) }
+      ]]
+    ],
+
+    [
+      'when given a non-function',
+      [27],
+      [[
+          'should return undefined',
+          (ret) => { assert.isUndefined(ret) }
+      ]]
+    ]
+
+  ]],
 
   [messages.defaultDescribeCase, 'messages.defaultDescribeCase', [
 

@@ -1,4 +1,10 @@
-import { isString } from 'lodash'
+import { isString, isFunction } from 'lodash'
+
+const defaultDescribeTest = (fn) => {
+  if (isFunction(fn) && fn.name) {
+    return fn.name + '()'
+  }
+}
 
 const defaultDescribeCase = (args = []) => {
   if (args.length > 0) {
@@ -20,5 +26,5 @@ const formatString = (str) => {
   return str
 }
 
-export default { defaultDescribeCase, defaultShouldMessage }
-export { defaultDescribeCase, defaultShouldMessage }
+export default { defaultDescribeTest, defaultDescribeCase, defaultShouldMessage }
+export { defaultDescribeTest, defaultDescribeCase, defaultShouldMessage }
