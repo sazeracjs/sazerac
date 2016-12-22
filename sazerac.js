@@ -1518,21 +1518,16 @@ if ((_typeOfOriginalExport$9 === 'object' || _typeOfOriginalExport$9 === 'functi
 var newTestCase = function newTestCase(caseIndex) {
   return {
     ___caseIndex: caseIndex,
-    expect: _get__$10('getExpectFn')(caseIndex),
-    describe: _get__$10('getDescribeFn')(caseIndex)
+    expect: _get__$10('testCaseFn')(caseIndex, 'addExpectedValue', 'expectedValue'),
+    describe: _get__$10('testCaseFn')(caseIndex, 'setCaseDescribeMessage', 'message')
   };
 };
 
-var getExpectFn = function getExpectFn(caseIndex) {
-  return function (expectedValue) {
-    _get__$10('actions').addExpectedValue({ caseIndex: caseIndex, expectedValue: expectedValue });
-    return _get__$10('newTestCase')(caseIndex);
-  };
-};
-
-var getDescribeFn = function getDescribeFn(caseIndex) {
-  return function (message) {
-    _get__$10('actions').setCaseDescribeMessage({ caseIndex: caseIndex, message: message });
+var testCaseFn = function testCaseFn(caseIndex, action, paramName) {
+  return function (param) {
+    var actionArgs = { caseIndex: caseIndex };
+    actionArgs[paramName] = param;
+    _get__$10('actions')[action](actionArgs);
     return _get__$10('newTestCase')(caseIndex);
   };
 };
@@ -1576,11 +1571,8 @@ function _get__$10(variableName) {
 
 function _get_original__$10(variableName) {
   switch (variableName) {
-    case 'getExpectFn':
-      return getExpectFn;
-
-    case 'getDescribeFn':
-      return getDescribeFn;
+    case 'testCaseFn':
+      return testCaseFn;
 
     case 'actions':
       return actions$1;

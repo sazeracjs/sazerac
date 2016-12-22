@@ -1,4 +1,4 @@
-import { newTestCase, __RewireAPI as testCaseRewireAPI } from '../src/testCase';
+import { newTestCase } from '../src/testCase';
 import { runTests } from './helpers'
 import { assert } from 'chai';
 import sinon from 'sinon'

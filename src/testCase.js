@@ -3,21 +3,16 @@ import actions from './reducers/actions'
 const newTestCase = (caseIndex) => {
   return {
     ___caseIndex: caseIndex,
-    expect: getExpectFn(caseIndex),
-    describe: getDescribeFn(caseIndex)
+    expect: testCaseFn(caseIndex, 'addExpectedValue', 'expectedValue'),
+    describe: testCaseFn(caseIndex, 'setCaseDescribeMessage', 'message')
   }
 }
 
-const getExpectFn = (caseIndex) => {
-  return (expectedValue) => {
-    actions.addExpectedValue({ caseIndex, expectedValue })
-    return newTestCase(caseIndex)
-  }
-}
-
-const getDescribeFn = (caseIndex) => {
-  return (message) => {
-    actions.setCaseDescribeMessage({ caseIndex, message })
+const testCaseFn = (caseIndex, action, paramName) => {
+  return (param) => {
+    let actionArgs = { caseIndex }
+    actionArgs[paramName] = param
+    actions[action](actionArgs)
     return newTestCase(caseIndex)
   }
 }
