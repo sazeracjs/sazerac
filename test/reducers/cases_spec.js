@@ -160,3 +160,47 @@ runTests([
   ]]
 
 ])
+
+runTests([
+
+  [cases, 'cases() INIT', [
+
+    [
+      'when given an array of cases',
+      [
+        [ { p: 'case_0'}, { p: 'case_1' } ],
+        { type: 'INIT' }
+      ],
+      [
+        [
+          'should return an empty array',
+          (cases) => { assert.deepEqual(cases, []) }
+        ]
+      ]
+    ]
+
+  ]]
+
+])
+
+runTests([
+
+  [cases, 'cases() no actionType', [
+
+    [
+      'when given an array of cases',
+      [
+        [ { p: 'case_0'}, { p: 'case_1' } ],
+        { }
+      ],
+      [
+        [
+          'should return the array of cases',
+          (cases) => { assert.deepEqual(cases, [{ p: 'case_0'}, { p: 'case_1' }]) }
+        ]
+      ]
+    ]
+
+  ]]
+
+])

@@ -576,6 +576,9 @@ var _DefaultExportValue$3 = function _DefaultExportValue$3() {
     case _get__$5('actionTypes').SET_CASE_SHOULD_MESSAGE:
       return _get__$5('setCaseProps')(state, caseIndex, { shouldMessage: action.message });
 
+    case _get__$5('actionTypes').INIT:
+      return [];
+
     default:
       return state;
 
@@ -737,14 +740,20 @@ var _DefaultExportValue$6 = function _DefaultExportValue$6() {
 
 
   switch (action.type) {
+
     case _get__$7('actionTypes').ADD_CASE_ASSERTION:
       return _get__$7('concat')(state, {
         caseIndex: action.caseIndex,
         shouldMessage: action.message,
         assertFn: action.assertFn
       });
+
+    case _get__$7('actionTypes').INIT:
+      return [];
+
     default:
       return state;
+
   }
 };
 

@@ -47,6 +47,9 @@ export default (state = [], action) => {
     case actionTypes.SET_CASE_SHOULD_MESSAGE:
       return setCaseProps(state, caseIndex, { shouldMessage: action.message })
 
+    case actionTypes.INIT:
+      return []
+
     default:
       return state
 
