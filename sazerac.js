@@ -635,8 +635,12 @@ if ((_typeOfOriginalExport$5 === 'object' || _typeOfOriginalExport$5 === 'functi
 }
 
 var defaultDescribeTest = function defaultDescribeTest(fn) {
-  if (_get__$8('isFunction')(fn) && fn.name) {
-    return fn.name + '()';
+  if (_get__$8('isFunction')(fn)) {
+    if (fn.name) {
+      return fn.name + '()';
+    } else {
+      return '[anonymous function]';
+    }
   }
 };
 

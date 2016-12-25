@@ -2,8 +2,12 @@ import { isFunction } from 'lodash'
 import objectToMessageString from './objectToMessageString'
 
 const defaultDescribeTest = (fn) => {
-  if (isFunction(fn) && fn.name) {
-    return fn.name + '()'
+  if (isFunction(fn)) {
+    if (fn.name) {
+      return fn.name + '()'
+    } else {
+      return '[anonymous function]'
+    }
   }
 }
 

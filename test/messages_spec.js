@@ -18,6 +18,15 @@ runTests([
     ],
 
     [
+      'when given an anonymous function',
+      [() => {}],
+      [[
+          'should return `[anonymous function]`',
+          (ret) => { assert.equal(ret, '[anonymous function]') }
+      ]]
+    ],
+
+    [
       'when given undefined',
       [undefined],
       [[
