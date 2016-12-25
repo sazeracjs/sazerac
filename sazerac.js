@@ -1,4 +1,4 @@
-import { at, concat, filter, forEach, isArray, isFunction, isString, isUndefined, map, toArray } from 'lodash';
+import { at, concat, filter, forEach, isArray, isFunction, isObject, isString, isUndefined, map, toArray } from 'lodash';
 import { assert } from 'chai';
 
 var _typeof = typeof Symbol === "function" && typeof Symbol.iterator === "symbol" ? function (obj) {
@@ -363,6 +363,140 @@ if ((_typeOfOriginalExport$3 === 'object' || _typeOfOriginalExport$3 === 'functi
   addNonEnumerableProperty$3('__RewireAPI__', _RewireAPI__$3);
 }
 
+var _DefaultExportValue$6 = function _DefaultExportValue$6(o) {
+  if (_get__$7('isUndefined')(o)) return 'undefined';
+  if (_get__$7('isString')(o)) return "'" + o + "'";else if (_get__$7('isObject')) return JSON.stringify(o);
+  return o;
+};
+
+var _RewiredData__$7 = Object.create(null);
+
+var INTENTIONAL_UNDEFINED$7 = '__INTENTIONAL_UNDEFINED__';
+var _RewireAPI__$7 = {};
+
+(function () {
+  function addPropertyToAPIObject(name, value) {
+    Object.defineProperty(_RewireAPI__$7, name, {
+      value: value,
+      enumerable: false,
+      configurable: true
+    });
+  }
+
+  addPropertyToAPIObject('__get__', _get__$7);
+  addPropertyToAPIObject('__GetDependency__', _get__$7);
+  addPropertyToAPIObject('__Rewire__', _set__$7);
+  addPropertyToAPIObject('__set__', _set__$7);
+  addPropertyToAPIObject('__reset__', _reset__$7);
+  addPropertyToAPIObject('__ResetDependency__', _reset__$7);
+  addPropertyToAPIObject('__with__', _with__$7);
+})();
+
+function _get__$7(variableName) {
+  if (_RewiredData__$7 === undefined || _RewiredData__$7[variableName] === undefined) {
+    return _get_original__$7(variableName);
+  } else {
+    var value = _RewiredData__$7[variableName];
+
+    if (value === INTENTIONAL_UNDEFINED$7) {
+      return undefined;
+    } else {
+      return value;
+    }
+  }
+}
+
+function _get_original__$7(variableName) {
+  switch (variableName) {
+    case 'isUndefined':
+      return isUndefined;
+
+    case 'isString':
+      return isString;
+
+    case 'isObject':
+      return isObject;
+  }
+
+  return undefined;
+}
+
+function _set_original__$7(variableName, _value) {
+  switch (variableName) {}
+
+  return undefined;
+}
+
+function _set__$7(variableName, value) {
+  if ((typeof variableName === 'undefined' ? 'undefined' : _typeof(variableName)) === 'object') {
+    Object.keys(variableName).forEach(function (name) {
+      _RewiredData__$7[name] = variableName[name];
+    });
+  } else {
+    if (value === undefined) {
+      _RewiredData__$7[variableName] = INTENTIONAL_UNDEFINED$7;
+    } else {
+      _RewiredData__$7[variableName] = value;
+    }
+
+    return function () {
+      _reset__$7(variableName);
+    };
+  }
+}
+
+function _reset__$7(variableName) {
+  delete _RewiredData__$7[variableName];
+}
+
+function _with__$7(object) {
+  var rewiredVariableNames = Object.keys(object);
+  var previousValues = {};
+
+  function reset() {
+    rewiredVariableNames.forEach(function (variableName) {
+      _RewiredData__$7[variableName] = previousValues[variableName];
+    });
+  }
+
+  return function (callback) {
+    rewiredVariableNames.forEach(function (variableName) {
+      previousValues[variableName] = _RewiredData__$7[variableName];
+      _RewiredData__$7[variableName] = object[variableName];
+    });
+    var result = callback();
+
+    if (!!result && typeof result.then == 'function') {
+      result.then(reset).catch(reset);
+    } else {
+      reset();
+    }
+
+    return result;
+  };
+}
+
+var _typeOfOriginalExport$7 = typeof _DefaultExportValue$6 === 'undefined' ? 'undefined' : _typeof(_DefaultExportValue$6);
+
+function addNonEnumerableProperty$7(name, value) {
+  Object.defineProperty(_DefaultExportValue$6, name, {
+    value: value,
+    enumerable: false,
+    configurable: true
+  });
+}
+
+if ((_typeOfOriginalExport$7 === 'object' || _typeOfOriginalExport$7 === 'function') && Object.isExtensible(_DefaultExportValue$6)) {
+  addNonEnumerableProperty$7('__get__', _get__$7);
+  addNonEnumerableProperty$7('__GetDependency__', _get__$7);
+  addNonEnumerableProperty$7('__Rewire__', _set__$7);
+  addNonEnumerableProperty$7('__set__', _set__$7);
+  addNonEnumerableProperty$7('__reset__', _reset__$7);
+  addNonEnumerableProperty$7('__ResetDependency__', _reset__$7);
+  addNonEnumerableProperty$7('__with__', _with__$7);
+  addNonEnumerableProperty$7('__RewireAPI__', _RewireAPI__$7);
+}
+
 var defaultDescribeTest = function defaultDescribeTest(fn) {
   if (_get__$6('isFunction')(fn) && fn.name) {
     return fn.name + '()';
@@ -374,7 +508,7 @@ var defaultDescribeCase = function defaultDescribeCase() {
 
   if (args.length > 0) {
     var formattedArgs = args.map(function (arg) {
-      return _get__$6('formatString')(arg);
+      return _get__$6('objectToMessageString')(arg);
     });
     return 'when given ' + formattedArgs.join(' and ');
   } else {
@@ -383,12 +517,7 @@ var defaultDescribeCase = function defaultDescribeCase() {
 };
 
 var defaultShouldMessage = function defaultShouldMessage(expectedValue) {
-  return 'should return ' + _get__$6('formatString')(expectedValue);
-};
-
-var formatString = function formatString(str) {
-  if (_get__$6('isString')(str)) return "'" + str + "'";
-  return str;
+  return 'should return ' + _get__$6('objectToMessageString')(expectedValue);
 };
 
 var _DefaultExportValue$4 = { defaultDescribeTest: _get__$6('defaultDescribeTest'), defaultDescribeCase: _get__$6('defaultDescribeCase'), defaultShouldMessage: _get__$6('defaultShouldMessage') };
@@ -434,11 +563,8 @@ function _get_original__$6(variableName) {
     case 'isFunction':
       return isFunction;
 
-    case 'formatString':
-      return formatString;
-
-    case 'isString':
-      return isString;
+    case 'objectToMessageString':
+      return _DefaultExportValue$6;
 
     case 'defaultDescribeTest':
       return defaultDescribeTest;
@@ -734,161 +860,26 @@ if ((_typeOfOriginalExport$5 === 'object' || _typeOfOriginalExport$5 === 'functi
   addNonEnumerableProperty$5('__RewireAPI__', _RewireAPI__$5);
 }
 
-var _DefaultExportValue$6 = function _DefaultExportValue$6() {
+var _DefaultExportValue$7 = function _DefaultExportValue$7() {
   var state = arguments.length > 0 && arguments[0] !== undefined ? arguments[0] : [];
   var action = arguments[1];
 
 
   switch (action.type) {
 
-    case _get__$7('actionTypes').ADD_CASE_ASSERTION:
-      return _get__$7('concat')(state, {
+    case _get__$8('actionTypes').ADD_CASE_ASSERTION:
+      return _get__$8('concat')(state, {
         caseIndex: action.caseIndex,
         shouldMessage: action.message,
         assertFn: action.assertFn
       });
 
-    case _get__$7('actionTypes').INIT:
+    case _get__$8('actionTypes').INIT:
       return [];
 
     default:
       return state;
 
-  }
-};
-
-var _RewiredData__$7 = Object.create(null);
-
-var INTENTIONAL_UNDEFINED$7 = '__INTENTIONAL_UNDEFINED__';
-var _RewireAPI__$7 = {};
-
-(function () {
-  function addPropertyToAPIObject(name, value) {
-    Object.defineProperty(_RewireAPI__$7, name, {
-      value: value,
-      enumerable: false,
-      configurable: true
-    });
-  }
-
-  addPropertyToAPIObject('__get__', _get__$7);
-  addPropertyToAPIObject('__GetDependency__', _get__$7);
-  addPropertyToAPIObject('__Rewire__', _set__$7);
-  addPropertyToAPIObject('__set__', _set__$7);
-  addPropertyToAPIObject('__reset__', _reset__$7);
-  addPropertyToAPIObject('__ResetDependency__', _reset__$7);
-  addPropertyToAPIObject('__with__', _with__$7);
-})();
-
-function _get__$7(variableName) {
-  if (_RewiredData__$7 === undefined || _RewiredData__$7[variableName] === undefined) {
-    return _get_original__$7(variableName);
-  } else {
-    var value = _RewiredData__$7[variableName];
-
-    if (value === INTENTIONAL_UNDEFINED$7) {
-      return undefined;
-    } else {
-      return value;
-    }
-  }
-}
-
-function _get_original__$7(variableName) {
-  switch (variableName) {
-    case 'actionTypes':
-      return actionTypes;
-
-    case 'concat':
-      return concat;
-  }
-
-  return undefined;
-}
-
-function _set_original__$7(variableName, _value) {
-  switch (variableName) {}
-
-  return undefined;
-}
-
-function _set__$7(variableName, value) {
-  if ((typeof variableName === 'undefined' ? 'undefined' : _typeof(variableName)) === 'object') {
-    Object.keys(variableName).forEach(function (name) {
-      _RewiredData__$7[name] = variableName[name];
-    });
-  } else {
-    if (value === undefined) {
-      _RewiredData__$7[variableName] = INTENTIONAL_UNDEFINED$7;
-    } else {
-      _RewiredData__$7[variableName] = value;
-    }
-
-    return function () {
-      _reset__$7(variableName);
-    };
-  }
-}
-
-function _reset__$7(variableName) {
-  delete _RewiredData__$7[variableName];
-}
-
-function _with__$7(object) {
-  var rewiredVariableNames = Object.keys(object);
-  var previousValues = {};
-
-  function reset() {
-    rewiredVariableNames.forEach(function (variableName) {
-      _RewiredData__$7[variableName] = previousValues[variableName];
-    });
-  }
-
-  return function (callback) {
-    rewiredVariableNames.forEach(function (variableName) {
-      previousValues[variableName] = _RewiredData__$7[variableName];
-      _RewiredData__$7[variableName] = object[variableName];
-    });
-    var result = callback();
-
-    if (!!result && typeof result.then == 'function') {
-      result.then(reset).catch(reset);
-    } else {
-      reset();
-    }
-
-    return result;
-  };
-}
-
-var _typeOfOriginalExport$7 = typeof _DefaultExportValue$6 === 'undefined' ? 'undefined' : _typeof(_DefaultExportValue$6);
-
-function addNonEnumerableProperty$7(name, value) {
-  Object.defineProperty(_DefaultExportValue$6, name, {
-    value: value,
-    enumerable: false,
-    configurable: true
-  });
-}
-
-if ((_typeOfOriginalExport$7 === 'object' || _typeOfOriginalExport$7 === 'function') && Object.isExtensible(_DefaultExportValue$6)) {
-  addNonEnumerableProperty$7('__get__', _get__$7);
-  addNonEnumerableProperty$7('__GetDependency__', _get__$7);
-  addNonEnumerableProperty$7('__Rewire__', _set__$7);
-  addNonEnumerableProperty$7('__set__', _set__$7);
-  addNonEnumerableProperty$7('__reset__', _reset__$7);
-  addNonEnumerableProperty$7('__ResetDependency__', _reset__$7);
-  addNonEnumerableProperty$7('__with__', _with__$7);
-  addNonEnumerableProperty$7('__RewireAPI__', _RewireAPI__$7);
-}
-
-var _DefaultExportValue$7 = function _DefaultExportValue$7(state, action) {
-
-  switch (action.type) {
-    case _get__$8('actionTypes').INIT:
-      return action.describeMessage || _get__$8('defaultDescribeTest')(action.testFn);
-    default:
-      return state;
   }
 };
 
@@ -934,8 +925,8 @@ function _get_original__$8(variableName) {
     case 'actionTypes':
       return actionTypes;
 
-    case 'defaultDescribeTest':
-      return defaultDescribeTest;
+    case 'concat':
+      return concat;
   }
 
   return undefined;
@@ -1021,7 +1012,7 @@ var _DefaultExportValue$8 = function _DefaultExportValue$8(state, action) {
 
   switch (action.type) {
     case _get__$9('actionTypes').INIT:
-      return action.testFn;
+      return action.describeMessage || _get__$9('defaultDescribeTest')(action.testFn);
     default:
       return state;
   }
@@ -1068,6 +1059,9 @@ function _get_original__$9(variableName) {
   switch (variableName) {
     case 'actionTypes':
       return actionTypes;
+
+    case 'defaultDescribeTest':
+      return defaultDescribeTest;
   }
 
   return undefined;
@@ -1149,6 +1143,138 @@ if ((_typeOfOriginalExport$9 === 'object' || _typeOfOriginalExport$9 === 'functi
   addNonEnumerableProperty$9('__RewireAPI__', _RewireAPI__$9);
 }
 
+var _DefaultExportValue$9 = function _DefaultExportValue$9(state, action) {
+
+  switch (action.type) {
+    case _get__$10('actionTypes').INIT:
+      return action.testFn;
+    default:
+      return state;
+  }
+};
+
+var _RewiredData__$10 = Object.create(null);
+
+var INTENTIONAL_UNDEFINED$10 = '__INTENTIONAL_UNDEFINED__';
+var _RewireAPI__$10 = {};
+
+(function () {
+  function addPropertyToAPIObject(name, value) {
+    Object.defineProperty(_RewireAPI__$10, name, {
+      value: value,
+      enumerable: false,
+      configurable: true
+    });
+  }
+
+  addPropertyToAPIObject('__get__', _get__$10);
+  addPropertyToAPIObject('__GetDependency__', _get__$10);
+  addPropertyToAPIObject('__Rewire__', _set__$10);
+  addPropertyToAPIObject('__set__', _set__$10);
+  addPropertyToAPIObject('__reset__', _reset__$10);
+  addPropertyToAPIObject('__ResetDependency__', _reset__$10);
+  addPropertyToAPIObject('__with__', _with__$10);
+})();
+
+function _get__$10(variableName) {
+  if (_RewiredData__$10 === undefined || _RewiredData__$10[variableName] === undefined) {
+    return _get_original__$10(variableName);
+  } else {
+    var value = _RewiredData__$10[variableName];
+
+    if (value === INTENTIONAL_UNDEFINED$10) {
+      return undefined;
+    } else {
+      return value;
+    }
+  }
+}
+
+function _get_original__$10(variableName) {
+  switch (variableName) {
+    case 'actionTypes':
+      return actionTypes;
+  }
+
+  return undefined;
+}
+
+function _set_original__$10(variableName, _value) {
+  switch (variableName) {}
+
+  return undefined;
+}
+
+function _set__$10(variableName, value) {
+  if ((typeof variableName === 'undefined' ? 'undefined' : _typeof(variableName)) === 'object') {
+    Object.keys(variableName).forEach(function (name) {
+      _RewiredData__$10[name] = variableName[name];
+    });
+  } else {
+    if (value === undefined) {
+      _RewiredData__$10[variableName] = INTENTIONAL_UNDEFINED$10;
+    } else {
+      _RewiredData__$10[variableName] = value;
+    }
+
+    return function () {
+      _reset__$10(variableName);
+    };
+  }
+}
+
+function _reset__$10(variableName) {
+  delete _RewiredData__$10[variableName];
+}
+
+function _with__$10(object) {
+  var rewiredVariableNames = Object.keys(object);
+  var previousValues = {};
+
+  function reset() {
+    rewiredVariableNames.forEach(function (variableName) {
+      _RewiredData__$10[variableName] = previousValues[variableName];
+    });
+  }
+
+  return function (callback) {
+    rewiredVariableNames.forEach(function (variableName) {
+      previousValues[variableName] = _RewiredData__$10[variableName];
+      _RewiredData__$10[variableName] = object[variableName];
+    });
+    var result = callback();
+
+    if (!!result && typeof result.then == 'function') {
+      result.then(reset).catch(reset);
+    } else {
+      reset();
+    }
+
+    return result;
+  };
+}
+
+var _typeOfOriginalExport$10 = typeof _DefaultExportValue$9 === 'undefined' ? 'undefined' : _typeof(_DefaultExportValue$9);
+
+function addNonEnumerableProperty$10(name, value) {
+  Object.defineProperty(_DefaultExportValue$9, name, {
+    value: value,
+    enumerable: false,
+    configurable: true
+  });
+}
+
+if ((_typeOfOriginalExport$10 === 'object' || _typeOfOriginalExport$10 === 'function') && Object.isExtensible(_DefaultExportValue$9)) {
+  addNonEnumerableProperty$10('__get__', _get__$10);
+  addNonEnumerableProperty$10('__GetDependency__', _get__$10);
+  addNonEnumerableProperty$10('__Rewire__', _set__$10);
+  addNonEnumerableProperty$10('__set__', _set__$10);
+  addNonEnumerableProperty$10('__reset__', _reset__$10);
+  addNonEnumerableProperty$10('__ResetDependency__', _reset__$10);
+  addNonEnumerableProperty$10('__with__', _with__$10);
+  addNonEnumerableProperty$10('__RewireAPI__', _RewireAPI__$10);
+}
+
 var _DefaultExportValue$2 = function _DefaultExportValue$2() {
   var state = arguments.length > 0 && arguments[0] !== undefined ? arguments[0] : {};
   var action = arguments[1];
@@ -1201,16 +1327,16 @@ function _get__$4(variableName) {
 function _get_original__$4(variableName) {
   switch (variableName) {
     case 'testFunction':
-      return _DefaultExportValue$8;
+      return _DefaultExportValue$9;
 
     case 'cases':
       return _DefaultExportValue$3;
 
     case 'caseAssertions':
-      return _DefaultExportValue$6;
+      return _DefaultExportValue$7;
 
     case 'describeMessage':
-      return _DefaultExportValue$7;
+      return _DefaultExportValue$8;
   }
 
   return undefined;
@@ -1482,7 +1608,7 @@ if ((_typeOfOriginalExport$2 === 'object' || _typeOfOriginalExport$2 === 'functi
 }
 
 var describer = function describer(context, frameworkFunctions) {
-  _get__$10('executeDescribers')(_get__$10('buildDescriberDefinition')(context, frameworkFunctions));
+  _get__$11('executeDescribers')(_get__$11('buildDescriberDefinition')(context, frameworkFunctions));
 };
 
 var executeDescribers = function executeDescribers(def) {
@@ -1499,13 +1625,13 @@ var executeDescribers = function executeDescribers(def) {
           assertFn = test.assertFn;
 
       if (expectedValue) {
-        _get__$10('testExecuter')(testFn, inputParams, expectedValue);
+        _get__$11('testExecuter')(testFn, inputParams, expectedValue);
       } else if (assertFn) {
-        _get__$10('assertionExecuter')(testFn, inputParams, assertFn);
+        _get__$11('assertionExecuter')(testFn, inputParams, assertFn);
       }
     } else {
-      _get__$10('forEach')(calls, function (call) {
-        _get__$10('executeDescribers')(call);
+      _get__$11('forEach')(calls, function (call) {
+        _get__$11('executeDescribers')(call);
       });
     }
   });
@@ -1513,7 +1639,7 @@ var executeDescribers = function executeDescribers(def) {
 
 var testExecuter = function testExecuter(testFn, inputParams, expectedValue) {
   var actualVal = testFn.apply(null, inputParams);
-  _get__$10('assert').deepEqual(actualVal, expectedValue);
+  _get__$11('assert').deepEqual(actualVal, expectedValue);
 };
 
 var assertionExecuter = function assertionExecuter(testFn, inputParams, assertFn) {
@@ -1528,7 +1654,7 @@ var buildDescriberDefinition = function buildDescriberDefinition(context, framew
   return {
     func: describeFn,
     message: describeMessage,
-    calls: _get__$10('getCaseDescriberCalls')(context, frameworkFunctions)
+    calls: _get__$11('getCaseDescriberCalls')(context, frameworkFunctions)
   };
 };
 
@@ -1537,9 +1663,9 @@ var getCaseDescriberCalls = function getCaseDescriberCalls(context, frameworkFun
       cases = context.cases,
       caseAssertions = context.caseAssertions;
 
-  return _get__$10('map')(cases, function (tCase, caseIndex) {
-    var assertions = _get__$10('filter')(caseAssertions, ['caseIndex', caseIndex]);
-    return _get__$10('getCaseDescriberDef')(tCase, frameworkFunctions, testFunction, assertions);
+  return _get__$11('map')(cases, function (tCase, caseIndex) {
+    var assertions = _get__$11('filter')(caseAssertions, ['caseIndex', caseIndex]);
+    return _get__$11('getCaseDescriberDef')(tCase, frameworkFunctions, testFunction, assertions);
   });
 };
 
@@ -1550,7 +1676,7 @@ var getCaseDescriberDef = function getCaseDescriberDef(tCase, frameworkFunctions
   return {
     func: describeFn,
     message: tCase.describeMessage,
-    calls: _get__$10('getCaseItCalls')(tCase, itFn, testFn, assertions)
+    calls: _get__$11('getCaseItCalls')(tCase, itFn, testFn, assertions)
   };
 };
 
@@ -1560,7 +1686,7 @@ var getCaseItCalls = function getCaseItCalls(tCase, itFn, testFn, assertions) {
       expectedValue = tCase.expectedValue;
 
   var calls = [];
-  if (!_get__$10('isUndefined')(expectedValue)) {
+  if (!_get__$11('isUndefined')(expectedValue)) {
     calls.push({
       func: itFn,
       message: shouldMessage,
@@ -1581,191 +1707,7 @@ var getCaseItCalls = function getCaseItCalls(tCase, itFn, testFn, assertions) {
   return calls;
 };
 
-var describer$1 = _get__$10('describer');
-var _RewiredData__$10 = Object.create(null);
-
-var INTENTIONAL_UNDEFINED$10 = '__INTENTIONAL_UNDEFINED__';
-var _RewireAPI__$10 = {};
-
-(function () {
-  function addPropertyToAPIObject(name, value) {
-    Object.defineProperty(_RewireAPI__$10, name, {
-      value: value,
-      enumerable: false,
-      configurable: true
-    });
-  }
-
-  addPropertyToAPIObject('__get__', _get__$10);
-  addPropertyToAPIObject('__GetDependency__', _get__$10);
-  addPropertyToAPIObject('__Rewire__', _set__$10);
-  addPropertyToAPIObject('__set__', _set__$10);
-  addPropertyToAPIObject('__reset__', _reset__$10);
-  addPropertyToAPIObject('__ResetDependency__', _reset__$10);
-  addPropertyToAPIObject('__with__', _with__$10);
-})();
-
-function _get__$10(variableName) {
-  if (_RewiredData__$10 === undefined || _RewiredData__$10[variableName] === undefined) {
-    return _get_original__$10(variableName);
-  } else {
-    var value = _RewiredData__$10[variableName];
-
-    if (value === INTENTIONAL_UNDEFINED$10) {
-      return undefined;
-    } else {
-      return value;
-    }
-  }
-}
-
-function _get_original__$10(variableName) {
-  switch (variableName) {
-    case 'executeDescribers':
-      return executeDescribers;
-
-    case 'buildDescriberDefinition':
-      return buildDescriberDefinition;
-
-    case 'testExecuter':
-      return testExecuter;
-
-    case 'assertionExecuter':
-      return assertionExecuter;
-
-    case 'forEach':
-      return forEach;
-
-    case 'assert':
-      return assert;
-
-    case 'getCaseDescriberCalls':
-      return getCaseDescriberCalls;
-
-    case 'map':
-      return map;
-
-    case 'filter':
-      return filter;
-
-    case 'getCaseDescriberDef':
-      return getCaseDescriberDef;
-
-    case 'getCaseItCalls':
-      return getCaseItCalls;
-
-    case 'isUndefined':
-      return isUndefined;
-
-    case 'describer':
-      return describer;
-  }
-
-  return undefined;
-}
-
-function _set_original__$10(variableName, _value) {
-  switch (variableName) {}
-
-  return undefined;
-}
-
-function _set__$10(variableName, value) {
-  if ((typeof variableName === 'undefined' ? 'undefined' : _typeof(variableName)) === 'object') {
-    Object.keys(variableName).forEach(function (name) {
-      _RewiredData__$10[name] = variableName[name];
-    });
-  } else {
-    if (value === undefined) {
-      _RewiredData__$10[variableName] = INTENTIONAL_UNDEFINED$10;
-    } else {
-      _RewiredData__$10[variableName] = value;
-    }
-
-    return function () {
-      _reset__$10(variableName);
-    };
-  }
-}
-
-function _reset__$10(variableName) {
-  delete _RewiredData__$10[variableName];
-}
-
-function _with__$10(object) {
-  var rewiredVariableNames = Object.keys(object);
-  var previousValues = {};
-
-  function reset() {
-    rewiredVariableNames.forEach(function (variableName) {
-      _RewiredData__$10[variableName] = previousValues[variableName];
-    });
-  }
-
-  return function (callback) {
-    rewiredVariableNames.forEach(function (variableName) {
-      previousValues[variableName] = _RewiredData__$10[variableName];
-      _RewiredData__$10[variableName] = object[variableName];
-    });
-    var result = callback();
-
-    if (!!result && typeof result.then == 'function') {
-      result.then(reset).catch(reset);
-    } else {
-      reset();
-    }
-
-    return result;
-  };
-}
-
-var _typeOfOriginalExport$10 = typeof describer === 'undefined' ? 'undefined' : _typeof(describer);
-
-function addNonEnumerableProperty$10(name, value) {
-  Object.defineProperty(describer, name, {
-    value: value,
-    enumerable: false,
-    configurable: true
-  });
-}
-
-if ((_typeOfOriginalExport$10 === 'object' || _typeOfOriginalExport$10 === 'function') && Object.isExtensible(describer)) {
-  addNonEnumerableProperty$10('__get__', _get__$10);
-  addNonEnumerableProperty$10('__GetDependency__', _get__$10);
-  addNonEnumerableProperty$10('__Rewire__', _set__$10);
-  addNonEnumerableProperty$10('__set__', _set__$10);
-  addNonEnumerableProperty$10('__reset__', _reset__$10);
-  addNonEnumerableProperty$10('__ResetDependency__', _reset__$10);
-  addNonEnumerableProperty$10('__with__', _with__$10);
-  addNonEnumerableProperty$10('__RewireAPI__', _RewireAPI__$10);
-}
-
-var newTestCase = function newTestCase(caseIndex) {
-  return {
-    ___caseIndex: caseIndex,
-    expect: _get__$11('testCaseFn')(caseIndex, 'setCaseExpectedValue', 'expectedValue'),
-    describe: _get__$11('testCaseFn')(caseIndex, 'setCaseDescribeMessage', 'message'),
-    should: _get__$11('testCaseFn')(caseIndex, 'setCaseShouldMessage', 'message'),
-    assert: _get__$11('testCaseFn')(caseIndex, 'addCaseAssertion', ['message', 'assertFn'])
-  };
-};
-
-var testCaseFn = function testCaseFn(caseIndex, action, paramNames) {
-  paramNames = _get__$11('isArray')(paramNames) ? paramNames : [paramNames];
-  return function () {
-    for (var _len = arguments.length, params = Array(_len), _key = 0; _key < _len; _key++) {
-      params[_key] = arguments[_key];
-    }
-
-    var actionArgs = { caseIndex: caseIndex };
-    paramNames.forEach(function (n, i) {
-      actionArgs[n] = params[i];
-    });
-    _get__$11('actions')[action](actionArgs);
-    return _get__$11('newTestCase')(caseIndex);
-  };
-};
-
+var describer$1 = _get__$11('describer');
 var _RewiredData__$11 = Object.create(null);
 
 var INTENTIONAL_UNDEFINED$11 = '__INTENTIONAL_UNDEFINED__';
@@ -1805,17 +1747,44 @@ function _get__$11(variableName) {
 
 function _get_original__$11(variableName) {
   switch (variableName) {
-    case 'testCaseFn':
-      return testCaseFn;
+    case 'executeDescribers':
+      return executeDescribers;
 
-    case 'isArray':
-      return isArray;
+    case 'buildDescriberDefinition':
+      return buildDescriberDefinition;
 
-    case 'actions':
-      return actions$1;
+    case 'testExecuter':
+      return testExecuter;
 
-    case 'newTestCase':
-      return newTestCase;
+    case 'assertionExecuter':
+      return assertionExecuter;
+
+    case 'forEach':
+      return forEach;
+
+    case 'assert':
+      return assert;
+
+    case 'getCaseDescriberCalls':
+      return getCaseDescriberCalls;
+
+    case 'map':
+      return map;
+
+    case 'filter':
+      return filter;
+
+    case 'getCaseDescriberDef':
+      return getCaseDescriberDef;
+
+    case 'getCaseItCalls':
+      return getCaseItCalls;
+
+    case 'isUndefined':
+      return isUndefined;
+
+    case 'describer':
+      return describer;
   }
 
   return undefined;
@@ -1876,17 +1845,17 @@ function _with__$11(object) {
   };
 }
 
-var _typeOfOriginalExport$11 = typeof newTestCase === 'undefined' ? 'undefined' : _typeof(newTestCase);
+var _typeOfOriginalExport$11 = typeof describer === 'undefined' ? 'undefined' : _typeof(describer);
 
 function addNonEnumerableProperty$11(name, value) {
-  Object.defineProperty(newTestCase, name, {
+  Object.defineProperty(describer, name, {
     value: value,
     enumerable: false,
     configurable: true
   });
 }
 
-if ((_typeOfOriginalExport$11 === 'object' || _typeOfOriginalExport$11 === 'function') && Object.isExtensible(newTestCase)) {
+if ((_typeOfOriginalExport$11 === 'object' || _typeOfOriginalExport$11 === 'function') && Object.isExtensible(describer)) {
   addNonEnumerableProperty$11('__get__', _get__$11);
   addNonEnumerableProperty$11('__GetDependency__', _get__$11);
   addNonEnumerableProperty$11('__Rewire__', _set__$11);
@@ -1895,6 +1864,449 @@ if ((_typeOfOriginalExport$11 === 'object' || _typeOfOriginalExport$11 === 'func
   addNonEnumerableProperty$11('__ResetDependency__', _reset__$11);
   addNonEnumerableProperty$11('__with__', _with__$11);
   addNonEnumerableProperty$11('__RewireAPI__', _RewireAPI__$11);
+}
+
+var newTestCase = function newTestCase(caseIndex) {
+  return {
+    ___caseIndex: caseIndex,
+    expect: _get__$12('testCaseFn')(caseIndex, 'setCaseExpectedValue', 'expectedValue'),
+    describe: _get__$12('testCaseFn')(caseIndex, 'setCaseDescribeMessage', 'message'),
+    should: _get__$12('testCaseFn')(caseIndex, 'setCaseShouldMessage', 'message'),
+    assert: _get__$12('testCaseFn')(caseIndex, 'addCaseAssertion', ['message', 'assertFn'])
+  };
+};
+
+var testCaseFn = function testCaseFn(caseIndex, action, paramNames) {
+  paramNames = _get__$12('isArray')(paramNames) ? paramNames : [paramNames];
+  return function () {
+    for (var _len = arguments.length, params = Array(_len), _key = 0; _key < _len; _key++) {
+      params[_key] = arguments[_key];
+    }
+
+    var actionArgs = { caseIndex: caseIndex };
+    paramNames.forEach(function (n, i) {
+      actionArgs[n] = params[i];
+    });
+    _get__$12('actions')[action](actionArgs);
+    return _get__$12('newTestCase')(caseIndex);
+  };
+};
+
+var _RewiredData__$12 = Object.create(null);
+
+var INTENTIONAL_UNDEFINED$12 = '__INTENTIONAL_UNDEFINED__';
+var _RewireAPI__$12 = {};
+
+(function () {
+  function addPropertyToAPIObject(name, value) {
+    Object.defineProperty(_RewireAPI__$12, name, {
+      value: value,
+      enumerable: false,
+      configurable: true
+    });
+  }
+
+  addPropertyToAPIObject('__get__', _get__$12);
+  addPropertyToAPIObject('__GetDependency__', _get__$12);
+  addPropertyToAPIObject('__Rewire__', _set__$12);
+  addPropertyToAPIObject('__set__', _set__$12);
+  addPropertyToAPIObject('__reset__', _reset__$12);
+  addPropertyToAPIObject('__ResetDependency__', _reset__$12);
+  addPropertyToAPIObject('__with__', _with__$12);
+})();
+
+function _get__$12(variableName) {
+  if (_RewiredData__$12 === undefined || _RewiredData__$12[variableName] === undefined) {
+    return _get_original__$12(variableName);
+  } else {
+    var value = _RewiredData__$12[variableName];
+
+    if (value === INTENTIONAL_UNDEFINED$12) {
+      return undefined;
+    } else {
+      return value;
+    }
+  }
+}
+
+function _get_original__$12(variableName) {
+  switch (variableName) {
+    case 'testCaseFn':
+      return testCaseFn;
+
+    case 'isArray':
+      return isArray;
+
+    case 'actions':
+      return actions$1;
+
+    case 'newTestCase':
+      return newTestCase;
+  }
+
+  return undefined;
+}
+
+function _set_original__$12(variableName, _value) {
+  switch (variableName) {}
+
+  return undefined;
+}
+
+function _set__$12(variableName, value) {
+  if ((typeof variableName === 'undefined' ? 'undefined' : _typeof(variableName)) === 'object') {
+    Object.keys(variableName).forEach(function (name) {
+      _RewiredData__$12[name] = variableName[name];
+    });
+  } else {
+    if (value === undefined) {
+      _RewiredData__$12[variableName] = INTENTIONAL_UNDEFINED$12;
+    } else {
+      _RewiredData__$12[variableName] = value;
+    }
+
+    return function () {
+      _reset__$12(variableName);
+    };
+  }
+}
+
+function _reset__$12(variableName) {
+  delete _RewiredData__$12[variableName];
+}
+
+function _with__$12(object) {
+  var rewiredVariableNames = Object.keys(object);
+  var previousValues = {};
+
+  function reset() {
+    rewiredVariableNames.forEach(function (variableName) {
+      _RewiredData__$12[variableName] = previousValues[variableName];
+    });
+  }
+
+  return function (callback) {
+    rewiredVariableNames.forEach(function (variableName) {
+      previousValues[variableName] = _RewiredData__$12[variableName];
+      _RewiredData__$12[variableName] = object[variableName];
+    });
+    var result = callback();
+
+    if (!!result && typeof result.then == 'function') {
+      result.then(reset).catch(reset);
+    } else {
+      reset();
+    }
+
+    return result;
+  };
+}
+
+var _typeOfOriginalExport$12 = typeof newTestCase === 'undefined' ? 'undefined' : _typeof(newTestCase);
+
+function addNonEnumerableProperty$12(name, value) {
+  Object.defineProperty(newTestCase, name, {
+    value: value,
+    enumerable: false,
+    configurable: true
+  });
+}
+
+if ((_typeOfOriginalExport$12 === 'object' || _typeOfOriginalExport$12 === 'function') && Object.isExtensible(newTestCase)) {
+  addNonEnumerableProperty$12('__get__', _get__$12);
+  addNonEnumerableProperty$12('__GetDependency__', _get__$12);
+  addNonEnumerableProperty$12('__Rewire__', _set__$12);
+  addNonEnumerableProperty$12('__set__', _set__$12);
+  addNonEnumerableProperty$12('__reset__', _reset__$12);
+  addNonEnumerableProperty$12('__ResetDependency__', _reset__$12);
+  addNonEnumerableProperty$12('__with__', _with__$12);
+  addNonEnumerableProperty$12('__RewireAPI__', _RewireAPI__$12);
+}
+
+var _DefaultExportValue$10 = function _DefaultExportValue$10(objectArgs) {
+  if (_get__$14('isArray')(objectArgs[0])) {
+    return objectArgs[0];
+  } else {
+    return objectArgs;
+  }
+};
+
+var _RewiredData__$14 = Object.create(null);
+
+var INTENTIONAL_UNDEFINED$14 = '__INTENTIONAL_UNDEFINED__';
+var _RewireAPI__$14 = {};
+
+(function () {
+  function addPropertyToAPIObject(name, value) {
+    Object.defineProperty(_RewireAPI__$14, name, {
+      value: value,
+      enumerable: false,
+      configurable: true
+    });
+  }
+
+  addPropertyToAPIObject('__get__', _get__$14);
+  addPropertyToAPIObject('__GetDependency__', _get__$14);
+  addPropertyToAPIObject('__Rewire__', _set__$14);
+  addPropertyToAPIObject('__set__', _set__$14);
+  addPropertyToAPIObject('__reset__', _reset__$14);
+  addPropertyToAPIObject('__ResetDependency__', _reset__$14);
+  addPropertyToAPIObject('__with__', _with__$14);
+})();
+
+function _get__$14(variableName) {
+  if (_RewiredData__$14 === undefined || _RewiredData__$14[variableName] === undefined) {
+    return _get_original__$14(variableName);
+  } else {
+    var value = _RewiredData__$14[variableName];
+
+    if (value === INTENTIONAL_UNDEFINED$14) {
+      return undefined;
+    } else {
+      return value;
+    }
+  }
+}
+
+function _get_original__$14(variableName) {
+  switch (variableName) {
+    case 'isArray':
+      return isArray;
+  }
+
+  return undefined;
+}
+
+function _set_original__$14(variableName, _value) {
+  switch (variableName) {}
+
+  return undefined;
+}
+
+function _set__$14(variableName, value) {
+  if ((typeof variableName === 'undefined' ? 'undefined' : _typeof(variableName)) === 'object') {
+    Object.keys(variableName).forEach(function (name) {
+      _RewiredData__$14[name] = variableName[name];
+    });
+  } else {
+    if (value === undefined) {
+      _RewiredData__$14[variableName] = INTENTIONAL_UNDEFINED$14;
+    } else {
+      _RewiredData__$14[variableName] = value;
+    }
+
+    return function () {
+      _reset__$14(variableName);
+    };
+  }
+}
+
+function _reset__$14(variableName) {
+  delete _RewiredData__$14[variableName];
+}
+
+function _with__$14(object) {
+  var rewiredVariableNames = Object.keys(object);
+  var previousValues = {};
+
+  function reset() {
+    rewiredVariableNames.forEach(function (variableName) {
+      _RewiredData__$14[variableName] = previousValues[variableName];
+    });
+  }
+
+  return function (callback) {
+    rewiredVariableNames.forEach(function (variableName) {
+      previousValues[variableName] = _RewiredData__$14[variableName];
+      _RewiredData__$14[variableName] = object[variableName];
+    });
+    var result = callback();
+
+    if (!!result && typeof result.then == 'function') {
+      result.then(reset).catch(reset);
+    } else {
+      reset();
+    }
+
+    return result;
+  };
+}
+
+var _typeOfOriginalExport$14 = typeof _DefaultExportValue$10 === 'undefined' ? 'undefined' : _typeof(_DefaultExportValue$10);
+
+function addNonEnumerableProperty$14(name, value) {
+  Object.defineProperty(_DefaultExportValue$10, name, {
+    value: value,
+    enumerable: false,
+    configurable: true
+  });
+}
+
+if ((_typeOfOriginalExport$14 === 'object' || _typeOfOriginalExport$14 === 'function') && Object.isExtensible(_DefaultExportValue$10)) {
+  addNonEnumerableProperty$14('__get__', _get__$14);
+  addNonEnumerableProperty$14('__GetDependency__', _get__$14);
+  addNonEnumerableProperty$14('__Rewire__', _set__$14);
+  addNonEnumerableProperty$14('__set__', _set__$14);
+  addNonEnumerableProperty$14('__reset__', _reset__$14);
+  addNonEnumerableProperty$14('__ResetDependency__', _reset__$14);
+  addNonEnumerableProperty$14('__with__', _with__$14);
+  addNonEnumerableProperty$14('__RewireAPI__', _RewireAPI__$14);
+}
+
+var newTestCaseCollection = function newTestCaseCollection(testCases) {
+
+  testCases = _get__$13('objectArgsToArray')(testCases);
+
+  return {
+    expect: _get__$13('collectionFn')(testCases, 'expect'),
+    describe: _get__$13('collectionFn')(testCases, 'describe'),
+    should: _get__$13('collectionFn')(testCases, 'should'),
+    assert: _get__$13('collectionFn')(testCases, 'assert')
+  };
+};
+
+var collectionFn = function collectionFn(testCases, fnName) {
+  return function () {
+    for (var _len = arguments.length, args = Array(_len), _key = 0; _key < _len; _key++) {
+      args[_key] = arguments[_key];
+    }
+
+    _get__$13('forEach')(testCases, function (testCase) {
+      testCase[fnName].apply(null, args);
+    });
+    return _get__$13('newTestCaseCollection')(testCases);
+  };
+};
+
+var _RewiredData__$13 = Object.create(null);
+
+var INTENTIONAL_UNDEFINED$13 = '__INTENTIONAL_UNDEFINED__';
+var _RewireAPI__$13 = {};
+
+(function () {
+  function addPropertyToAPIObject(name, value) {
+    Object.defineProperty(_RewireAPI__$13, name, {
+      value: value,
+      enumerable: false,
+      configurable: true
+    });
+  }
+
+  addPropertyToAPIObject('__get__', _get__$13);
+  addPropertyToAPIObject('__GetDependency__', _get__$13);
+  addPropertyToAPIObject('__Rewire__', _set__$13);
+  addPropertyToAPIObject('__set__', _set__$13);
+  addPropertyToAPIObject('__reset__', _reset__$13);
+  addPropertyToAPIObject('__ResetDependency__', _reset__$13);
+  addPropertyToAPIObject('__with__', _with__$13);
+})();
+
+function _get__$13(variableName) {
+  if (_RewiredData__$13 === undefined || _RewiredData__$13[variableName] === undefined) {
+    return _get_original__$13(variableName);
+  } else {
+    var value = _RewiredData__$13[variableName];
+
+    if (value === INTENTIONAL_UNDEFINED$13) {
+      return undefined;
+    } else {
+      return value;
+    }
+  }
+}
+
+function _get_original__$13(variableName) {
+  switch (variableName) {
+    case 'objectArgsToArray':
+      return _DefaultExportValue$10;
+
+    case 'collectionFn':
+      return collectionFn;
+
+    case 'forEach':
+      return forEach;
+
+    case 'newTestCaseCollection':
+      return newTestCaseCollection;
+  }
+
+  return undefined;
+}
+
+function _set_original__$13(variableName, _value) {
+  switch (variableName) {}
+
+  return undefined;
+}
+
+function _set__$13(variableName, value) {
+  if ((typeof variableName === 'undefined' ? 'undefined' : _typeof(variableName)) === 'object') {
+    Object.keys(variableName).forEach(function (name) {
+      _RewiredData__$13[name] = variableName[name];
+    });
+  } else {
+    if (value === undefined) {
+      _RewiredData__$13[variableName] = INTENTIONAL_UNDEFINED$13;
+    } else {
+      _RewiredData__$13[variableName] = value;
+    }
+
+    return function () {
+      _reset__$13(variableName);
+    };
+  }
+}
+
+function _reset__$13(variableName) {
+  delete _RewiredData__$13[variableName];
+}
+
+function _with__$13(object) {
+  var rewiredVariableNames = Object.keys(object);
+  var previousValues = {};
+
+  function reset() {
+    rewiredVariableNames.forEach(function (variableName) {
+      _RewiredData__$13[variableName] = previousValues[variableName];
+    });
+  }
+
+  return function (callback) {
+    rewiredVariableNames.forEach(function (variableName) {
+      previousValues[variableName] = _RewiredData__$13[variableName];
+      _RewiredData__$13[variableName] = object[variableName];
+    });
+    var result = callback();
+
+    if (!!result && typeof result.then == 'function') {
+      result.then(reset).catch(reset);
+    } else {
+      reset();
+    }
+
+    return result;
+  };
+}
+
+var _typeOfOriginalExport$13 = typeof newTestCaseCollection === 'undefined' ? 'undefined' : _typeof(newTestCaseCollection);
+
+function addNonEnumerableProperty$13(name, value) {
+  Object.defineProperty(newTestCaseCollection, name, {
+    value: value,
+    enumerable: false,
+    configurable: true
+  });
+}
+
+if ((_typeOfOriginalExport$13 === 'object' || _typeOfOriginalExport$13 === 'function') && Object.isExtensible(newTestCaseCollection)) {
+  addNonEnumerableProperty$13('__get__', _get__$13);
+  addNonEnumerableProperty$13('__GetDependency__', _get__$13);
+  addNonEnumerableProperty$13('__Rewire__', _set__$13);
+  addNonEnumerableProperty$13('__set__', _set__$13);
+  addNonEnumerableProperty$13('__reset__', _reset__$13);
+  addNonEnumerableProperty$13('__ResetDependency__', _reset__$13);
+  addNonEnumerableProperty$13('__with__', _with__$13);
+  addNonEnumerableProperty$13('__RewireAPI__', _RewireAPI__$13);
 }
 
 var frameworkFns = {
@@ -1924,7 +2336,15 @@ var given = function given() {
   return _get__('newTestCase')(caseIndex);
 };
 
-var _DefaultExportValue = { test: _get__('test'), given: _get__('given') };
+var forCases = function forCases() {
+  for (var _len2 = arguments.length, testCases = Array(_len2), _key2 = 0; _key2 < _len2; _key2++) {
+    testCases[_key2] = arguments[_key2];
+  }
+
+  return _get__('newTestCaseCollection')(testCases);
+};
+
+var _DefaultExportValue = { test: _get__('test'), given: _get__('given'), forCases: _get__('forCases') };
 var _RewiredData__ = Object.create(null);
 
 var INTENTIONAL_UNDEFINED = '__INTENTIONAL_UNDEFINED__';
@@ -1985,11 +2405,17 @@ function _get_original__(variableName) {
     case 'newTestCase':
       return newTestCase;
 
+    case 'newTestCaseCollection':
+      return newTestCaseCollection;
+
     case 'test':
       return test;
 
     case 'given':
       return given;
+
+    case 'forCases':
+      return forCases;
   }
 
   return undefined;
@@ -2082,5 +2508,5 @@ if ((_typeOfOriginalExport === 'object' || _typeOfOriginalExport === 'function')
   addNonEnumerableProperty('__RewireAPI__', _RewireAPI__);
 }
 
-export { test, given, _get__ as __get__, _get__ as __GetDependency__, _set__ as __Rewire__, _set__ as __set__, _reset__ as __ResetDependency__, _RewireAPI__ as __RewireAPI__ };export default _DefaultExportValue;
+export { test, given, forCases, _get__ as __get__, _get__ as __GetDependency__, _set__ as __Rewire__, _set__ as __set__, _reset__ as __ResetDependency__, _RewireAPI__ as __RewireAPI__ };export default _DefaultExportValue;
 //# sourceMappingURL=sazerac.js.map

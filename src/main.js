@@ -2,6 +2,7 @@ import lastCaseIndex from './lastCaseIndex'
 import { actions, listener } from './reducers/actions'
 import describer from './describer'
 import { newTestCase } from './testCase'
+import { newTestCaseCollection } from './testCaseCollection'
 
 const frameworkFns = {
   describeFn: describe,
@@ -24,5 +25,9 @@ const given = (...args) => {
   return newTestCase(caseIndex)
 }
 
-export { test, given }
-export default { test, given }
+const forCases = (...testCases) => {
+  return newTestCaseCollection(testCases)
+}
+
+export { test, given, forCases }
+export default { test, given, forCases }

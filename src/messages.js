@@ -1,4 +1,5 @@
-import { isString, isFunction } from 'lodash'
+import { isFunction } from 'lodash'
+import objectToMessageString from './objectToMessageString'
 
 const defaultDescribeTest = (fn) => {
   if (isFunction(fn) && fn.name) {
@@ -9,7 +10,7 @@ const defaultDescribeTest = (fn) => {
 const defaultDescribeCase = (args = []) => {
   if (args.length > 0) {
     const formattedArgs = args.map((arg) => {
-      return formatString(arg)
+      return objectToMessageString(arg)
     })
     return 'when given ' + formattedArgs.join(' and ')
   } else {
@@ -18,12 +19,7 @@ const defaultDescribeCase = (args = []) => {
 }
 
 const defaultShouldMessage = (expectedValue) => {
-  return 'should return ' + formatString(expectedValue)
-}
-
-const formatString = (str) => {
-  if (isString(str)) return "'" + str + "'"
-  return str
+  return 'should return ' + objectToMessageString(expectedValue)
 }
 
 export default { defaultDescribeTest, defaultDescribeCase, defaultShouldMessage }

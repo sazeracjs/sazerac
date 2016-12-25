@@ -19,7 +19,7 @@ const runFuncTest = (testFn, testFnName, cases) => {
         if(before) beforeEach(() => { before() })
         if(after) afterEach(() => { after() })
         it(should || 'should return ' + expect, () => {
-          assert.equal(testFn.apply(null, args), expect)
+          assert.deepEqual(testFn.apply(null, args), expect)
         })
       })
     })
