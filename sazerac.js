@@ -374,12 +374,52 @@ var getCaseItCalls = function getCaseItCalls(tCase, itFn, testFn, assertions) {
   return calls;
 };
 
+/** Creates a new test case object */
 var newTestCase = function newTestCase(caseIndex) {
   return {
     ___caseIndex: caseIndex,
+
+    /**
+     * Defines the expected return value for this test case. 
+     * Uses http://chaijs.com, assert.deepEqual() to assert
+     * that the expected return value equals the actual
+     * return value.
+     * 
+     * @param {object} expectedValue - The expected return value
+     *
+     * @returns {object} A test case object
+     */
     expect: testCaseFn(caseIndex, 'setCaseExpectedValue', 'expectedValue'),
+
+    /**
+     * Defines the "describe" message for this test case.
+     * 
+     * @param {string} message
+     *
+     * @returns {object} A test case object
+     */
     describe: testCaseFn(caseIndex, 'setCaseDescribeMessage', 'message'),
+
+    /**
+     * Defines the "should" message for this test case. This is
+     * passed to the `it` function when executing the test.
+     * 
+     * @param {string} message
+     *
+     * @returns {object} A test case object
+     */
     should: testCaseFn(caseIndex, 'setCaseShouldMessage', 'message'),
+
+    /**
+     * Defines a custom assertion function for this test case
+     * 
+     * @param {string} message - A message describing the assertion
+     * @param {function} assertFn - The custom assert function. Receives
+     *                              the actual return value of the function
+     *                              being tested as its only argument
+     *
+     * @returns {object} A test case object
+     */
     assert: testCaseFn(caseIndex, 'addCaseAssertion', ['message', 'assertFn'])
   };
 };
@@ -413,9 +453,46 @@ var newTestCaseCollection = function newTestCaseCollection(testCases) {
   testCases = objectArgsToArray(testCases);
 
   return {
+
+    /**
+     * Defines the expected return value for all test cases in
+     * the collection. Calls expect() on each test case.
+     * 
+     * @param {object} expectedValue - The expected return value
+     *
+     * @returns {object} A test case collection object
+     */
     expect: collectionFn(testCases, 'expect'),
+
+    /**
+     * Defines the "describe" message for all test cases in the
+     * collection. Calls describe() on each test case.
+     * 
+     * @param {string} message
+     *
+     * @returns {object} A test case collection object
+     */
     describe: collectionFn(testCases, 'describe'),
+
+    /**
+     * Defines the "should" message for all test cases in the
+     * collection. Calls should() on each test case.
+     * 
+     * @param {string} message
+     *
+     * @returns {object} A test case collection object
+     */
     should: collectionFn(testCases, 'should'),
+
+    /**
+     * Defines a custom assertion function for all test cases in
+     * the collection. Calls assert() on each test case.
+     * 
+     * @param {string} message - A message describing the assertion
+     * @param {function} assertFn - The custom assert function
+     *
+     * @returns {object} A test case collection object
+     */
     assert: collectionFn(testCases, 'assert')
   };
 };
@@ -444,6 +521,12 @@ listener(function (state) {
   _state = state;
 });
 
+/**
+ * Defines test cases for a function
+ *
+ * @param {function} testFn - The function to test
+ * @param {function} definerFn - The function that defines test cases for `testFn`
+ */
 var test = function test(testFn, definerFn) {
   if (!isFunction(testFn)) throw new Error(errors.expectedFunction('test', testFn));
   if (!isFunction(definerFn)) throw new Error(errors.expectedFunction('test', definerFn));
@@ -452,6 +535,14 @@ var test = function test(testFn, definerFn) {
   describer(_state, frameworkFns);
 };
 
+/**
+ * Defines the given functional arguments for a test case
+ *
+ * @param {...object} args - The arguments that will be passed to the function being
+ *                           tested
+ *
+ * @returns {object} A test case object
+ */
 var given = function given() {
   for (var _len = arguments.length, args = Array(_len), _key = 0; _key < _len; _key++) {
     args[_key] = arguments[_key];
@@ -462,6 +553,14 @@ var given = function given() {
   return newTestCase(caseIndex);
 };
 
+/**
+ * Groups multiple test case objects into a collection
+ *
+ * @param {...object} testCases - The test case objects to group. Accepts an array or 
+ *                                a series of arguments
+ *
+ * @returns {object} A test case collection object
+ */
 var forCases = function forCases() {
   for (var _len2 = arguments.length, testCases = Array(_len2), _key2 = 0; _key2 < _len2; _key2++) {
     testCases[_key2] = arguments[_key2];
