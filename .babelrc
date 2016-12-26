@@ -1,4 +1,9 @@
 {
   "presets": ["es2015"],
-  "plugins": ["syntax-object-rest-spread", "transform-object-rest-spread", "rewire"]
+  "plugins": ["syntax-object-rest-spread", "transform-object-rest-spread"],
+  "env": {
+    "test": {
+      "plugins": ["syntax-object-rest-spread", "transform-object-rest-spread", "rewire"]
+    }
+  }
 }
