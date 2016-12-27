@@ -1,4 +1,5 @@
 import { at, concat, filter, forEach, isArray, isFunction, isObject, isString, isUndefined, map, toArray } from 'lodash';
+import { vsprintf } from 'sprintf-js';
 import { assert } from 'chai';
 
 var objectToMessageString = (function (o) {
@@ -169,16 +170,21 @@ var cases = (function () {
 
     case actionTypes.SET_CASE_EXPECTED_VALUE:
       var shouldMsg = getCaseProp(state, caseIndex, 'shouldMessage');
+      var tst = shouldMsg ? vsprintf(shouldMsg, [action.expectedValue]) : defaultShouldMessage(action.expectedValue);
       return setCaseProps(state, caseIndex, {
         expectedValue: action.expectedValue,
-        shouldMessage: shouldMsg ? shouldMsg : defaultShouldMessage(action.expectedValue)
+        shouldMessage: shouldMsg ? vsprintf(shouldMsg, [action.expectedValue]) : defaultShouldMessage(action.expectedValue)
       });
 
     case actionTypes.SET_CASE_DESCRIBE_MESSAGE:
-      return setCaseProps(state, caseIndex, { describeMessage: action.message });
+      var args = getCaseProp(state, caseIndex, 'inputParams');
+      var describeMsg = args && args.length > 0 ? vsprintf(action.message, args) : action.message;
+      return setCaseProps(state, caseIndex, { describeMessage: describeMsg });
 
     case actionTypes.SET_CASE_SHOULD_MESSAGE:
-      return setCaseProps(state, caseIndex, { shouldMessage: action.message });
+      var expectedVal = getCaseProp(state, caseIndex, 'expectedValue');
+      var msg = !isUndefined(expectedVal) ? vsprintf(action.message, [expectedVal]) : action.message;
+      return setCaseProps(state, caseIndex, { shouldMessage: msg });
 
     case actionTypes.INIT:
       return [];

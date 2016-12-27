@@ -107,6 +107,26 @@ runTests([
           (cases) => { assert.deepPropertyVal(cases, '[0].shouldMessage', 'mock_should_msg') }
         ]
       ]
+    ],
+
+    [
+      'when given a case with shouldMessage set, should format the message with expectedValue',
+      [
+        [ { shouldMessage: 'should return %s' } ],
+        { type: 'SET_CASE_EXPECTED_VALUE', caseIndex: 0, expectedValue: 'mock_expected_val' }
+      ],
+      [
+        [
+          'should not change from the original shouldMessage value',
+          (cases) => { 
+            assert.deepPropertyVal(
+              cases, 
+              '[0].shouldMessage',
+              'should return mock_expected_val'
+            ) 
+          }
+        ]
+      ]
     ]
   ]]
 ])
@@ -141,7 +161,7 @@ runTests([
       ],
       [
         [
-          'should return cases with describeMessage formatted wtih inputParams',
+          'should return cases with describeMessage formatted with inputParams',
           (cases) => {
             assert.deepPropertyVal(cases, '[0].describeMessage', 'given one and two')
           }
@@ -170,6 +190,38 @@ runTests([
         [
           'should return cases without expected value added to the case not at caseIndex',
           (cases) => { assert.notDeepProperty(cases, '[0].shouldMessage') }
+        ]
+      ]
+    ],
+
+    [
+      'when given a formatted action.message and a case with expectedValue',
+      [
+        [ { expectedValue: 'mock_val' } ],
+        { type: 'SET_CASE_SHOULD_MESSAGE', caseIndex: 0, message: 'should return %s' }
+      ],
+      [
+        [
+          'should return cases with shouldMessage formatted with expectedValue',
+          (cases) => {
+            assert.deepPropertyVal(cases, '[0].shouldMessage', 'should return mock_val')
+          }
+        ]
+      ]
+    ],
+
+    [
+      'when given a formatted action.message and a case without expectedValue',
+      [
+        [ { } ],
+        { type: 'SET_CASE_SHOULD_MESSAGE', caseIndex: 0, message: 'should return %s' }
+      ],
+      [
+        [
+          'should return cases with unformatted shouldMessage',
+          (cases) => {
+            assert.deepPropertyVal(cases, '[0].shouldMessage', 'should return %s')
+          }
         ]
       ]
     ]

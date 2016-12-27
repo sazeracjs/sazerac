@@ -1,4 +1,4 @@
-import { concat, map, toArray, at } from 'lodash'
+import { concat, map, toArray, at, isUndefined } from 'lodash'
 import { vsprintf } from 'sprintf-js'
 import { actionTypes } from './actions'
 import { defaultDescribeCase, defaultShouldMessage } from '../messages'
@@ -37,18 +37,27 @@ export default (state = [], action) => {
 
     case actionTypes.SET_CASE_EXPECTED_VALUE:
       const shouldMsg = getCaseProp(state, caseIndex, 'shouldMessage')
+      let tst = shouldMsg ? 
+            vsprintf(shouldMsg, [action.expectedValue]) :
+              defaultShouldMessage(action.expectedValue)
       return setCaseProps(state, caseIndex, {
           expectedValue: action.expectedValue,
-          shouldMessage: shouldMsg ? shouldMsg : defaultShouldMessage(action.expectedValue)
+          shouldMessage: shouldMsg ? 
+            vsprintf(shouldMsg, [action.expectedValue]) :
+              defaultShouldMessage(action.expectedValue)
       })
 
     case actionTypes.SET_CASE_DESCRIBE_MESSAGE:
       const args = getCaseProp(state, caseIndex, 'inputParams')
-      const msg = args && args.length > 0 ? vsprintf(action.message, args) : action.message
-      return setCaseProps(state, caseIndex, { describeMessage: msg })
+      const describeMsg = args && args.length > 0 ? 
+              vsprintf(action.message, args) : action.message
+      return setCaseProps(state, caseIndex, { describeMessage: describeMsg })
 
     case actionTypes.SET_CASE_SHOULD_MESSAGE:
-      return setCaseProps(state, caseIndex, { shouldMessage: action.message })
+      const expectedVal = getCaseProp(state, caseIndex, 'expectedValue')
+      const msg = !isUndefined(expectedVal) ?
+                    vsprintf(action.message, [expectedVal]) : action.message
+      return setCaseProps(state, caseIndex, { shouldMessage: msg })
 
     case actionTypes.INIT:
       return []
