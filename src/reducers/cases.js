@@ -1,4 +1,5 @@
 import { concat, map, toArray, at } from 'lodash'
+import { vsprintf } from 'sprintf-js'
 import { actionTypes } from './actions'
 import { defaultDescribeCase, defaultShouldMessage } from '../messages'
 
@@ -42,7 +43,9 @@ export default (state = [], action) => {
       })
 
     case actionTypes.SET_CASE_DESCRIBE_MESSAGE:
-      return setCaseProps(state, caseIndex, { describeMessage: action.message })
+      const args = getCaseProp(state, caseIndex, 'inputParams')
+      const msg = args && args.length > 0 ? vsprintf(action.message, args) : action.message
+      return setCaseProps(state, caseIndex, { describeMessage: msg })
 
     case actionTypes.SET_CASE_SHOULD_MESSAGE:
       return setCaseProps(state, caseIndex, { shouldMessage: action.message })

@@ -8,8 +8,9 @@
   },
   "main": "sazerac.js",
   "dependencies": {
+    "chai": "^3.5.0",
     "lodash": "^4.17.2",
-    "chai": "^3.5.0"
+    "sprintf-js": "^1.0.3"
   },
   "devDependencies": {
     "babel-cli": "^6.18.0",

@@ -131,7 +131,24 @@ runTests([
           (cases) => { assert.notDeepProperty(cases, '[0].describeMessage') }
         ]
       ]
+    ],
+
+    [
+      'when given a formatted action.message and a case with inputParams',
+      [
+        [ { inputParams: ['one', 'two'] } ],
+        { type: 'SET_CASE_DESCRIBE_MESSAGE', caseIndex: 0, message: 'given %s and %s' }
+      ],
+      [
+        [
+          'should return cases with describeMessage formatted wtih inputParams',
+          (cases) => {
+            assert.deepPropertyVal(cases, '[0].describeMessage', 'given one and two')
+          }
+        ]
+      ]
     ]
+
   ]]
 ])
 
