@@ -29,14 +29,32 @@ describe('testCase', () => {
   })
 
   describe('.expect()', () => {
-    beforeEach(() => { testCase.expect('mock_expected_val') })
-    it('should call actions.setCaseExpectedValue() with an object containing caseIndex and expectedValue', () => 
-    {
-      assert.deepEqual(actions.setCaseExpectedValue.getCall(0).args[0], {
-        caseIndex: 222,
-        expectedValue: 'mock_expected_val'
+
+    describe('when called with an expected value', () => {
+      beforeEach(() => { testCase.expect('mock_expected_val') })
+      it('should call actions.setCaseExpectedValue() with an object containing caseIndex and expectedValue', () => 
+      {
+        assert.deepEqual(actions.setCaseExpectedValue.getCall(0).args[0], {
+          caseIndex: 222,
+          expectedValue: 'mock_expected_val',
+          message: undefined
+        })
       })
     })
+
+    describe('when called with an expected value and a message', () => {
+      beforeEach(() => { testCase.expect('mock_expected_val', 'mock_message') })
+      it('should call actions.setCaseExpectedValue() with an object containing caseIndex, ' +
+          'expectedValue, and the message', () =>
+      {
+        assert.deepEqual(actions.setCaseExpectedValue.getCall(0).args[0], {
+          caseIndex: 222,
+          expectedValue: 'mock_expected_val',
+          message: 'mock_message'
+        })
+      })
+    })
+
   })
 
   describe('.describe()', () => {

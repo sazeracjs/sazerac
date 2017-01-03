@@ -96,6 +96,44 @@ runTests([
     ],
 
     [
+      'when given a case without shouldMessage set, and action.message',
+      [
+        [ { p: 'case_1' } ],
+        { 
+          type: 'SET_CASE_EXPECTED_VALUE',
+          caseIndex: 0,
+          expectedValue: 'mock_expected_val',
+          message: 'mock_msg'
+        }
+      ],
+      [
+        [
+          'should return case with should message set from action.message',
+          (cases) => { assert.deepPropertyVal(cases, '[0].shouldMessage', 'mock_msg') }
+        ]
+      ]
+    ],
+
+    [
+      'when given a case with shouldMessage set, and action.message',
+      [
+        [ { shouldMessage: 'old_mock_msg' } ],
+        { 
+          type: 'SET_CASE_EXPECTED_VALUE',
+          caseIndex: 0,
+          expectedValue: 'mock_expected_val',
+          message: 'new_mock_msg'
+        }
+      ],
+      [
+        [
+          'should return case with should message overwritten with action.message',
+          (cases) => { assert.deepPropertyVal(cases, '[0].shouldMessage', 'new_mock_msg') }
+        ]
+      ]
+    ],
+
+    [
       'when given a case with shouldMessage set, action.caseIndex, and action.expectedValue',
       [
         [ { shouldMessage: 'mock_should_msg' } ],

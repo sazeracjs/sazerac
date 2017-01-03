@@ -36,10 +36,8 @@ export default (state = [], action) => {
       })
 
     case actionTypes.SET_CASE_EXPECTED_VALUE:
-      const shouldMsg = getCaseProp(state, caseIndex, 'shouldMessage')
-      let tst = shouldMsg ? 
-            vsprintf(shouldMsg, [action.expectedValue]) :
-              defaultShouldMessage(action.expectedValue)
+      const shouldMsg = action.message || 
+                          getCaseProp(state, caseIndex, 'shouldMessage')
       return setCaseProps(state, caseIndex, {
           expectedValue: action.expectedValue,
           shouldMessage: shouldMsg ? 

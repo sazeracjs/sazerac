@@ -16,7 +16,7 @@ const newTestCase = (caseIndex) => {
      *
      * @returns {object} A test case object
      */
-    expect: testCaseFn(caseIndex, 'setCaseExpectedValue', 'expectedValue'),
+    expect: testCaseFn(caseIndex, 'setCaseExpectedValue', ['expectedValue', 'message']),
 
     /**
      * Defines the "describe" message for this test case.

@@ -169,8 +169,7 @@ var cases = (function () {
       });
 
     case actionTypes.SET_CASE_EXPECTED_VALUE:
-      var shouldMsg = getCaseProp(state, caseIndex, 'shouldMessage');
-      var tst = shouldMsg ? vsprintf(shouldMsg, [action.expectedValue]) : defaultShouldMessage(action.expectedValue);
+      var shouldMsg = action.message || getCaseProp(state, caseIndex, 'shouldMessage');
       return setCaseProps(state, caseIndex, {
         expectedValue: action.expectedValue,
         shouldMessage: shouldMsg ? vsprintf(shouldMsg, [action.expectedValue]) : defaultShouldMessage(action.expectedValue)
@@ -395,7 +394,7 @@ var newTestCase = function newTestCase(caseIndex) {
      *
      * @returns {object} A test case object
      */
-    expect: testCaseFn(caseIndex, 'setCaseExpectedValue', 'expectedValue'),
+    expect: testCaseFn(caseIndex, 'setCaseExpectedValue', ['expectedValue', 'message']),
 
     /**
      * Defines the "describe" message for this test case.
