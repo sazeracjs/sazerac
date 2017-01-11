@@ -1,7 +1,12 @@
 import { assert } from 'chai'
 import sinon from 'sinon'
 
-import { testExecuter, buildDescriberDefinition, __RewireAPI__ as describerRewireAPI } from '../src/describer'
+import { 
+  testExecuter,
+  buildDescriberDefinition,
+  executeDescribers,
+  __RewireAPI__ as describerRewireAPI
+} from '../src/describer'
 
 const assertMock = { 
   deepEqual: () => { }
@@ -47,6 +52,89 @@ describe('testExecuter()', () => {
 })
 
 // TODO: test assertionExecuter
+
+describe('executeDescribers()', () => {
+
+  const mocks = { testExecuter: () => {}, assertionExecuter: () => {} };
+  const mockFrameworkFn = (_, fn) => { fn() }
+
+  beforeEach(() => {
+    sinon.spy(mocks, 'testExecuter')
+    sinon.spy(mocks, 'assertionExecuter')
+    describerRewireAPI.__Rewire__('testExecuter', mocks.testExecuter)
+    describerRewireAPI.__Rewire__('assertionExecuter', mocks.assertionExecuter)
+  })
+
+  afterEach(() => {
+    mocks.testExecuter.restore()
+    mocks.assertionExecuter.restore()
+    describerRewireAPI.__ResetDependency__('testExecuter')
+    describerRewireAPI.__ResetDependency__('assertionExecuter')
+  })
+
+  const tests = [
+    {
+      describe: 'when called with an expected value of null',
+      definition: {
+        func: mockFrameworkFn,
+        test: { testFn: 'testFn', inputParams: 'inputParams', expectedValue: null }
+      },
+      assertions: [
+        [
+          'should call testExecuter with the expected value',
+          () => {
+            assert.equal(mocks.testExecuter.args[0][0], 'testFn')
+            assert.equal(mocks.testExecuter.args[0][1], 'inputParams')
+            assert.equal(mocks.testExecuter.args[0][2], null)
+          }
+        ]
+      ]
+    },
+    {
+      describe: 'when called with an expected value of undefined',
+      definition: {
+        func: mockFrameworkFn,
+        test: { testFn: 'testFn', inputParams: 'inputParams', expectedValue: undefined }
+      },
+      assertions: [
+        [
+          'should call testExecuter with the expected value of undefined',
+          () => {
+            assert.equal(mocks.testExecuter.args[0][0], 'testFn')
+            assert.equal(mocks.testExecuter.args[0][1], 'inputParams')
+            assert.equal(mocks.testExecuter.args[0][2], undefined)
+          }
+        ]
+      ]
+    },
+    {
+      describe: 'when called without an expected value',
+      definition: {
+        func: mockFrameworkFn,
+        test: { testFn: 'testFn', inputParams: 'inputParams' }
+      },
+      assertions: [
+        [
+          'should not call testExecuter',
+          () => { assert.isFalse(mocks.testExecuter.called) }
+        ]
+      ]
+    }
+  ]
+
+  tests.forEach((t) => {
+    describe(t.describe, () => {
+      t.assertions.forEach((assertion) => {
+        const [should, assertFn] = assertion
+        it(should, () => {
+          executeDescribers(t.definition)
+          assertFn()
+        })
+      })
+    })
+  })
+
+})
 
 describe('buildDescriberDefinition()', () => {
 

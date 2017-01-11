@@ -289,6 +289,7 @@ var executeDescribers = function executeDescribers(def) {
       calls = def.calls,
       test = def.test;
 
+
   func(message, function () {
     if (test) {
       var testFn = test.testFn,
@@ -296,7 +297,7 @@ var executeDescribers = function executeDescribers(def) {
           expectedValue = test.expectedValue,
           assertFn = test.assertFn;
 
-      if (expectedValue) {
+      if (test.hasOwnProperty('expectedValue')) {
         testExecuter(testFn, inputParams, expectedValue);
       } else if (assertFn) {
         assertionExecuter(testFn, inputParams, assertFn);

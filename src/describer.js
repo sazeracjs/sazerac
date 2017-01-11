@@ -7,10 +7,11 @@ const describer = (context, frameworkFunctions) => {
 
 const executeDescribers = (def) => {
   const { func, message, calls, test } = def
+
   func(message, () => {
     if (test) {
       const { testFn, inputParams, expectedValue, assertFn } = test
-      if (expectedValue) {
+      if (test.hasOwnProperty('expectedValue')) {
         testExecuter(testFn, inputParams, expectedValue)
       } else if (assertFn) {
         assertionExecuter(testFn, inputParams, assertFn)
@@ -82,4 +83,4 @@ const getCaseItCalls = (tCase, itFn, testFn, assertions) => {
 }
 
 export default describer
-export { describer, buildDescriberDefinition, testExecuter, assertionExecuter }
+export { describer, buildDescriberDefinition, testExecuter, assertionExecuter, executeDescribers }
