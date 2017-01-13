@@ -28,6 +28,6 @@
   },
   "scripts": {
     "test": "export BABEL_ENV=test; mocha --compilers js:babel-core/register --recursive",
-    "build": "rollup -c"
+    "build": "npm run test; rollup -c"
   }
 }
