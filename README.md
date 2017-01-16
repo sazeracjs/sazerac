@@ -1,7 +1,9 @@
 Sazerac
 =======
 
-Data-driven unit testing for JavaScript. 
+[![CircleCI](https://circleci.com/gh/mikec/sazerac/tree/master.svg?style=svg)](https://circleci.com/gh/mikec/sazerac/tree/master)
+
+Data-driven unit testing for JavaScript.
 
 
 About
