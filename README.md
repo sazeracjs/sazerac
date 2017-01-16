@@ -31,7 +31,7 @@ import { test, given } from 'sazerac'
 Why Use This?
 -------------
 
-Let's say you have a function `isPrime()`. When given an number, it returns `true` or `false` depending on whether the number is a prime number.
+Let's say you have a function `isPrime()`. When given a number, it returns `true` or `false` depending on whether the number is a prime number.
 
 ```js
 function isPrime(num) {
