@@ -7,6 +7,7 @@
     "url": "github.com/mikec"
   },
   "main": "sazerac.js",
+  "license": "MIT",
   "dependencies": {
     "chai": "^3.5.0",
     "lodash": "^4.17.2",
