@@ -7,6 +7,16 @@
     "url": "github.com/mikec"
   },
   "main": "sazerac.js",
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/mikec/sazerac.git"
+  },
+  "keywords": [
+    "sazerac"
+  ],
+  "bugs": {
+    "url": "https://github.com/mikec/sazerac/issues"
+  },
   "license": "MIT",
   "dependencies": {
     "chai": "^3.5.0",
