@@ -168,13 +168,14 @@ test(mySumFunction, () => {
 ```
 
 
+
 Grouping Multiple Cases
 -----------------------
 
-If you have multiple test case inputs with the same expected return value, they can be grouped with the `forEach(cases)` function:
+If you have multiple test case inputs with the same expected return value, they can be grouped with the `forCases(cases)` function:
 
 ```js
-import { test, given, forEach } from 'sazerac'
+import { test, given, forCases } from 'sazerac'
 
 test(isPrime, () => {
   const primes = [ given(2), given(3), given(5), given(7) ];
