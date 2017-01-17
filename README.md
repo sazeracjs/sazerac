@@ -168,7 +168,6 @@ test(mySumFunction, () => {
 ```
 
 
-
 Grouping Multiple Cases
 -----------------------
 
