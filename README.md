@@ -9,7 +9,7 @@ Data-driven unit testing for JavaScript.
 About
 -----
 
-This module provides a simple but flexible way to create [data-driven tests](https://booker.codes/data-driven-tests-in-javascript-using-mocha/) in JavaScript. It works with the most popular JavaScript testing frameworks: [mocha](https://mochajs.org/), [jasmine](https://jasmine.github.io/), and [jest](https://facebook.github.io/jest/).
+This module provides a simple and flexible way to create [data-driven tests](https://booker.codes/data-driven-tests-in-javascript-using-mocha/) in JavaScript. It works with [mocha](https://mochajs.org/), [jasmine](https://jasmine.github.io/), and [jest](https://facebook.github.io/jest/).
 
 
 Getting Started
