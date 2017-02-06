@@ -1,4 +1,4 @@
-import { concat } from 'lodash'
+import concat from 'lodash/concat'
 import { actionTypes } from './actions'
 
 export default (state = [], action) => {

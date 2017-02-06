@@ -1,4 +1,7 @@
-import { forEach, map, filter, isUndefined } from 'lodash'
+import forEach from 'lodash/forEach'
+import map from 'lodash/map'
+import filter from 'lodash/filter'
+import isUndefined from 'lodash/isUndefined'
 import { assert } from 'chai'
 
 const describer = (context, frameworkFunctions) => {

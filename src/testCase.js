@@ -1,4 +1,4 @@
-import { isArray } from 'lodash'
+import isArray from 'lodash/isArray'
 import actions from './reducers/actions'
 
 /** Creates a new test case object */
