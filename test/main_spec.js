@@ -1,6 +1,6 @@
 import { test } from '../src/main'
 import errors from '../src/errors'
-import { assert } from 'chai';
+import { assert } from 'chai'
 
 describe('test()', () => {
 

@@ -55,7 +55,7 @@ describe('testExecuter()', () => {
 
 describe('executeDescribers()', () => {
 
-  const mocks = { testExecuter: () => {}, assertionExecuter: () => {} };
+  const mocks = { testExecuter: () => {}, assertionExecuter: () => {} }
   const mockFrameworkFn = (_, fn) => { fn() }
 
   beforeEach(() => {

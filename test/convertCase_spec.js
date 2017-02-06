@@ -1,6 +1,6 @@
-import convertCase from '../src/convertCase';
+import convertCase from '../src/convertCase'
 import { runTests } from './helpers'
-import { assert } from 'chai';
+import { assert } from 'chai'
 
 runTests([
 

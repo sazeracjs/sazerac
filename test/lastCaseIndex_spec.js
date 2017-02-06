@@ -1,6 +1,6 @@
-import lastCaseIndex from '../src/lastCaseIndex';
+import lastCaseIndex from '../src/lastCaseIndex'
 import { runTests } from './helpers'
-import { assert } from 'chai';
+import { assert } from 'chai'
 
 runTests([
 

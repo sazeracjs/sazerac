@@ -1,6 +1,6 @@
 import { keys } from 'lodash'
-import { newTestCase, __RewireAPI__ as testCaseRewireAPI } from '../src/testCase';
-import { assert } from 'chai';
+import { newTestCase, __RewireAPI__ as testCaseRewireAPI } from '../src/testCase'
+import { assert } from 'chai'
 import sinon from 'sinon'
 
 const actions = {

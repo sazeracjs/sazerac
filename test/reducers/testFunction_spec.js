@@ -1,4 +1,3 @@
-import { assert } from 'chai'
 import { runFuncTest } from '../helpers'
 import testFunction from '../../src/reducers/testFunction'
 

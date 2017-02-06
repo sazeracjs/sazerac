@@ -1,4 +1,3 @@
-import { assert } from 'chai'
 import { runFuncTest } from './helpers'
 import objectToMessageString from '../src/objectToMessageString'
 

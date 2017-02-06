@@ -1,5 +1,5 @@
-import { newTestCaseCollection, __RewireAPI__ as rewireAPI } from '../src/testCaseCollection';
-import { assert } from 'chai';
+import { newTestCaseCollection } from '../src/testCaseCollection'
+import { assert } from 'chai'
 import sinon from 'sinon'
 
 const newTestCase = () => {

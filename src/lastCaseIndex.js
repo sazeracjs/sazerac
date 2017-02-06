@@ -1,6 +1,6 @@
 const lastCaseIndex = (ctx) => {
   if (ctx && ctx.cases && ctx.cases.length > 0) {
-    return ctx.cases.length - 1;
+    return ctx.cases.length - 1
   }
 }
 

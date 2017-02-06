@@ -1,6 +1,6 @@
-import messages from '../src/messages';
+import messages from '../src/messages'
 import { runTests } from './helpers'
-import { assert } from 'chai';
+import { assert } from 'chai'
 
 function mockFunc() {}
 
@@ -12,8 +12,8 @@ runTests([
       'when given a function',
       [mockFunc],
       [[
-          'should return the function name with parentheses',
-          (ret) => { assert.equal(ret, 'mockFunc()') }
+        'should return the function name with parentheses',
+        (ret) => { assert.equal(ret, 'mockFunc()') }
       ]]
     ],
 
@@ -21,8 +21,8 @@ runTests([
       'when given an anonymous function',
       [() => {}],
       [[
-          'should return `[anonymous function]`',
-          (ret) => { assert.equal(ret, '[anonymous function]') }
+        'should return `[anonymous function]`',
+        (ret) => { assert.equal(ret, '[anonymous function]') }
       ]]
     ],
 
@@ -30,8 +30,8 @@ runTests([
       'when given undefined',
       [undefined],
       [[
-          'should return undefined',
-          (ret) => { assert.isUndefined(ret) }
+        'should return undefined',
+        (ret) => { assert.isUndefined(ret) }
       ]]
     ],
 
@@ -39,8 +39,8 @@ runTests([
       'when given a non-function',
       [27],
       [[
-          'should return undefined',
-          (ret) => { assert.isUndefined(ret) }
+        'should return undefined',
+        (ret) => { assert.isUndefined(ret) }
       ]]
     ]
 
@@ -55,7 +55,7 @@ runTests([
         [
           'should return a message with quoted strings as input params',
           (ret) => {
-            assert.equal(ret, "when given 'one' and 'two'")
+            assert.equal(ret, 'when given \'one\' and \'two\'')
           }
         ]
       ]
@@ -68,7 +68,7 @@ runTests([
         [
           'should return a message with non quoted values',
           (ret) => {
-            assert.equal(ret, "when given 1 and 2")
+            assert.equal(ret, 'when given 1 and 2')
           }
         ]
       ]
@@ -81,7 +81,7 @@ runTests([
         [
           'should return a message with no values',
           (ret) => {
-            assert.equal(ret, "when called")
+            assert.equal(ret, 'when called')
           }
         ]
       ]
@@ -98,7 +98,7 @@ runTests([
         [
           'should return a message with the string value quoted',
           (ret) => {
-            assert.equal(ret, "should return 'one'")
+            assert.equal(ret, 'should return \'one\'')
           }
         ]
       ]
@@ -111,7 +111,7 @@ runTests([
         [
           'should return a message with non quoted value',
           (ret) => {
-            assert.equal(ret, "should return 1")
+            assert.equal(ret, 'should return 1')
           }
         ]
       ]

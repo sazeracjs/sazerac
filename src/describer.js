@@ -64,7 +64,7 @@ const getCaseDescriberDef = (tCase, frameworkFunctions, testFn, assertions) => {
 
 const getCaseItCalls = (tCase, itFn, testFn, assertions) => {
   const { shouldMessage, inputParams, expectedValue } = tCase
-  let calls = [];
+  let calls = []
   if (!isUndefined(expectedValue)) {
     calls.push({
       func: itFn,

@@ -1,4 +1,3 @@
-import slice from 'lodash/slice'
 import isFunction from 'lodash/isFunction'
 import convertCase from '../convertCase'
 import store from './store'

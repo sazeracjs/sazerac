@@ -29,35 +29,35 @@ const getCaseProp = (state, caseIndex, prop) => {
 export default (state = [], action) => {
 
   const { caseIndex } = action
+  let inputParams, args, expectedVal, msg
 
   switch(action.type) {
     
     case actionTypes.ADD_CASE:
-      const inputParams = toArray(action.args)
+      inputParams = toArray(action.args)
       return concat(state, {
         inputParams: inputParams,
         describeMessage: defaultDescribeCase(inputParams)
       })
 
     case actionTypes.SET_CASE_EXPECTED_VALUE:
-      const shouldMsg = action.message || 
-                          getCaseProp(state, caseIndex, 'shouldMessage')
+      msg = action.message || getCaseProp(state, caseIndex, 'shouldMessage')
       return setCaseProps(state, caseIndex, {
-          expectedValue: action.expectedValue,
-          shouldMessage: shouldMsg ? 
-            vsprintf(shouldMsg, [action.expectedValue]) :
-              defaultShouldMessage(action.expectedValue)
+        expectedValue: action.expectedValue,
+        shouldMessage: msg ? 
+          vsprintf(msg, [action.expectedValue]) :
+            defaultShouldMessage(action.expectedValue)
       })
 
     case actionTypes.SET_CASE_DESCRIBE_MESSAGE:
-      const args = getCaseProp(state, caseIndex, 'inputParams')
-      const describeMsg = args && args.length > 0 ? 
+      args = getCaseProp(state, caseIndex, 'inputParams')
+      msg = args && args.length > 0 ? 
               vsprintf(action.message, args) : action.message
-      return setCaseProps(state, caseIndex, { describeMessage: describeMsg })
+      return setCaseProps(state, caseIndex, { describeMessage: msg })
 
     case actionTypes.SET_CASE_SHOULD_MESSAGE:
-      const expectedVal = getCaseProp(state, caseIndex, 'expectedValue')
-      const msg = !isUndefined(expectedVal) ?
+      expectedVal = getCaseProp(state, caseIndex, 'expectedValue')
+      msg = !isUndefined(expectedVal) ?
                     vsprintf(action.message, [expectedVal]) : action.message
       return setCaseProps(state, caseIndex, { shouldMessage: msg })
 

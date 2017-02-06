@@ -2,7 +2,7 @@ import { assert } from 'chai'
 
 const stringifyArgs = (args) => {
   return args.map((a) => {
-    if (typeof a === 'undefined') return "`undefined`"
+    if (typeof a === 'undefined') return '`undefined`'
     return JSON.stringify(a)
   }).join(', ')
 }
@@ -53,7 +53,7 @@ const runTests = (tests) => {
           })
 
           asserts.forEach((a) => {
-            const [should, assertFn] = a;
+            const [should, assertFn] = a
             it(should, () => {
               assertFn(actual)
             })

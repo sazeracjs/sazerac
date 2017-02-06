@@ -11,7 +11,7 @@ const frameworkFns = {
   itFn: it
 }
 
-let _state;
+let _state
 
 listener((state) => { _state = state })
 
