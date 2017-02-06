@@ -4,6 +4,11 @@
   "env": {
     "test": {
       "plugins": ["syntax-object-rest-spread", "transform-object-rest-spread", "rewire"]
+    },
+    "commonjs": {
+      "plugins": [
+        ["transform-es2015-modules-commonjs", { "loose": true }]
+      ]
     }
   }
 }
