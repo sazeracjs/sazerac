@@ -11,6 +11,8 @@ About
 
 This module provides a simple and flexible way to create [data-driven tests](https://booker.codes/data-driven-tests-in-javascript-using-mocha/) in JavaScript. It works with [mocha](https://mochajs.org/), [jasmine](https://jasmine.github.io/), and [jest](https://facebook.github.io/jest/).
 
+Check out [sazerac-example](http://github.com/mikec/sazerac-example) or read on.
+
 
 Getting Started
 ---------------
