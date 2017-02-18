@@ -8,6 +8,7 @@
   },
   "browser": "dist/sazerac.js",
   "main": "lib/main.js",
+  "typings": "types/main.d.ts",
   "files": [
     "dist",
     "lib",
