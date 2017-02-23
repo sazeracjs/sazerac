@@ -38,9 +38,9 @@ Let's say you have a function `isPrime()`. When given a number, it returns `true
 ```js
 function isPrime(num) {
   for(var i = 2; i < num; i++) {
-    if(num % i === 0) return false;
+    if(num % i === 0) return false
   }
-  return num > 1;
+  return num > 1
 }
 ```
 
@@ -179,11 +179,11 @@ If you have multiple test case inputs with the same expected return value, they 
 import { test, given, forCases } from 'sazerac'
 
 test(isPrime, () => {
-  const primes = [ given(2), given(3), given(5), given(7) ];
-  const nonPrimes = [ given(1), given(4), given(6), given(8) ];
+  const primes = [ given(2), given(3), given(5), given(7) ]
+  const nonPrimes = [ given(1), given(4), given(6), given(8) ]
   forCases(primes).expect(true)
-  forCases(nonPrimes).expect(false);
-});
+  forCases(nonPrimes).expect(false)
+})
 ```
 
 `forCases` returns an object with the same functions that can be applied to an individual test case: `expect`, `describe`, `should`, and `assert`
@@ -257,4 +257,3 @@ addTwoNumbers()
 */
 
 ```
-
