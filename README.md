@@ -186,6 +186,12 @@ test(isPrime, () => {
 })
 ```
 
+With many cases, a mapping may be easier to read.
+
+```javascript
+  const primes = [2,3,5,7,11,13,17,19,23,29,31,37,41,43,47,53].map(p => given(p))
+```
+
 `forCases` returns an object with the same functions that can be applied to an individual test case: `expect`, `describe`, `should`, and `assert`
 
 
