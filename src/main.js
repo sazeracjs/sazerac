@@ -30,7 +30,7 @@ const test = (testFn, definerFn) => {
 }
 
 /**
- * Defines the given functional arguments for a test case
+ * Defines the functional arguments for a test case
  *
  * @param {...object} args - The arguments that will be passed to the function being
  *                           tested

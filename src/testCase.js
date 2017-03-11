@@ -13,6 +13,7 @@ const newTestCase = (caseIndex) => {
      * return value.
      * 
      * @param {object} expectedValue - The expected return value
+     * @param {string} message - A message to describe the test case expectation
      *
      * @returns {object} A test case object
      */
