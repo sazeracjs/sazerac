@@ -52,7 +52,10 @@ describe('testExecuter()', () => {
 
 describe('executeDescribers()', () => {
 
-  const mocks = { testExecuter: () => {}, assertionExecuter: () => {} }
+  const mocks = {
+    testExecuter: () => {},
+    assertionExecuter: () => {}
+  }
   const mockFrameworkFn = (_, fn) => { fn() }
 
   beforeEach(() => {
@@ -116,6 +119,35 @@ describe('executeDescribers()', () => {
           () => { assert.isFalse(mocks.testExecuter.called) }
         ]
       ]
+    },
+    {
+      describe: 'when called with an array of before and after functions',
+      definition: {
+        func: mockFrameworkFn,
+        test: { 
+          testFn: 'testFn',
+          inputParams: 'inputParams', 
+          expectedValue: 'expectedVal',
+          beforeFns: [sinon.spy(), sinon.spy()],
+          afterFns: [sinon.spy(), sinon.spy()]
+        }
+      },
+      assertions: [
+        [
+          'should execute the before functions',
+          (def) => {
+            assert.isTrue(def.test.beforeFns[0].called)
+            assert.isTrue(def.test.beforeFns[1].called)
+          }
+        ],
+        [
+          'should execute the after functions',
+          (def) => {
+            assert.isTrue(def.test.afterFns[0].called)
+            assert.isTrue(def.test.afterFns[1].called)
+          }
+        ]
+      ]
     }
   ]
 
@@ -125,7 +157,7 @@ describe('executeDescribers()', () => {
         const [should, assertFn] = assertion
         it(should, () => {
           executeDescribers(t.definition)
-          assertFn()
+          assertFn(t.definition)
         })
       })
     })
@@ -153,7 +185,9 @@ describe('buildDescriberDefinition()', () => {
               test: {
                 testFn: 'mock_test_fn',
                 inputParams: 'mock_input_params',
-                expectedValue: 'mock_expected_val'
+                expectedValue: 'mock_expected_val',
+                beforeFns: [() => { }, () => { }],
+                afterFns: [() => { }, () => { }]
               }
             }
           ]
@@ -169,6 +203,8 @@ describe('buildDescriberDefinition()', () => {
                 testFn: 'mock_test_fn',
                 inputParams: 'mock_input_params_2',
                 assertFn: 'mock_assert_fn'
+                beforeFns: [() => { }, () => { }],
+                afterFns: [() => { }, () => { }]
               }
             }
           ]
@@ -355,6 +391,92 @@ describe('buildDescriberDefinition()', () => {
             assert.deepPropertyVal(def, 'calls[0].calls[0].test.assertFn', 'mock_assert_fn_0')
             assert.deepPropertyVal(def, 'calls[1].calls[0].test.assertFn', 'mock_assert_fn_1')
             assert.deepPropertyVal(def, 'calls[1].calls[1].test.assertFn', 'mock_assert_fn_2')
+          }
+        ]
+      ]
+    },
+
+    {
+      inputs: [
+        'when given a valid context object with multiple assertions, and before/after functions',
+        {
+          describeMessage: 'myFunc()',
+          testFunction: 'mock_test_fn',
+          cases: [
+            { describeMessage: 'mock_describe_msg_0', inputParams: 'mock_input_params' },
+            { describeMessage: 'mock_describe_msg_1', inputParams: 'mock_input_params_2' }
+          ],
+          beforeFunctions: [
+            {
+              beforeFn: 'mock_before_fn_0',
+              caseIndex: 0,
+            },
+            {
+              beforeFn: 'mock_before_fn_1',
+              caseIndex: 0,
+            },
+            {
+              beforeFn: 'mock_before_fn_2',
+              caseIndex: 1,
+            }
+          ],
+          afterFunctions: [
+            {
+              afterFn: 'mock_after_fn_0',
+              caseIndex: 0,
+            },
+            {
+              afterFn: 'mock_after_fn_1',
+              caseIndex: 1,
+            },
+            {
+              afterFn: 'mock_after_fn_2',
+              caseIndex: 1,
+            }
+          ],
+          caseAssertions: [
+            {
+              assertFn: 'mock_assert_fn_0',
+              shouldMessage: 'mock_assert_should_message_0_case_0',
+              caseIndex: 0,
+            },
+            {
+              assertFn: 'mock_assert_fn_1',
+              shouldMessage: 'mock_assert_should_message_1_case_1',
+              caseIndex: 1,
+            },
+            {
+              assertFn: 'mock_assert_fn_2',
+              shouldMessage: 'mock_assert_should_message_2_case_1',
+              caseIndex: 1,
+            }
+          ]
+        }
+      ],
+      assertions: [
+        [
+          s + 'a test array with before functions for each it call',
+          (def) => {
+            assert.deepPropertyVal(def, 'calls[0].calls[0].test.beforeFns[0]', 'mock_before_fn_0')
+            assert.deepPropertyVal(def, 'calls[0].calls[0].test.beforeFns[1]', 'mock_before_fn_1')
+            assert.notDeepProperty(def, 'calls[0].calls[0].test.beforeFns[2]')
+            assert.deepPropertyVal(def, 'calls[1].calls[0].test.beforeFns[0]', 'mock_before_fn_2')
+            assert.notDeepProperty(def, 'calls[1].calls[0].test.beforeFns[1]')
+            assert.deepPropertyVal(def, 'calls[1].calls[1].test.beforeFns[0]', 'mock_before_fn_2')
+            assert.notDeepProperty(def, 'calls[1].calls[1].test.beforeFns[1]')
+          }
+        ],
+        [
+          s + 'a test array with after functions for each it call',
+          (def) => {
+            assert.deepPropertyVal(def, 'calls[0].calls[0].test.afterFns[0]', 'mock_after_fn_0')
+            assert.notDeepProperty(def, 'calls[0].calls[0].test.afterFns[1]')
+            assert.deepPropertyVal(def, 'calls[1].calls[0].test.afterFns[0]', 'mock_after_fn_1')
+            assert.deepPropertyVal(def, 'calls[1].calls[0].test.afterFns[1]', 'mock_after_fn_2')
+            assert.notDeepProperty(def, 'calls[1].calls[0].test.afterFns[2]')
+            assert.deepPropertyVal(def, 'calls[1].calls[1].test.afterFns[0]', 'mock_after_fn_1')
+            assert.deepPropertyVal(def, 'calls[1].calls[1].test.afterFns[1]', 'mock_after_fn_2')
+            assert.notDeepProperty(def, 'calls[1].calls[1].test.afterFns[2]')
           }
         ]
       ]

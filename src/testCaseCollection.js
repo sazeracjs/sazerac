@@ -45,7 +45,27 @@ const newTestCaseCollection = (testCases) => {
      *
      * @returns {object} A test case collection object
      */
-    assert: collectionFn(testCases, 'assert')
+    assert: collectionFn(testCases, 'assert'),
+    
+    /**
+     * Adds a function to run before each test case in the collection.
+     * Calls before() on each test case
+     * 
+     * @param {function} beforeFn
+     *
+     * @returns {object} A test case collection object
+     */
+    before: collectionFn(testCases, 'before'),
+
+    /**
+     * Adds a function to run after each test case in the collection.
+     * Calls after() on each test case
+     * 
+     * @param {function} afterFn
+     *
+     * @returns {object} A test case collection object
+     */
+    after: collectionFn(testCases, 'after')
   }
 }
 

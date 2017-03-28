@@ -47,7 +47,25 @@ const newTestCase = (caseIndex) => {
      *
      * @returns {object} A test case object
      */
-    assert: testCaseFn(caseIndex, 'addCaseAssertion', ['message', 'assertFn'])
+    assert: testCaseFn(caseIndex, 'addCaseAssertion', ['message', 'assertFn']),
+
+    /**
+     * Adds a function to run before test case is executed
+     * 
+     * @param {function} beforeFn
+     *
+     * @returns {object} A test case object
+     */
+    before: testCaseFn(caseIndex, 'addCaseBeforeFn', 'beforeFn'),
+
+    /**
+     * Adds a function to run after test case is executed
+     * 
+     * @param {function} afterFn
+     *
+     * @returns {object} A test case object
+     */
+    after: testCaseFn(caseIndex, 'addCaseAfterFn', 'afterFn')
   }
 }
 

@@ -13,7 +13,9 @@ const actionsArray = [
   'SET_CASE_EXPECTED_VALUE',
   'SET_CASE_DESCRIBE_MESSAGE',
   'SET_CASE_SHOULD_MESSAGE',
-  'ADD_CASE_ASSERTION'
+  'ADD_CASE_ASSERTION',
+  'ADD_CASE_BEFORE_FN',
+  'ADD_CASE_AFTER_FN'
 ]
 
 actionsArray.forEach((action) => {

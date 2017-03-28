@@ -11,12 +11,18 @@ const executeDescribers = (def) => {
 
   func(message, () => {
     if (test) {
-      const { testFn, inputParams, expectedValue, assertFn } = test
+      const { testFn, inputParams, expectedValue, assertFn, beforeFns, afterFns } = test
+
+      executeFns(beforeFns)
+
       if (test.hasOwnProperty('expectedValue')) {
         testExecuter(testFn, inputParams, expectedValue)
       } else if (assertFn) {
         assertionExecuter(testFn, inputParams, assertFn)
       }
+
+      executeFns(afterFns)
+
     } else {
       calls.forEach((call) => { executeDescribers(call) })
     }
@@ -33,6 +39,14 @@ const assertionExecuter = (testFn, inputParams, assertFn) => {
   assertFn(actualVal)
 }
 
+const executeFns = (fns = []) => {
+  //console.log("CALLEM: ", fns)
+  fns.forEach((fn) => {
+    //console.log("EXECUTING: ", fn)
+    fn()
+  })
+}
+
 const buildDescriberDefinition = (context, frameworkFunctions) => {
   const { describeFn } = frameworkFunctions
   const { describeMessage } = context
@@ -44,30 +58,32 @@ const buildDescriberDefinition = (context, frameworkFunctions) => {
 }
 
 const getCaseDescriberCalls = (context, frameworkFunctions) => {
-  const { testFunction, cases, caseAssertions } = context
+  const { testFunction, cases, caseAssertions, beforeFunctions, afterFunctions } = context
   return cases.map((tCase, caseIndex) => {
     const assertions = filter(caseAssertions, ['caseIndex', caseIndex])
-    return getCaseDescriberDef(tCase, frameworkFunctions, testFunction, assertions)
+    const beforeFns = filter(beforeFunctions, ['caseIndex', caseIndex]).map(fnDef => fnDef.beforeFn) || []
+    const afterFns = filter(afterFunctions, ['caseIndex', caseIndex]).map(fnDef => fnDef.afterFn) || []
+    return getCaseDescriberDef(tCase, frameworkFunctions, testFunction, assertions, beforeFns, afterFns)
   })
 }
 
-const getCaseDescriberDef = (tCase, frameworkFunctions, testFn, assertions) => {
+const getCaseDescriberDef = (tCase, frameworkFunctions, testFn, assertions, beforeFns, afterFns) => {
   const { describeFn, itFn } = frameworkFunctions
   return {
     func: describeFn,
     message: tCase.describeMessage,
-    calls: getCaseItCalls(tCase, itFn, testFn, assertions)
+    calls: getCaseItCalls(tCase, itFn, testFn, assertions, beforeFns, afterFns)
   }
 }
 
-const getCaseItCalls = (tCase, itFn, testFn, assertions) => {
+const getCaseItCalls = (tCase, itFn, testFn, assertions, beforeFns, afterFns) => {
   const { shouldMessage, inputParams, expectedValue } = tCase
   let calls = []
   if (!isUndefined(expectedValue)) {
     calls.push({
       func: itFn,
       message: shouldMessage,
-      test: { testFn, inputParams, expectedValue }
+      test: { testFn, inputParams, expectedValue, beforeFns, afterFns }
     })
   }
   if (assertions) {
@@ -76,7 +92,7 @@ const getCaseItCalls = (tCase, itFn, testFn, assertions) => {
       calls.push({
         func: itFn,
         message: assertion.shouldMessage,
-        test: { testFn, inputParams, assertFn }
+        test: { testFn, inputParams, assertFn, beforeFns, afterFns }
       })
     })
   }

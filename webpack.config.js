@@ -8,7 +8,7 @@ var config = {
   entry: './src/main.js',
   module: {
     loaders: [
-      { test: /\.js$/, loaders: ['babel-loader'], exclude: /node_modules/ }
+      { test: /\.js$/, loaders: ['babel-loader'], exclude: [/node_modules/, `/test/sazerac-v0.2.2.js/`] }
     ]
   },
   output: {

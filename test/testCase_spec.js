@@ -7,7 +7,9 @@ const actions = {
   setCaseExpectedValue: () => { },
   setCaseDescribeMessage: () => { },
   setCaseShouldMessage: () => { },
-  addCaseAssertion: () => { }
+  addCaseAssertion: () => { },
+  addCaseBeforeFn: () => { },
+  addCaseAfterFn: () => { }
 }
 
 describe('testCase', () => {
@@ -88,6 +90,28 @@ describe('testCase', () => {
         caseIndex: 222,
         message: 'mock_should_message',
         assertFn: 'mock_assert_fn'
+      })
+    })
+  })
+
+  describe('.before()', () => {
+    beforeEach(() => { testCase.before('mock_before_fn') })
+    it('should call actions.addCaseBeforeFn() with an object containing beforeFn', () => 
+    {
+      assert.deepEqual(actions.addCaseBeforeFn.getCall(0).args[0], {
+        caseIndex: 222,
+        beforeFn: 'mock_before_fn'
+      })
+    })
+  })
+
+  describe('.after()', () => {
+    beforeEach(() => { testCase.after('mock_after_fn') })
+    it('should call actions.addCaseAfterFn() with an object containing afterFn', () => 
+    {
+      assert.deepEqual(actions.addCaseAfterFn.getCall(0).args[0], {
+        caseIndex: 222,
+        afterFn: 'mock_after_fn'
       })
     })
   })
