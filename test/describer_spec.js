@@ -8,9 +8,7 @@ import {
   __RewireAPI__ as describerRewireAPI
 } from '../src/describer'
 
-const assertMock = { 
-  deepEqual: () => { }
-}
+const mocks = {}
 
 const testMock = {
   fn: () => { return 'mock_actual_val' }
@@ -18,31 +16,30 @@ const testMock = {
 
 const mockFrameworkFuncs = { describeFn: 'describe_fn_mock', itFn: 'it_fn_mock' }
 
-describerRewireAPI.__Rewire__('assert', assertMock)
-
 describe('testExecuter()', () => {
 
   beforeEach(() => {
-    sinon.spy(assertMock, 'deepEqual')
+    mocks.deepEqual = sinon.spy()
+    describerRewireAPI.__Rewire__('deepEqual', mocks.deepEqual)
     sinon.spy(testMock, 'fn')
     testExecuter(testMock.fn, [1,2], 'mock_expected_val')
   })
 
   afterEach(() => {
-    assertMock.deepEqual.restore()
     testMock.fn.restore()
   })
 
-  it('should call assert.deepEqual once', () => {
-    assert.isTrue(assertMock.deepEqual.calledOnce)
+  it('should call deepEqual once', () => {
+    assert.isTrue(mocks.deepEqual.calledOnce)
   })
 
-  it('should call assert.deepEqual with actual value as the first argument', () => {
-    assert.equal(assertMock.deepEqual.args[0][0], 'mock_actual_val')
+  it('should call deepEqual with actual value as the first argument', () => {
+    assert.equal(mocks.deepEqual.args[0][0], 'mock_actual_val')
+    assert.isTrue(mocks.deepEqual.calledOnce)
   })
 
-  it('should call assert.deepEqual with expected value as the second argument', () => {
-    assert.equal(assertMock.deepEqual.args[0][1], 'mock_expected_val')
+  it('should call deepEqual with expected value as the second argument', () => {
+    assert.equal(mocks.deepEqual.args[0][1], 'mock_expected_val')
   })
 
   it('should call the test function input params as arguments', () => {

@@ -2,7 +2,7 @@ import forEach from 'lodash/forEach'
 import map from 'lodash/map'
 import filter from 'lodash/filter'
 import isUndefined from 'lodash/isUndefined'
-import { assert } from 'chai'
+import deepEqual from './deepEqual'
 
 const describer = (context, frameworkFunctions) => {
   executeDescribers(buildDescriberDefinition(context, frameworkFunctions))
@@ -27,7 +27,7 @@ const executeDescribers = (def) => {
 
 const testExecuter = (testFn, inputParams, expectedValue) => {
   const actualVal = testFn.apply(null, inputParams)
-  assert.deepEqual(actualVal, expectedValue)
+  deepEqual(actualVal, expectedValue)
 }
 
 const assertionExecuter = (testFn, inputParams, assertFn) => {

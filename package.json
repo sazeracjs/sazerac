@@ -26,7 +26,7 @@
   },
   "license": "MIT",
   "dependencies": {
-    "chai": "^3.5.0",
+    "deep-eql": "^2.0.1",
     "lodash": "^4.17.2",
     "sprintf-js": "^1.0.3"
   },
