@@ -1,7 +1,5 @@
-import forEach from 'lodash/forEach'
-import map from 'lodash/map'
-import filter from 'lodash/filter'
-import isUndefined from 'lodash/isUndefined'
+import filter from 'lodash.filter'
+import isUndefined from 'lodash.isundefined'
 import deepEqual from './deepEqual'
 
 const describer = (context, frameworkFunctions) => {
@@ -20,7 +18,7 @@ const executeDescribers = (def) => {
         assertionExecuter(testFn, inputParams, assertFn)
       }
     } else {
-      forEach(calls, (call) => { executeDescribers(call) })
+      calls.forEach((call) => { executeDescribers(call) })
     }
   })
 }
@@ -47,7 +45,7 @@ const buildDescriberDefinition = (context, frameworkFunctions) => {
 
 const getCaseDescriberCalls = (context, frameworkFunctions) => {
   const { testFunction, cases, caseAssertions } = context
-  return map(cases, (tCase, caseIndex) => {
+  return cases.map((tCase, caseIndex) => {
     const assertions = filter(caseAssertions, ['caseIndex', caseIndex])
     return getCaseDescriberDef(tCase, frameworkFunctions, testFunction, assertions)
   })

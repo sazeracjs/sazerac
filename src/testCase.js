@@ -1,4 +1,3 @@
-import isArray from 'lodash/isArray'
 import actions from './reducers/actions'
 
 /** Creates a new test case object */
@@ -53,7 +52,7 @@ const newTestCase = (caseIndex) => {
 }
 
 const testCaseFn = (caseIndex, action, paramNames) => {
-  paramNames = isArray(paramNames) ? paramNames : [paramNames]
+  paramNames = Array.isArray(paramNames) ? paramNames : [paramNames]
   return (...params) => {
     let actionArgs = { caseIndex }
     paramNames.forEach((n, i) => {

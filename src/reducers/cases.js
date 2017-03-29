@@ -1,14 +1,13 @@
-import concat from 'lodash/concat'
-import map from 'lodash/map'
-import toArray from 'lodash/toArray'
-import at from 'lodash/at'
-import isUndefined from 'lodash/isUndefined'
+import concat from 'lodash.concat'
+import toArray from 'lodash.toarray'
+import at from 'lodash.at'
+import isUndefined from 'lodash.isundefined'
 import { vsprintf } from 'sprintf-js'
 import { actionTypes } from './actions'
 import { defaultDescribeCase, defaultShouldMessage } from '../messages'
 
 const updateCase = (cases, caseIndex, fn) => {
-  return map(cases, (tCase, i) => {
+  return cases.map((tCase, i) => {
     if (caseIndex === i) {
       return fn(tCase)
     }

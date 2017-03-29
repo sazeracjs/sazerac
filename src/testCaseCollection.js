@@ -1,4 +1,3 @@
-import forEach from 'lodash/forEach'
 import objectArgsToArray from './objectArgsToArray'
 
 const newTestCaseCollection = (testCases) => {
@@ -52,7 +51,7 @@ const newTestCaseCollection = (testCases) => {
 
 const collectionFn = (testCases, fnName) => {
   return (...args) => {
-    forEach(testCases, (testCase) => {
+    testCases.forEach((testCase) => {
       testCase[fnName].apply(null, args)
     })
     return newTestCaseCollection(testCases)

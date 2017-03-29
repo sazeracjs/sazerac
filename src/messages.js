@@ -1,4 +1,4 @@
-import isFunction from 'lodash/isFunction'
+import isFunction from 'lodash.isfunction'
 import objectToMessageString from './objectToMessageString'
 
 const defaultDescribeTest = (fn) => {

@@ -1,6 +1,6 @@
-import isString from 'lodash/isString'
-import isObject from 'lodash/isObject'
-import isUndefined from 'lodash/isUndefined'
+import isString from 'lodash.isstring'
+import isObject from 'lodash.isobject'
+import isUndefined from 'lodash.isundefined'
 
 export default (o) => {
   if (isUndefined(o)) return 'undefined'

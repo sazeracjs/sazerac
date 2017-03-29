@@ -1,4 +1,4 @@
-import isFunction from 'lodash/isFunction'
+import isFunction from 'lodash.isfunction'
 import errors from './errors'
 import lastCaseIndex from './lastCaseIndex'
 import { actions, listener } from './reducers/actions'
