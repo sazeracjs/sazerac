@@ -34,6 +34,7 @@
     "lodash.isobject": "^3.0.2",
     "lodash.isstring": "^4.0.1",
     "lodash.isundefined": "^3.0.1",
+    "lodash.keys": "^4.2.0",
     "lodash.toarray": "^4.4.0",
     "sprintf-js": "^1.0.3"
   },

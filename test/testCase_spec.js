@@ -1,4 +1,4 @@
-import { keys } from 'lodash'
+import keys from 'lodash.keys'
 import { newTestCase, __RewireAPI__ as testCaseRewireAPI } from '../src/testCase'
 import { assert } from 'chai'
 import sinon from 'sinon'
