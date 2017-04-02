@@ -40,9 +40,7 @@ const assertionExecuter = (testFn, inputParams, assertFn) => {
 }
 
 const executeFns = (fns = []) => {
-  //console.log("CALLEM: ", fns)
   fns.forEach((fn) => {
-    //console.log("EXECUTING: ", fn)
     fn()
   })
 }
