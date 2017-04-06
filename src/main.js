@@ -6,11 +6,6 @@ import describer from './describer'
 import { newTestCase } from './testCase'
 import { newTestCaseCollection } from './testCaseCollection'
 
-const frameworkFns = {
-  describeFn: describe,
-  itFn: it
-}
-
 let _state
 
 listener((state) => { _state = state })
@@ -22,6 +17,10 @@ listener((state) => { _state = state })
  * @param {function} definerFn - The function that defines test cases for `testFn`
  */
 const test = (testFn, definerFn) => {
+  const frameworkFns = {
+    describeFn: describe,
+    itFn: it
+  }
   if (!isFunction(testFn)) throw new Error(errors.expectedFunction('test', testFn))
   if (!isFunction(definerFn)) throw new Error(errors.expectedFunction('test', definerFn))
   actions.init({ testFn })

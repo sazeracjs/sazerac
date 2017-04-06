@@ -59,6 +59,7 @@
     "init": "eslint --init",
     "lint": "eslint src test",
     "test": "BABEL_ENV=test mocha --compilers js:babel-core/register --recursive",
+    "test:watch": "BABEL_ENV=test mocha --watch --watch-extensions js --compilers js:babel-core/register --recursive",
     "check": "npm run lint && npm run test",
     "build": "npm run build:commonjs && npm run build:umd && npm run build:umd:min",
     "build:umd": "cross-env BABEL_ENV=commonjs NODE_ENV=dev webpack src/main.js dist/sazerac.js",
