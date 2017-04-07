@@ -10,11 +10,23 @@ const newTestCaseCollection = (testCases) => {
      * Defines the expected return value for all test cases in
      * the collection. Calls expect() on each test case.
      * 
-     * @param {object} expectedValue - The expected return value
+     * @param {object} expectation - The expected return value
+     * @param {string} message - A message to describe the test case expectation
      *
      * @returns {object} A test case collection object
      */
     expect: collectionFn(testCases, 'expect'),
+
+    /**
+     * Defines an expected error to be thrown for all test cases
+     * in the collection. Calls expectError() on each test case.
+     * 
+     * @param {object} expectation - The expected error message to be thrown
+     * @param {string} message - A message to describe the test case expectation
+     *
+     * @returns {object} A test case collection object
+     */
+    expectError: collectionFn(testCases, 'expectError'),
 
     /**
      * Defines the "describe" message for all test cases in the

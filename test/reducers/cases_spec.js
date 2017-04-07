@@ -1,9 +1,11 @@
 import { assert } from 'chai'
 import { runTests } from '../helpers'
 import cases from '../../src/reducers/cases'
+import expectationTypes from '../../src/expectationTypes'
 
 cases.__Rewire__('defaultDescribeCase', (args) => { return JSON.stringify(args) })
 cases.__Rewire__('defaultShouldMessage', (args) => { return JSON.stringify(args) })
+cases.__Rewire__('defaultShouldThrowMessage', (arg) => { return `should_throw_${arg}` })
 
 runTests([
 
@@ -71,26 +73,54 @@ runTests([
 
 runTests([
 
-  [cases, 'cases() SET_CASE_EXPECTED_VALUE', [
+  [cases, 'cases() SET_CASE_EXPECTATION', [
 
     [
-      'when given an array of cases, action.caseIndex, and action.expectedValue',
+      'when given an array of cases, action.caseIndex, action.expectation, and expectationType.VALUE',
       [
         [ { p: 'case_0'}, { p: 'case_1' } ],
-        { type: 'SET_CASE_EXPECTED_VALUE', caseIndex: 1, expectedValue: 'mock_expected_val' }
+        {
+          type: 'SET_CASE_EXPECTATION',
+          caseIndex: 1,
+          expectation: 'mock_expected_val',
+          expectationType: expectationTypes.VALUE
+        }
       ],
       [
         [
-          'should return cases with expected value added to the case at caseIndex',
-          (cases) => { assert.deepPropertyVal(cases, '[1].expectedValue', 'mock_expected_val') }
+          'should return cases with expectation.value added to the case at caseIndex',
+          (cases) => { assert.deepPropertyVal(cases, '[1].expectation.value', 'mock_expected_val') }
         ],
         [
           'should return cases with should message set from expected value',
           (cases) => { assert.deepPropertyVal(cases, '[1].shouldMessage', '"mock_expected_val"') }
         ],
         [
-          'should return cases without expected value added to the case not at caseIndex',
-          (cases) => { assert.notDeepProperty(cases, '[0].expectedValue') }
+          'should return cases without expectation added to the case not at caseIndex',
+          (cases) => { assert.notDeepProperty(cases, '[0].expectation') }
+        ]
+      ]
+    ],
+    
+    [
+      'when given expectationType.ERROR',
+      [
+        [ { p: 'case_1' } ],
+        { 
+          type: 'SET_CASE_EXPECTATION',
+          caseIndex: 0,
+          expectation: 'mock_expected_err',
+          expectationType: expectationTypes.ERROR,
+        }
+      ],
+      [
+        [
+          'should return cases with expectation.error added to the case at caseIndex',
+          (cases) => { assert.deepPropertyVal(cases, '[0].expectation.error', 'mock_expected_err') }
+        ],
+        [
+          'should set should message to default throw message',
+          (cases) => { assert.deepPropertyVal(cases, '[0].shouldMessage', 'should_throw_mock_expected_err') }
         ]
       ]
     ],
@@ -100,9 +130,10 @@ runTests([
       [
         [ { p: 'case_1' } ],
         { 
-          type: 'SET_CASE_EXPECTED_VALUE',
+          type: 'SET_CASE_EXPECTATION',
           caseIndex: 0,
-          expectedValue: 'mock_expected_val',
+          expectation: 'mock_expected_val',
+          expectationType: expectationTypes.VALUE,
           message: 'mock_msg'
         }
       ],
@@ -119,9 +150,10 @@ runTests([
       [
         [ { shouldMessage: 'old_mock_msg' } ],
         { 
-          type: 'SET_CASE_EXPECTED_VALUE',
+          type: 'SET_CASE_EXPECTATION',
           caseIndex: 0,
-          expectedValue: 'mock_expected_val',
+          expectation: 'mock_expected_val',
+          expectationType: expectationTypes.VALUE,
           message: 'new_mock_msg'
         }
       ],
@@ -134,10 +166,15 @@ runTests([
     ],
 
     [
-      'when given a case with shouldMessage set, action.caseIndex, and action.expectedValue',
+      'when given a case with shouldMessage set, action.caseIndex, and action.expectation',
       [
         [ { shouldMessage: 'mock_should_msg' } ],
-        { type: 'SET_CASE_EXPECTED_VALUE', caseIndex: 0, expectedValue: 'mock_expected_val' }
+        {
+          type: 'SET_CASE_EXPECTATION',
+          caseIndex: 0,
+          expectation: 'mock_expected_val',
+          expectationType: expectationTypes.VALUE
+        }
       ],
       [
         [
@@ -148,10 +185,15 @@ runTests([
     ],
 
     [
-      'when given a case with shouldMessage set, should format the message with expectedValue',
+      'when given a case with shouldMessage set',
       [
         [ { shouldMessage: 'should return %s' } ],
-        { type: 'SET_CASE_EXPECTED_VALUE', caseIndex: 0, expectedValue: 'mock_expected_val' }
+        {
+          type: 'SET_CASE_EXPECTATION',
+          caseIndex: 0,
+          expectation: 'mock_expected_val',
+          expectationType: expectationTypes.VALUE
+        }
       ],
       [
         [
@@ -166,6 +208,7 @@ runTests([
         ]
       ]
     ]
+
   ]]
 ])
 

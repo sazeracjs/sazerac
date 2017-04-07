@@ -3,6 +3,7 @@ import sinon from 'sinon'
 
 import { 
   testExecuter,
+  errorTestExecuter,
   buildDescriberDefinition,
   executeDescribers,
   __RewireAPI__ as describerRewireAPI
@@ -12,6 +13,11 @@ const mocks = {}
 
 const testMock = {
   fn: () => { return 'mock_actual_val' }
+}
+
+const errorTestMock = {
+  fnThrows: () => { throw new Error('mock actual error msg') },
+  fnDoesNotThrow: () => {}
 }
 
 const mockFrameworkFuncs = { describeFn: 'describe_fn_mock', itFn: 'it_fn_mock' }
@@ -48,27 +54,60 @@ describe('testExecuter()', () => {
 
 })
 
+describe('errorTestExecuter()', () => {
+
+  beforeEach(() => {
+    mocks.deepEqual = sinon.spy()
+    describerRewireAPI.__Rewire__('deepEqual', mocks.deepEqual)
+    sinon.spy(errorTestMock, 'fnThrows')
+    errorTestExecuter(errorTestMock.fnThrows, [1,2], 'mock expected error msg')
+  })
+
+  afterEach(() => {
+    errorTestMock.fnThrows.restore()
+  })
+
+  it('should call deepEqual with actual thrown error message as the first argument', () => {
+    assert.equal(mocks.deepEqual.args[0][0], 'mock actual error msg')
+    assert.isTrue(mocks.deepEqual.calledOnce)
+  })
+
+  it('should call deepEqual with expected error message as the second argument', () => {
+    assert.equal(mocks.deepEqual.args[0][1], 'mock expected error msg')
+  })
+
+  it('should call the test function input params as arguments', () => {
+    assert.isTrue(errorTestMock.fnThrows.calledWith(1, 2))
+  })
+
+})
+
 // TODO: test assertionExecuter
 
 describe('executeDescribers()', () => {
 
   const mocks = {
     testExecuter: () => {},
+    errorTestExecuter: () => {},
     assertionExecuter: () => {}
   }
   const mockFrameworkFn = (_, fn) => { fn() }
 
   beforeEach(() => {
     sinon.spy(mocks, 'testExecuter')
+    sinon.spy(mocks, 'errorTestExecuter')
     sinon.spy(mocks, 'assertionExecuter')
     describerRewireAPI.__Rewire__('testExecuter', mocks.testExecuter)
+    describerRewireAPI.__Rewire__('errorTestExecuter', mocks.errorTestExecuter)
     describerRewireAPI.__Rewire__('assertionExecuter', mocks.assertionExecuter)
   })
 
   afterEach(() => {
     mocks.testExecuter.restore()
+    mocks.errorTestExecuter.restore()
     mocks.assertionExecuter.restore()
     describerRewireAPI.__ResetDependency__('testExecuter')
+    describerRewireAPI.__ResetDependency__('errorTestExecuter')
     describerRewireAPI.__ResetDependency__('assertionExecuter')
   })
 
@@ -77,7 +116,11 @@ describe('executeDescribers()', () => {
       describe: 'when called with an expected value of null',
       definition: {
         func: mockFrameworkFn,
-        test: { testFn: 'testFn', inputParams: 'inputParams', expectedValue: null }
+        test: {
+          testFn: 'testFn',
+          inputParams: 'inputParams',
+          expectation: { value: null }
+        }
       },
       assertions: [
         [
@@ -94,7 +137,11 @@ describe('executeDescribers()', () => {
       describe: 'when called with an expected value of undefined',
       definition: {
         func: mockFrameworkFn,
-        test: { testFn: 'testFn', inputParams: 'inputParams', expectedValue: undefined }
+        test: {
+          testFn: 'testFn',
+          inputParams: 'inputParams',
+          expectation: { value: undefined }
+        }
       },
       assertions: [
         [
@@ -108,7 +155,28 @@ describe('executeDescribers()', () => {
       ]
     },
     {
-      describe: 'when called without an expected value',
+      describe: 'when called with an expected error',
+      definition: {
+        func: mockFrameworkFn,
+        test: {
+          testFn: 'testFn',
+          inputParams: 'inputParams',
+          expectation: { error: 'mock error msg'}
+        }
+      },
+      assertions: [
+        [
+          'should call errorTestExecuter with the expected error',
+          () => {
+            assert.equal(mocks.errorTestExecuter.args[0][0], 'testFn')
+            assert.equal(mocks.errorTestExecuter.args[0][1], 'inputParams')
+            assert.equal(mocks.errorTestExecuter.args[0][2], 'mock error msg')
+          }
+        ]
+      ]
+    },
+    {
+      describe: 'when called without an expectation',
       definition: {
         func: mockFrameworkFn,
         test: { testFn: 'testFn', inputParams: 'inputParams' }
@@ -127,7 +195,7 @@ describe('executeDescribers()', () => {
         test: { 
           testFn: 'testFn',
           inputParams: 'inputParams', 
-          expectedValue: 'expectedVal',
+          expectation: { value: 'expectedVal' },
           beforeFns: [sinon.spy(), sinon.spy()],
           afterFns: [sinon.spy(), sinon.spy()]
         }
@@ -185,7 +253,7 @@ describe('buildDescriberDefinition()', () => {
               test: {
                 testFn: 'mock_test_fn',
                 inputParams: 'mock_input_params',
-                expectedValue: 'mock_expected_val',
+                expectation: { value: 'mock_expected_val' },
                 beforeFns: [() => { }, () => { }],
                 afterFns: [() => { }, () => { }]
               }
@@ -228,13 +296,13 @@ describe('buildDescriberDefinition()', () => {
               describeMessage: 'mock_describe_msg',
               shouldMessage: 'mock_should_msg',
               inputParams: 'mock_input_params',
-              expectedValue: 'mock_expected_val' 
+              expectation: { value: 'mock_expected_val' }
             },
             { 
               describeMessage: 'mock_describe_msg_2',
               shouldMessage: 'mock_should_msg_2',
               inputParams: 'mock_input_params_2',
-              expectedValue: 'mock_expected_val_2' 
+              expectation: { value: 'mock_expected_val_2' }
             }
           ]
         }
@@ -304,10 +372,10 @@ describe('buildDescriberDefinition()', () => {
           }
         ],
         [
-          s + 'a test array for each it call with the case\'s expectedValue set',
+          s + 'a test array for each it call with the case\'s expectation set',
           (def) => {
-            assert.deepPropertyVal(def, 'calls[0].calls[0].test.expectedValue', 'mock_expected_val')
-            assert.deepPropertyVal(def, 'calls[1].calls[0].test.expectedValue', 'mock_expected_val_2')
+            assert.deepPropertyVal(def, 'calls[0].calls[0].test.expectation.value', 'mock_expected_val')
+            assert.deepPropertyVal(def, 'calls[1].calls[0].test.expectation.value', 'mock_expected_val_2')
           }
         ]
       ]

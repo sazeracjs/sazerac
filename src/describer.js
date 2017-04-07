@@ -1,22 +1,27 @@
 import filter from 'lodash.filter'
 import isUndefined from 'lodash.isundefined'
 import deepEqual from './deepEqual'
+import expectationTypes from './expectationTypes'
 
-const describer = (context, frameworkFunctions) => {
+export const describer = (context, frameworkFunctions) => {
   executeDescribers(buildDescriberDefinition(context, frameworkFunctions))
 }
 
-const executeDescribers = (def) => {
+export const executeDescribers = (def) => {
   const { func, message, calls, test } = def
 
   func(message, () => {
     if (test) {
-      const { testFn, inputParams, expectedValue, assertFn, beforeFns, afterFns } = test
+      const { testFn, inputParams, expectation, assertFn, beforeFns, afterFns } = test
 
       executeFns(beforeFns)
 
-      if (test.hasOwnProperty('expectedValue')) {
-        testExecuter(testFn, inputParams, expectedValue)
+      if (test.hasOwnProperty('expectation')) {
+        if (expectation.hasOwnProperty(expectationTypes.VALUE)) {
+          testExecuter(testFn, inputParams, expectation[expectationTypes.VALUE])
+        } else if (expectation.hasOwnProperty(expectationTypes.ERROR)) {
+          errorTestExecuter(testFn, inputParams, expectation[expectationTypes.ERROR])
+        }
       } else if (assertFn) {
         assertionExecuter(testFn, inputParams, assertFn)
       }
@@ -29,23 +34,28 @@ const executeDescribers = (def) => {
   })
 }
 
-const testExecuter = (testFn, inputParams, expectedValue) => {
+export const testExecuter = (testFn, inputParams, expectedVal) => {
   const actualVal = testFn.apply(null, inputParams)
-  deepEqual(actualVal, expectedValue)
+  deepEqual(actualVal, expectedVal)
 }
 
-const assertionExecuter = (testFn, inputParams, assertFn) => {
+export const errorTestExecuter = (testFn, inputParams, expectedError) => {
+  let actualErrMsg
+  let expectedErrMsg = expectedError
+  try {
+    testFn.apply(null, inputParams)
+  } catch (err) {
+    actualErrMsg = err.message
+  }
+  deepEqual(actualErrMsg, expectedErrMsg)
+}
+
+export const assertionExecuter = (testFn, inputParams, assertFn) => {
   const actualVal = testFn.apply(null, inputParams)
   assertFn(actualVal)
 }
 
-const executeFns = (fns = []) => {
-  fns.forEach((fn) => {
-    fn()
-  })
-}
-
-const buildDescriberDefinition = (context, frameworkFunctions) => {
+export const buildDescriberDefinition = (context, frameworkFunctions) => {
   const { describeFn } = frameworkFunctions
   const { describeMessage } = context
   return {
@@ -53,6 +63,12 @@ const buildDescriberDefinition = (context, frameworkFunctions) => {
     message: describeMessage,
     calls: getCaseDescriberCalls(context, frameworkFunctions)
   }
+}
+
+const executeFns = (fns = []) => {
+  fns.forEach((fn) => {
+    fn()
+  })
 }
 
 const getCaseDescriberCalls = (context, frameworkFunctions) => {
@@ -75,13 +91,13 @@ const getCaseDescriberDef = (tCase, frameworkFunctions, testFn, assertions, befo
 }
 
 const getCaseItCalls = (tCase, itFn, testFn, assertions, beforeFns, afterFns) => {
-  const { shouldMessage, inputParams, expectedValue } = tCase
+  const { shouldMessage, inputParams, expectation } = tCase
   let calls = []
-  if (!isUndefined(expectedValue)) {
+  if (!isUndefined(expectation)) {
     calls.push({
       func: itFn,
       message: shouldMessage,
-      test: { testFn, inputParams, expectedValue, beforeFns, afterFns }
+      test: { testFn, inputParams, expectation, beforeFns, afterFns }
     })
   }
   if (assertions) {
@@ -98,4 +114,3 @@ const getCaseItCalls = (tCase, itFn, testFn, assertions, beforeFns, afterFns) =>
 }
 
 export default describer
-export { describer, buildDescriberDefinition, testExecuter, assertionExecuter, executeDescribers }

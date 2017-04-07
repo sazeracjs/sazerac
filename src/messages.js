@@ -1,7 +1,7 @@
 import isFunction from 'lodash.isfunction'
 import objectToMessageString from './objectToMessageString'
 
-const defaultDescribeTest = (fn) => {
+export const defaultDescribeTest = (fn) => {
   if (isFunction(fn)) {
     if (fn.name) {
       return fn.name + '()'
@@ -11,7 +11,7 @@ const defaultDescribeTest = (fn) => {
   }
 }
 
-const defaultDescribeCase = (args = []) => {
+export const defaultDescribeCase = (args = []) => {
   if (args.length > 0) {
     const formattedArgs = args.map((arg) => {
       return objectToMessageString(arg)
@@ -22,9 +22,21 @@ const defaultDescribeCase = (args = []) => {
   }
 }
 
-const defaultShouldMessage = (expectedValue) => {
-  return 'should return ' + objectToMessageString(expectedValue)
+export const defaultShouldMessage = (expectedValue) => {
+  return defaultMessage('should return', expectedValue)
 }
 
-export default { defaultDescribeTest, defaultDescribeCase, defaultShouldMessage }
-export { defaultDescribeTest, defaultDescribeCase, defaultShouldMessage }
+export const defaultShouldThrowMessage = (expectedMessage) => {
+  return defaultMessage('should throw error', expectedMessage)
+}
+
+const defaultMessage = (msgPrefix, msg) => {
+  return `${msgPrefix} ${objectToMessageString(msg)}`
+}
+
+export default {
+  defaultDescribeTest,
+  defaultDescribeCase,
+  defaultShouldMessage,
+  defaultShouldThrowMessage
+}

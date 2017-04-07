@@ -4,7 +4,12 @@ import at from 'lodash.at'
 import isUndefined from 'lodash.isundefined'
 import { vsprintf } from 'sprintf-js'
 import { actionTypes } from './actions'
-import { defaultDescribeCase, defaultShouldMessage } from '../messages'
+import expectationTypes from '../expectationTypes'
+import {
+  defaultDescribeCase,
+  defaultShouldMessage,
+  defaultShouldThrowMessage
+} from '../messages'
 
 const updateCase = (cases, caseIndex, fn) => {
   return cases.map((tCase, i) => {
@@ -29,6 +34,10 @@ export default (state = [], action) => {
 
   const { caseIndex } = action
   let inputParams, args, expectedVal, msg
+  const defaultMsgFns = {
+    [expectationTypes.VALUE]: defaultShouldMessage,
+    [expectationTypes.ERROR]: defaultShouldThrowMessage
+  }
 
   switch(action.type) {
     
@@ -39,13 +48,15 @@ export default (state = [], action) => {
         describeMessage: defaultDescribeCase(inputParams)
       })
 
-    case actionTypes.SET_CASE_EXPECTED_VALUE:
+    case actionTypes.SET_CASE_EXPECTATION:
       msg = action.message || getCaseProp(state, caseIndex, 'shouldMessage')
       return setCaseProps(state, caseIndex, {
-        expectedValue: action.expectedValue,
+        expectation: {
+          [action.expectationType]: action.expectation
+        },
         shouldMessage: msg ? 
-          vsprintf(msg, [action.expectedValue]) :
-            defaultShouldMessage(action.expectedValue)
+          vsprintf(msg, [action.expectation]) :
+            defaultMsgFns[action.expectationType](action.expectation)
       })
 
     case actionTypes.SET_CASE_DESCRIBE_MESSAGE:

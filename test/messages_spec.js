@@ -117,6 +117,23 @@ runTests([
       ]
     ]
 
+  ]],
+
+  [messages.defaultShouldThrowMessage, 'messages.defaultShouldThrowMessage', [
+
+    [
+      'when given a string value',
+      ['one'],
+      [
+        [
+          'should return a message with the string value quoted',
+          (ret) => {
+            assert.equal(ret, 'should throw error \'one\'')
+          }
+        ]
+      ]
+    ]
+
   ]]
 
 ])

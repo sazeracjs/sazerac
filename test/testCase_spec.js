@@ -1,10 +1,11 @@
 import keys from 'lodash.keys'
 import { newTestCase, __RewireAPI__ as testCaseRewireAPI } from '../src/testCase'
+import expectationTypes from '../src/expectationTypes'
 import { assert } from 'chai'
 import sinon from 'sinon'
 
 const actions = {
-  setCaseExpectedValue: () => { },
+  setCaseExpectation: () => { },
   setCaseDescribeMessage: () => { },
   setCaseShouldMessage: () => { },
   addCaseAssertion: () => { },
@@ -34,11 +35,13 @@ describe('testCase', () => {
 
     describe('when called with an expected value', () => {
       beforeEach(() => { testCase.expect('mock_expected_val') })
-      it('should call actions.setCaseExpectedValue() with an object containing caseIndex and expectedValue', () => 
+      it('should call actions.setCaseExpectation() with an object containing ' +
+          'caseIndex, expectation, and expectedTypes.VALUE', () => 
       {
-        assert.deepEqual(actions.setCaseExpectedValue.getCall(0).args[0], {
+        assert.deepEqual(actions.setCaseExpectation.getCall(0).args[0], {
           caseIndex: 222,
-          expectedValue: 'mock_expected_val',
+          expectationType: expectationTypes.VALUE,
+          expectation: 'mock_expected_val',
           message: undefined
         })
       })
@@ -46,13 +49,32 @@ describe('testCase', () => {
 
     describe('when called with an expected value and a message', () => {
       beforeEach(() => { testCase.expect('mock_expected_val', 'mock_message') })
-      it('should call actions.setCaseExpectedValue() with an object containing caseIndex, ' +
-          'expectedValue, and the message', () =>
+      it('should call actions.setCaseExpectation() with an object containing caseIndex, ' +
+          'expectation, expectedTypes.VALUE, and the message', () =>
       {
-        assert.deepEqual(actions.setCaseExpectedValue.getCall(0).args[0], {
+        assert.deepEqual(actions.setCaseExpectation.getCall(0).args[0], {
           caseIndex: 222,
-          expectedValue: 'mock_expected_val',
+          expectationType: expectationTypes.VALUE,
+          expectation: 'mock_expected_val',
           message: 'mock_message'
+        })
+      })
+    })
+
+  })
+
+  describe('.expectError()', () => {
+
+    describe('when called with an expected error', () => {
+      beforeEach(() => { testCase.expectError('mock_expected_err') })
+      it('should call actions.setCaseExpectation() with an object containing ' +
+          'caseIndex, expectation, and expectedTypes.ERROR', () => 
+      {
+        assert.deepEqual(actions.setCaseExpectation.getCall(0).args[0], {
+          caseIndex: 222,
+          expectationType: expectationTypes.ERROR,
+          expectation: 'mock_expected_err',
+          message: undefined
         })
       })
     })

@@ -5,6 +5,7 @@ import sinon from 'sinon'
 const newTestCase = () => {
   return {
     expect: () => { },
+    expectError: () => { },
     describe: () => { },
     should: () => { },
     assert: () => { },
@@ -16,7 +17,15 @@ const newTestCase = () => {
 describe('testCaseCollection', () => {
 
   let testCases, tCase_1, tCase_2, tCase_3
-  const fnNames = ['expect', 'describe', 'should', 'assert', 'before', 'after']
+  const fnNames = [
+    'expect',
+    'expectError',
+    'describe',
+    'should',
+    'assert',
+    'before',
+    'after'
+  ]
 
   const spyOnTestCaseFns = (tCase) => {
     fnNames.forEach((fnName) => {
