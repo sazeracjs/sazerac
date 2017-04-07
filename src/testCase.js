@@ -90,7 +90,7 @@ const newTestCase = (caseIndex) => {
 
 const testCaseFn = (actionArgs, action, paramNames, args = []) => {
   paramNames = Array.isArray(paramNames) ? paramNames : [paramNames]
-  const caseIndex = { actionArgs }
+  const { caseIndex } = actionArgs
   return (...params) => {
     paramNames.forEach((n, i) => {
       actionArgs[n] = params[i]

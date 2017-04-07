@@ -16,6 +16,7 @@ const actions = {
 describe('testCase', () => {
 
   let testCase
+  let testCaseReturned
 
   beforeEach(() => {
     testCase = newTestCase(222)
@@ -25,6 +26,7 @@ describe('testCase', () => {
 
   afterEach(() => {
     keys(actions).forEach((a) => { actions[a].restore() })
+    testCaseReturned = undefined
   })
 
   it('should set ___caseIndex on the testCase', () => {
@@ -34,7 +36,7 @@ describe('testCase', () => {
   describe('.expect()', () => {
 
     describe('when called with an expected value', () => {
-      beforeEach(() => { testCase.expect('mock_expected_val') })
+      beforeEach(() => { testCaseReturned = testCase.expect('mock_expected_val') })
       it('should call actions.setCaseExpectation() with an object containing ' +
           'caseIndex, expectation, and expectedTypes.VALUE', () => 
       {
@@ -45,10 +47,13 @@ describe('testCase', () => {
           message: undefined
         })
       })
+      it('should return a test case with the same caseIndex', () => {
+        assert.equal(testCaseReturned.___caseIndex, 222)
+      })
     })
 
     describe('when called with an expected value and a message', () => {
-      beforeEach(() => { testCase.expect('mock_expected_val', 'mock_message') })
+      beforeEach(() => { testCaseReturned = testCase.expect('mock_expected_val', 'mock_message') })
       it('should call actions.setCaseExpectation() with an object containing caseIndex, ' +
           'expectation, expectedTypes.VALUE, and the message', () =>
       {
@@ -59,6 +64,9 @@ describe('testCase', () => {
           message: 'mock_message'
         })
       })
+      it('should return a test case with the same caseIndex', () => {
+        assert.equal(testCaseReturned.___caseIndex, 222)
+      })
     })
 
   })
@@ -66,7 +74,7 @@ describe('testCase', () => {
   describe('.expectError()', () => {
 
     describe('when called with an expected error', () => {
-      beforeEach(() => { testCase.expectError('mock_expected_err') })
+      beforeEach(() => { testCaseReturned = testCase.expectError('mock_expected_err') })
       it('should call actions.setCaseExpectation() with an object containing ' +
           'caseIndex, expectation, and expectedTypes.ERROR', () => 
       {
@@ -77,12 +85,15 @@ describe('testCase', () => {
           message: undefined
         })
       })
+      it('should return a test case with the same caseIndex', () => {
+        assert.equal(testCaseReturned.___caseIndex, 222)
+      })
     })
 
   })
 
   describe('.describe()', () => {
-    beforeEach(() => { testCase.describe('mock_describe_msg') })
+    beforeEach(() => { testCaseReturned = testCase.describe('mock_describe_msg') })
     it('should call actions.setCaseDescribeMessage() with an object containing caseIndex and message', () => 
     {
       assert.deepEqual(actions.setCaseDescribeMessage.getCall(0).args[0], {
@@ -90,10 +101,13 @@ describe('testCase', () => {
         message: 'mock_describe_msg'
       })
     })
+    it('should return a test case with the same caseIndex', () => {
+      assert.equal(testCaseReturned.___caseIndex, 222)
+    })
   })
 
   describe('.should()', () => {
-    beforeEach(() => { testCase.should('mock_should_message') })
+    beforeEach(() => { testCaseReturned = testCase.should('mock_should_message') })
     it('should call actions.setCaseShouldMessage() with an object containing caseIndex and message', () => 
     {
       assert.deepEqual(actions.setCaseShouldMessage.getCall(0).args[0], {
@@ -101,10 +115,13 @@ describe('testCase', () => {
         message: 'mock_should_message'
       })
     })
+    it('should return a test case with the same caseIndex', () => {
+      assert.equal(testCaseReturned.___caseIndex, 222)
+    })
   })
 
   describe('.assert()', () => {
-    beforeEach(() => { testCase.assert('mock_should_message', 'mock_assert_fn') })
+    beforeEach(() => { testCaseReturned = testCase.assert('mock_should_message', 'mock_assert_fn') })
     it('should call actions.setCaseShouldMessage() with an object containing ' +
         'caseIndex, shouldMessage, and testFn', () => 
     {
@@ -114,10 +131,13 @@ describe('testCase', () => {
         assertFn: 'mock_assert_fn'
       })
     })
+    it('should return a test case with the same caseIndex', () => {
+      assert.equal(testCaseReturned.___caseIndex, 222)
+    })
   })
 
   describe('.before()', () => {
-    beforeEach(() => { testCase.before('mock_before_fn') })
+    beforeEach(() => { testCaseReturned = testCase.before('mock_before_fn') })
     it('should call actions.addCaseBeforeFn() with an object containing beforeFn', () => 
     {
       assert.deepEqual(actions.addCaseBeforeFn.getCall(0).args[0], {
@@ -125,16 +145,22 @@ describe('testCase', () => {
         beforeFn: 'mock_before_fn'
       })
     })
+    it('should return a test case with the same caseIndex', () => {
+      assert.equal(testCaseReturned.___caseIndex, 222)
+    })
   })
 
   describe('.after()', () => {
-    beforeEach(() => { testCase.after('mock_after_fn') })
+    beforeEach(() => { testCaseReturned = testCase.after('mock_after_fn') })
     it('should call actions.addCaseAfterFn() with an object containing afterFn', () => 
     {
       assert.deepEqual(actions.addCaseAfterFn.getCall(0).args[0], {
         caseIndex: 222,
         afterFn: 'mock_after_fn'
       })
+    })
+    it('should return a test case with the same caseIndex', () => {
+      assert.equal(testCaseReturned.___caseIndex, 222)
     })
   })
 
