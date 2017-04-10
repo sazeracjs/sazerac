@@ -26,7 +26,7 @@ const newTestCase = (caseIndex) => {
     /**
      * Defines an expected error to be thrown when this test case is executed.
      * 
-     * @param {object} expectation - The expected error message to be thrown
+     * @param {object} expectation - The expected message from the error thrown
      * @param {string} message - A message to describe the test case expectation
      *
      * @returns {object} A test case object
