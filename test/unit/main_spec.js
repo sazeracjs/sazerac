@@ -1,5 +1,5 @@
-import { test } from '../src/main'
-import errors from '../src/errors'
+import { test } from 'main'
+import errors from 'errors'
 import { assert } from 'chai'
 
 describe('test()', () => {

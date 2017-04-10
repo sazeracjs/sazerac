@@ -1,4 +1,4 @@
-import { newTestCaseCollection } from '../src/testCaseCollection'
+import { newTestCaseCollection } from 'testCaseCollection'
 import { assert } from 'chai'
 import sinon from 'sinon'
 

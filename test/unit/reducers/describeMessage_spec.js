@@ -1,5 +1,5 @@
 import { runFuncTest } from '../helpers'
-import describeMessage from '../../src/reducers/describeMessage'
+import describeMessage from 'reducers/describeMessage'
 
 const defaultDescribeTest = (arg) => { return arg }
 

@@ -1,5 +1,5 @@
 import { runFuncTest } from '../helpers'
-import testFunction from '../../src/reducers/testFunction'
+import testFunction from 'reducers/testFunction'
 
 runFuncTest(testFunction, 'testFunction() INIT', [
   {

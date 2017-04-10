@@ -1,6 +1,6 @@
 import { assert } from 'chai'
 import { runTests } from '../helpers'
-import caseAssertions from '../../src/reducers/caseAssertions'
+import caseAssertions from 'reducers/caseAssertions'
 
 runTests([
 

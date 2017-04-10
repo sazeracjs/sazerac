@@ -1,5 +1,5 @@
 import { runFuncTest } from './helpers'
-import objectArgsToArray from '../src/objectArgsToArray'
+import objectArgsToArray from 'objectArgsToArray'
 
 runFuncTest(objectArgsToArray, 'objectArgsToArray', [
   {

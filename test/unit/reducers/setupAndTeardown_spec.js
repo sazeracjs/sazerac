@@ -1,6 +1,6 @@
 import { assert } from 'chai'
 import { runTests } from '../helpers'
-import setupAndTeardown, { setupAndTeardownTypes } from '../../src/reducers/setupAndTeardown'
+import setupAndTeardown, { setupAndTeardownTypes } from 'reducers/setupAndTeardown'
 
 runTests([
 

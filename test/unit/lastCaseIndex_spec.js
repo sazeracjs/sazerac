@@ -1,4 +1,4 @@
-import lastCaseIndex from '../src/lastCaseIndex'
+import lastCaseIndex from 'lastCaseIndex'
 import { runTests } from './helpers'
 import { assert } from 'chai'
 

@@ -1,7 +1,7 @@
 import { assert } from 'chai'
 import { runTests } from '../helpers'
-import cases from '../../src/reducers/cases'
-import expectationTypes from '../../src/expectationTypes'
+import cases from 'reducers/cases'
+import expectationTypes from 'expectationTypes'
 
 cases.__Rewire__('defaultDescribeCase', (args) => { return JSON.stringify(args) })
 cases.__Rewire__('defaultShouldMessage', (args) => { return JSON.stringify(args) })

@@ -7,7 +7,7 @@ import {
   buildDescriberDefinition,
   executeDescribers,
   __RewireAPI__ as describerRewireAPI
-} from '../src/describer'
+} from 'describer'
 
 const mocks = {}
 

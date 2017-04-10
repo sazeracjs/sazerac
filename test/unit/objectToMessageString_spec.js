@@ -1,5 +1,5 @@
 import { runFuncTest } from './helpers'
-import objectToMessageString from '../src/objectToMessageString'
+import objectToMessageString from 'objectToMessageString'
 
 runFuncTest(objectToMessageString, 'objectToMessageString', [
   {

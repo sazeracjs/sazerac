@@ -1,4 +1,4 @@
-import messages from '../src/messages'
+import messages from 'messages'
 import { runTests } from './helpers'
 import { assert } from 'chai'
 
