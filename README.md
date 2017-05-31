@@ -1,5 +1,5 @@
 <p align="center">
-  <a href="https://sazeracjs.org" target="_blank"><img width="50" src="http://sazeracjs.com/images/logo.svg"></a>
+  <a href="http://sazeracjs.com" target="_blank"><img width="50" src="http://sazeracjs.com/images/logo.svg"></a>
 </p>
 
 <p align="center">
