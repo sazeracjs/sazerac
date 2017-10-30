@@ -33,7 +33,7 @@ const getCaseProp = (state, caseIndex, prop) => {
 export default (state = [], action) => {
 
   const { caseIndex } = action
-  let inputParams, args, expectedVal, msg
+  let inputParams, args, expectation, msg
   const defaultMsgFns = {
     [expectationTypes.VALUE]: defaultShouldMessage,
     [expectationTypes.ERROR]: defaultShouldThrowMessage
@@ -66,9 +66,9 @@ export default (state = [], action) => {
       return setCaseProps(state, caseIndex, { describeMessage: msg })
 
     case actionTypes.SET_CASE_SHOULD_MESSAGE:
-      expectedVal = getCaseProp(state, caseIndex, 'expectedValue')
-      msg = !isUndefined(expectedVal) ?
-                    vsprintf(action.message, [expectedVal]) : action.message
+      expectation = getCaseProp(state, caseIndex, 'expectation')
+      msg = expectation !== undefined && expectationTypes.VALUE in expectation ?
+                    vsprintf(action.message, [expectation[expectationTypes.VALUE]]) : action.message
       return setCaseProps(state, caseIndex, { shouldMessage: msg })
 
     case actionTypes.INIT:
