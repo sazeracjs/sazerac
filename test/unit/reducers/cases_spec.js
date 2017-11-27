@@ -276,14 +276,14 @@ runTests([
     ],
 
     [
-      'when given a formatted action.message and a case with expectedValue',
+      'when given a formatted action.message and a case with an expected value',
       [
-        [ { expectedValue: 'mock_val' } ],
+        [ { expectation: { [expectationTypes.VALUE]: 'mock_val' } } ],
         { type: 'SET_CASE_SHOULD_MESSAGE', caseIndex: 0, message: 'should return %s' }
       ],
       [
         [
-          'should return cases with shouldMessage formatted with expectedValue',
+          'should return cases with shouldMessage formatted with the expected value',
           (cases) => {
             assert.deepPropertyVal(cases, '[0].shouldMessage', 'should return mock_val')
           }
@@ -292,7 +292,7 @@ runTests([
     ],
 
     [
-      'when given a formatted action.message and a case without expectedValue',
+      'when given a formatted action.message and a case without expected value',
       [
         [ { } ],
         { type: 'SET_CASE_SHOULD_MESSAGE', caseIndex: 0, message: 'should return %s' }
