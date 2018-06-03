@@ -13,7 +13,8 @@ var config = {
   },
   output: {
     library: 'Sazerac',
-    libraryTarget: 'umd'
+    libraryTarget: 'umd',
+    umdNamedDefine: true
   },
   plugins: []
 }
