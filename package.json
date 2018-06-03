@@ -12,7 +12,8 @@
   "files": [
     "dist",
     "lib",
-    "src"
+    "src",
+    "types"
   ],
   "repository": {
     "type": "git",
