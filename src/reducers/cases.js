@@ -1,7 +1,6 @@
 import concat from 'lodash.concat'
 import toArray from 'lodash.toarray'
 import at from 'lodash.at'
-import isUndefined from 'lodash.isundefined'
 import { vsprintf } from 'sprintf-js'
 import { actionTypes } from './actions'
 import expectationTypes from '../expectationTypes'

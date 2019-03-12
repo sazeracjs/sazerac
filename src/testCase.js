@@ -88,6 +88,8 @@ const newTestCase = (caseIndex) => {
   }
 }
 
+// Not sure what `args` is for here, though the lint warning seems correct.
+// eslint-disable-next-line no-unused-vars
 const testCaseFn = (actionArgs, action, paramNames, args = []) => {
   paramNames = Array.isArray(paramNames) ? paramNames : [paramNames]
   const { caseIndex } = actionArgs

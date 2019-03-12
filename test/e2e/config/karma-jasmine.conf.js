@@ -16,13 +16,13 @@ module.exports = function(config) {
       },
       watch: true,
       resolve: {
-          alias: {
-            'sazerac': '../../../src/main'
-          }
+        alias: {
+          'sazerac': '../../../src/main'
+        }
       }
     },
     webpackServer: {
-        noInfo: true
+      noInfo: true
     },
     reporters: ['spec'],
     port: 9876,
