@@ -1,0 +1,21 @@
+version: 2
+jobs:
+  build:
+    docker:
+      - image: circleci/node:6
+
+    steps:
+      - checkout
+
+      - run:
+          name: Install dependencies
+          command: npm install
+
+      - run:
+          name: Run tests
+          command: npm test
+
+      - run:
+          name: Check lint
+          command: npm run lint
+          when: always
