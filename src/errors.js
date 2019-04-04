@@ -5,7 +5,7 @@ const baseMessage = (fnName) => {
 }
 
 export const expectedFunction = (fnName, fnArg) => {
-  return baseMessage(fnName) + 'expected ' + 
+  return baseMessage(fnName) + 'expected ' +
     objectToMessageString(fnArg) + ' to be a function'
 }
 

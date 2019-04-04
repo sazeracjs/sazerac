@@ -18,7 +18,7 @@ runTests([
         ]
       ]
     ],
-    
+
     [
       'when given a context with cases',
       [{ cases: [{},{},{}] }],

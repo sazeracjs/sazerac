@@ -39,7 +39,7 @@ export default (state = [], action) => {
   }
 
   switch(action.type) {
-    
+
     case actionTypes.ADD_CASE:
       inputParams = toArray(action.args)
       return concat(state, {
@@ -53,14 +53,14 @@ export default (state = [], action) => {
         expectation: {
           [action.expectationType]: action.expectation
         },
-        shouldMessage: msg ? 
+        shouldMessage: msg ?
           vsprintf(msg, [action.expectation]) :
             defaultMsgFns[action.expectationType](action.expectation)
       })
 
     case actionTypes.SET_CASE_DESCRIBE_MESSAGE:
       args = getCaseProp(state, caseIndex, 'inputParams')
-      msg = args && args.length > 0 ? 
+      msg = args && args.length > 0 ?
               vsprintf(action.message, args) : action.message
       return setCaseProps(state, caseIndex, { describeMessage: msg })
 

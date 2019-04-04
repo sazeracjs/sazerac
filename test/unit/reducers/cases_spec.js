@@ -101,12 +101,12 @@ runTests([
         ]
       ]
     ],
-    
+
     [
       'when given expectationType.ERROR',
       [
         [ { p: 'case_1' } ],
-        { 
+        {
           type: 'SET_CASE_EXPECTATION',
           caseIndex: 0,
           expectation: 'mock_expected_err',
@@ -129,7 +129,7 @@ runTests([
       'when given a case without shouldMessage set, and action.message',
       [
         [ { p: 'case_1' } ],
-        { 
+        {
           type: 'SET_CASE_EXPECTATION',
           caseIndex: 0,
           expectation: 'mock_expected_val',
@@ -149,7 +149,7 @@ runTests([
       'when given a case with shouldMessage set, and action.message',
       [
         [ { shouldMessage: 'old_mock_msg' } ],
-        { 
+        {
           type: 'SET_CASE_EXPECTATION',
           caseIndex: 0,
           expectation: 'mock_expected_val',
@@ -198,12 +198,12 @@ runTests([
       [
         [
           'should not change from the original shouldMessage value',
-          (cases) => { 
+          (cases) => {
             assert.nestedPropertyVal(
-              cases, 
+              cases,
               '[0].shouldMessage',
               'should return mock_expected_val'
-            ) 
+            )
           }
         ]
       ]
