@@ -19,11 +19,11 @@ runTests([
         ],
         [
           'should return an array with an assertion added with assertFn set',
-          (ret) => { assert.deepPropertyVal(ret, '[0].assertFn', 'mock_assert_fn') }
+          (ret) => { assert.nestedPropertyVal(ret, '[0].assertFn', 'mock_assert_fn') }
         ],
         [
           'should return an array with an assertion added with shouldMessage set',
-          (ret) => { assert.deepPropertyVal(ret, '[0].shouldMessage', 'mock_message') }
+          (ret) => { assert.nestedPropertyVal(ret, '[0].shouldMessage', 'mock_message') }
         ]
       ]
     ],
@@ -41,11 +41,11 @@ runTests([
         ],
         [
           'should return an array with an assertion added with assertFn set',
-          (ret) => { assert.deepPropertyVal(ret, '[2].assertFn', 'mock_assert_fn') }
+          (ret) => { assert.nestedPropertyVal(ret, '[2].assertFn', 'mock_assert_fn') }
         ],
         [
           'should return an array with an assertion added with shouldMessage set',
-          (ret) => { assert.deepPropertyVal(ret, '[2].shouldMessage', 'mock_message') }
+          (ret) => { assert.nestedPropertyVal(ret, '[2].shouldMessage', 'mock_message') }
         ]
       ]
     ]

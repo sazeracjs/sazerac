@@ -20,7 +20,7 @@ runTests([
         ],
         [
           'should return an array with beforeFn set on the first item',
-          (ret) => { assert.deepPropertyVal(ret, '[0].beforeFn', 'mock_before_fn') }
+          (ret) => { assert.nestedPropertyVal(ret, '[0].beforeFn', 'mock_before_fn') }
         ]
       ]
     ],
@@ -58,7 +58,7 @@ runTests([
         ],
         [
           'should return an array with afterFn set on the first item',
-          (ret) => { assert.deepPropertyVal(ret, '[0].afterFn', 'mock_after_fn') }
+          (ret) => { assert.nestedPropertyVal(ret, '[0].afterFn', 'mock_after_fn') }
         ]
       ]
     ],
