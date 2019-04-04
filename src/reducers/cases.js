@@ -55,19 +55,19 @@ export default (state = [], action) => {
         },
         shouldMessage: msg ?
           vsprintf(msg, [action.expectation]) :
-            defaultMsgFns[action.expectationType](action.expectation)
+          defaultMsgFns[action.expectationType](action.expectation)
       })
 
     case actionTypes.SET_CASE_DESCRIBE_MESSAGE:
       args = getCaseProp(state, caseIndex, 'inputParams')
       msg = args && args.length > 0 ?
-              vsprintf(action.message, args) : action.message
+        vsprintf(action.message, args) : action.message
       return setCaseProps(state, caseIndex, { describeMessage: msg })
 
     case actionTypes.SET_CASE_SHOULD_MESSAGE:
       expectation = getCaseProp(state, caseIndex, 'expectation')
       msg = expectation !== undefined && expectationTypes.VALUE in expectation ?
-                    vsprintf(action.message, [expectation[expectationTypes.VALUE]]) : action.message
+        vsprintf(action.message, [expectation[expectationTypes.VALUE]]) : action.message
       return setCaseProps(state, caseIndex, { shouldMessage: msg })
 
     case actionTypes.INIT:
