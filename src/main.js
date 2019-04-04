@@ -45,7 +45,7 @@ const given = (...args) => {
 /**
  * Groups multiple test case objects into a collection
  *
- * @param {...object} testCases - The test case objects to group. Accepts an array or 
+ * @param {...object} testCases - The test case objects to group. Accepts an array or
  *                                a series of arguments
  *
  * @returns {object} A test case collection object

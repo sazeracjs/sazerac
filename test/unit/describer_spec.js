@@ -1,7 +1,7 @@
 import { assert } from 'chai'
 import sinon from 'sinon'
 
-import { 
+import {
   testExecuter,
   errorTestExecuter,
   buildDescriberDefinition,
@@ -192,9 +192,9 @@ describe('executeDescribers()', () => {
       describe: 'when called with an array of before and after functions',
       definition: {
         func: mockFrameworkFn,
-        test: { 
+        test: {
           testFn: 'testFn',
-          inputParams: 'inputParams', 
+          inputParams: 'inputParams',
           expectation: { value: 'expectedVal' },
           beforeFns: [sinon.spy(), sinon.spy()],
           afterFns: [sinon.spy(), sinon.spy()]
@@ -292,13 +292,13 @@ describe('buildDescriberDefinition()', () => {
           describeMessage: 'myFunc()',
           testFunction: 'mock_test_fn',
           cases: [
-            { 
+            {
               describeMessage: 'mock_describe_msg',
               shouldMessage: 'mock_should_msg',
               inputParams: 'mock_input_params',
               expectation: { value: 'mock_expected_val' }
             },
-            { 
+            {
               describeMessage: 'mock_describe_msg_2',
               shouldMessage: 'mock_should_msg_2',
               inputParams: 'mock_input_params_2',

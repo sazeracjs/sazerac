@@ -7,11 +7,11 @@ const newTestCase = (caseIndex) => {
     ___caseIndex: caseIndex,
 
     /**
-     * Defines the expected return value for this test case. 
+     * Defines the expected return value for this test case.
      * Uses http://chaijs.com, assert.deepEqual() to assert
      * that the expected return value equals the actual
      * return value.
-     * 
+     *
      * @param {object} expectation - The expected return value
      * @param {string} message - A message to describe the test case expectation
      *
@@ -25,7 +25,7 @@ const newTestCase = (caseIndex) => {
 
     /**
      * Defines an expected error to be thrown when this test case is executed.
-     * 
+     *
      * @param {object} expectation - The expected message from the error thrown
      * @param {string} message - A message to describe the test case expectation
      *
@@ -39,7 +39,7 @@ const newTestCase = (caseIndex) => {
 
     /**
      * Defines the "describe" message for this test case.
-     * 
+     *
      * @param {string} message
      *
      * @returns {object} A test case object
@@ -49,7 +49,7 @@ const newTestCase = (caseIndex) => {
     /**
      * Defines the "should" message for this test case. This is
      * passed to the `it` function when executing the test.
-     * 
+     *
      * @param {string} message
      *
      * @returns {object} A test case object
@@ -58,7 +58,7 @@ const newTestCase = (caseIndex) => {
 
     /**
      * Defines a custom assertion function for this test case
-     * 
+     *
      * @param {string} message - A message describing the assertion
      * @param {function} assertFn - The custom assert function. Receives
      *                              the actual return value of the function
@@ -70,7 +70,7 @@ const newTestCase = (caseIndex) => {
 
     /**
      * Adds a function to run before test case is executed
-     * 
+     *
      * @param {function} beforeFn
      *
      * @returns {object} A test case object
@@ -79,7 +79,7 @@ const newTestCase = (caseIndex) => {
 
     /**
      * Adds a function to run after test case is executed
-     * 
+     *
      * @param {function} afterFn
      *
      * @returns {object} A test case object

@@ -7,7 +7,7 @@ export const setupAndTeardownTypes = {
 }
 
 export default (state = [], type, action) => {
-  
+
   switch(action.type) {
 
     case actionTypes.ADD_CASE_BEFORE_FN:
