@@ -62,7 +62,7 @@
     "karma-spec-reporter": "0.0.30",
     "karma-webpack": "^2.0.3",
     "mocha": "^3.2.0",
-    "sinon": "^1.17.6",
+    "sinon": "^7.3.1",
     "webpack": "^2.2.1"
   },
   "scripts": {
