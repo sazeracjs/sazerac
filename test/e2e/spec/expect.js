@@ -1,5 +1,4 @@
-import { test, given, forCases } from 'sazerac'
-import { assert } from 'chai'
+import { test, given } from 'sazerac'
 import { isPrime } from '../functions'
 
 test(isPrime, function() {
