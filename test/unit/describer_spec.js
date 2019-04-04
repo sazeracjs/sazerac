@@ -318,64 +318,64 @@ describe('buildDescriberDefinition()', () => {
         ],
         [
           s + 'a call for each case',
-          (def) => { assert.deepPropertyVal(def, 'calls.length', 2) }
+          (def) => { assert.nestedPropertyVal(def, 'calls.length', 2) }
         ],
         [
           s + 'a message prop for each case call, set to that case\'s describeMessage',
           (def) => {
-            assert.deepPropertyVal(def, 'calls[0].message', 'mock_describe_msg')
-            assert.deepPropertyVal(def, 'calls[1].message', 'mock_describe_msg_2')
+            assert.nestedPropertyVal(def, 'calls[0].message', 'mock_describe_msg')
+            assert.nestedPropertyVal(def, 'calls[1].message', 'mock_describe_msg_2')
           }
         ],
         [
           s + 'a func prop for each case call, set to frameworkFunctions.describeFn',
           (def) => {
-            assert.deepPropertyVal(def, 'calls[0].func', 'describe_fn_mock')
-            assert.deepPropertyVal(def, 'calls[1].func', 'describe_fn_mock')
+            assert.nestedPropertyVal(def, 'calls[0].func', 'describe_fn_mock')
+            assert.nestedPropertyVal(def, 'calls[1].func', 'describe_fn_mock')
           }
         ],
         [
           s + 'an it call for each case',
           (def) => {
-            assert.deepPropertyVal(def, 'calls[0].calls.length', 1)
-            assert.deepPropertyVal(def, 'calls[0].calls[0].func', 'it_fn_mock')
-            assert.deepPropertyVal(def, 'calls[1].calls.length', 1)
-            assert.deepPropertyVal(def, 'calls[1].calls[0].func', 'it_fn_mock')
+            assert.nestedPropertyVal(def, 'calls[0].calls.length', 1)
+            assert.nestedPropertyVal(def, 'calls[0].calls[0].func', 'it_fn_mock')
+            assert.nestedPropertyVal(def, 'calls[1].calls.length', 1)
+            assert.nestedPropertyVal(def, 'calls[1].calls[0].func', 'it_fn_mock')
           }
         ],
         [
           s + 'a message prop for each it call, set to that case\'s shouldMessage',
           (def) => {
-            assert.deepPropertyVal(def, 'calls[0].calls[0].message', 'mock_should_msg')
-            assert.deepPropertyVal(def, 'calls[1].calls[0].message', 'mock_should_msg_2')
+            assert.nestedPropertyVal(def, 'calls[0].calls[0].message', 'mock_should_msg')
+            assert.nestedPropertyVal(def, 'calls[1].calls[0].message', 'mock_should_msg_2')
           }
         ],
         [
           s + 'a test object for each it call',
           (def) => {
-            assert.deepProperty(def, 'calls[0].calls[0].test')
-            assert.deepProperty(def, 'calls[1].calls[0].test')
+            assert.nestedProperty(def, 'calls[0].calls[0].test')
+            assert.nestedProperty(def, 'calls[1].calls[0].test')
           }
         ],
         [
           s + 'a test array for each it call with context.testFunction set',
           (def) => {
-            assert.deepPropertyVal(def, 'calls[0].calls[0].test.testFn', 'mock_test_fn')
-            assert.deepPropertyVal(def, 'calls[1].calls[0].test.testFn', 'mock_test_fn')
+            assert.nestedPropertyVal(def, 'calls[0].calls[0].test.testFn', 'mock_test_fn')
+            assert.nestedPropertyVal(def, 'calls[1].calls[0].test.testFn', 'mock_test_fn')
           }
         ],
         [
           s + 'a test array for each it call with the case\'s inputParams set',
           (def) => {
-            assert.deepPropertyVal(def, 'calls[0].calls[0].test.inputParams', 'mock_input_params')
-            assert.deepPropertyVal(def, 'calls[1].calls[0].test.inputParams', 'mock_input_params_2')
+            assert.nestedPropertyVal(def, 'calls[0].calls[0].test.inputParams', 'mock_input_params')
+            assert.nestedPropertyVal(def, 'calls[1].calls[0].test.inputParams', 'mock_input_params_2')
           }
         ],
         [
           s + 'a test array for each it call with the case\'s expectation set',
           (def) => {
-            assert.deepPropertyVal(def, 'calls[0].calls[0].test.expectation.value', 'mock_expected_val')
-            assert.deepPropertyVal(def, 'calls[1].calls[0].test.expectation.value', 'mock_expected_val_2')
+            assert.nestedPropertyVal(def, 'calls[0].calls[0].test.expectation.value', 'mock_expected_val')
+            assert.nestedPropertyVal(def, 'calls[1].calls[0].test.expectation.value', 'mock_expected_val_2')
           }
         ]
       ]
@@ -411,54 +411,54 @@ describe('buildDescriberDefinition()', () => {
         }
       ],
       assertions: [
-        
+
         [
           s + 'an it call for each assertion',
           (def) => {
-            assert.deepPropertyVal(def, 'calls[0].calls.length', 1)
-            assert.deepPropertyVal(def, 'calls[0].calls[0].func', 'it_fn_mock')
-            assert.deepPropertyVal(def, 'calls[1].calls.length', 2)
-            assert.deepPropertyVal(def, 'calls[1].calls[0].func', 'it_fn_mock')
+            assert.nestedPropertyVal(def, 'calls[0].calls.length', 1)
+            assert.nestedPropertyVal(def, 'calls[0].calls[0].func', 'it_fn_mock')
+            assert.nestedPropertyVal(def, 'calls[1].calls.length', 2)
+            assert.nestedPropertyVal(def, 'calls[1].calls[0].func', 'it_fn_mock')
           }
         ],
         [
           s + 'a message prop for each it call, set based on each assertion\'s shouldMessage',
           (def) => {
-            assert.deepPropertyVal(def, 'calls[0].calls[0].message', 'mock_assert_should_message_0_case_0')
-            assert.deepPropertyVal(def, 'calls[1].calls[0].message', 'mock_assert_should_message_1_case_1')
-            assert.deepPropertyVal(def, 'calls[1].calls[1].message', 'mock_assert_should_message_2_case_1')
+            assert.nestedPropertyVal(def, 'calls[0].calls[0].message', 'mock_assert_should_message_0_case_0')
+            assert.nestedPropertyVal(def, 'calls[1].calls[0].message', 'mock_assert_should_message_1_case_1')
+            assert.nestedPropertyVal(def, 'calls[1].calls[1].message', 'mock_assert_should_message_2_case_1')
           }
         ],
         [
           s + 'a test object for each it call',
           (def) => {
-            assert.deepProperty(def, 'calls[0].calls[0].test')
-            assert.deepProperty(def, 'calls[1].calls[0].test')
-            assert.deepProperty(def, 'calls[1].calls[1].test')
+            assert.nestedProperty(def, 'calls[0].calls[0].test')
+            assert.nestedProperty(def, 'calls[1].calls[0].test')
+            assert.nestedProperty(def, 'calls[1].calls[1].test')
           }
         ],
         [
           s + 'a test array for each it call with context.testFunction set',
           (def) => {
-            assert.deepPropertyVal(def, 'calls[0].calls[0].test.testFn', 'mock_test_fn')
-            assert.deepPropertyVal(def, 'calls[1].calls[0].test.testFn', 'mock_test_fn')
-            assert.deepPropertyVal(def, 'calls[1].calls[1].test.testFn', 'mock_test_fn')
+            assert.nestedPropertyVal(def, 'calls[0].calls[0].test.testFn', 'mock_test_fn')
+            assert.nestedPropertyVal(def, 'calls[1].calls[0].test.testFn', 'mock_test_fn')
+            assert.nestedPropertyVal(def, 'calls[1].calls[1].test.testFn', 'mock_test_fn')
           }
         ],
         [
           s + 'a test array for each it call with each assertion\'s inputParams set',
           (def) => {
-            assert.deepPropertyVal(def, 'calls[0].calls[0].test.inputParams', 'mock_input_params')
-            assert.deepPropertyVal(def, 'calls[1].calls[0].test.inputParams', 'mock_input_params_2')
-            assert.deepPropertyVal(def, 'calls[1].calls[1].test.inputParams', 'mock_input_params_2')
+            assert.nestedPropertyVal(def, 'calls[0].calls[0].test.inputParams', 'mock_input_params')
+            assert.nestedPropertyVal(def, 'calls[1].calls[0].test.inputParams', 'mock_input_params_2')
+            assert.nestedPropertyVal(def, 'calls[1].calls[1].test.inputParams', 'mock_input_params_2')
           }
         ],
         [
           s + 'a test array for each it call with each assertion\'s assertFn st',
           (def) => {
-            assert.deepPropertyVal(def, 'calls[0].calls[0].test.assertFn', 'mock_assert_fn_0')
-            assert.deepPropertyVal(def, 'calls[1].calls[0].test.assertFn', 'mock_assert_fn_1')
-            assert.deepPropertyVal(def, 'calls[1].calls[1].test.assertFn', 'mock_assert_fn_2')
+            assert.nestedPropertyVal(def, 'calls[0].calls[0].test.assertFn', 'mock_assert_fn_0')
+            assert.nestedPropertyVal(def, 'calls[1].calls[0].test.assertFn', 'mock_assert_fn_1')
+            assert.nestedPropertyVal(def, 'calls[1].calls[1].test.assertFn', 'mock_assert_fn_2')
           }
         ]
       ]
@@ -525,26 +525,26 @@ describe('buildDescriberDefinition()', () => {
         [
           s + 'a test array with before functions for each it call',
           (def) => {
-            assert.deepPropertyVal(def, 'calls[0].calls[0].test.beforeFns[0]', 'mock_before_fn_0')
-            assert.deepPropertyVal(def, 'calls[0].calls[0].test.beforeFns[1]', 'mock_before_fn_1')
-            assert.notDeepProperty(def, 'calls[0].calls[0].test.beforeFns[2]')
-            assert.deepPropertyVal(def, 'calls[1].calls[0].test.beforeFns[0]', 'mock_before_fn_2')
-            assert.notDeepProperty(def, 'calls[1].calls[0].test.beforeFns[1]')
-            assert.deepPropertyVal(def, 'calls[1].calls[1].test.beforeFns[0]', 'mock_before_fn_2')
-            assert.notDeepProperty(def, 'calls[1].calls[1].test.beforeFns[1]')
+            assert.nestedPropertyVal(def, 'calls[0].calls[0].test.beforeFns[0]', 'mock_before_fn_0')
+            assert.nestedPropertyVal(def, 'calls[0].calls[0].test.beforeFns[1]', 'mock_before_fn_1')
+            assert.notNestedProperty(def, 'calls[0].calls[0].test.beforeFns[2]')
+            assert.nestedPropertyVal(def, 'calls[1].calls[0].test.beforeFns[0]', 'mock_before_fn_2')
+            assert.notNestedProperty(def, 'calls[1].calls[0].test.beforeFns[1]')
+            assert.nestedPropertyVal(def, 'calls[1].calls[1].test.beforeFns[0]', 'mock_before_fn_2')
+            assert.notNestedProperty(def, 'calls[1].calls[1].test.beforeFns[1]')
           }
         ],
         [
           s + 'a test array with after functions for each it call',
           (def) => {
-            assert.deepPropertyVal(def, 'calls[0].calls[0].test.afterFns[0]', 'mock_after_fn_0')
-            assert.notDeepProperty(def, 'calls[0].calls[0].test.afterFns[1]')
-            assert.deepPropertyVal(def, 'calls[1].calls[0].test.afterFns[0]', 'mock_after_fn_1')
-            assert.deepPropertyVal(def, 'calls[1].calls[0].test.afterFns[1]', 'mock_after_fn_2')
-            assert.notDeepProperty(def, 'calls[1].calls[0].test.afterFns[2]')
-            assert.deepPropertyVal(def, 'calls[1].calls[1].test.afterFns[0]', 'mock_after_fn_1')
-            assert.deepPropertyVal(def, 'calls[1].calls[1].test.afterFns[1]', 'mock_after_fn_2')
-            assert.notDeepProperty(def, 'calls[1].calls[1].test.afterFns[2]')
+            assert.nestedPropertyVal(def, 'calls[0].calls[0].test.afterFns[0]', 'mock_after_fn_0')
+            assert.notNestedProperty(def, 'calls[0].calls[0].test.afterFns[1]')
+            assert.nestedPropertyVal(def, 'calls[1].calls[0].test.afterFns[0]', 'mock_after_fn_1')
+            assert.nestedPropertyVal(def, 'calls[1].calls[0].test.afterFns[1]', 'mock_after_fn_2')
+            assert.notNestedProperty(def, 'calls[1].calls[0].test.afterFns[2]')
+            assert.nestedPropertyVal(def, 'calls[1].calls[1].test.afterFns[0]', 'mock_after_fn_1')
+            assert.nestedPropertyVal(def, 'calls[1].calls[1].test.afterFns[1]', 'mock_after_fn_2')
+            assert.notNestedProperty(def, 'calls[1].calls[1].test.afterFns[2]')
           }
         ]
       ]
