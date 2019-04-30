@@ -73,7 +73,7 @@
     "test:e2e-jasmine": "karma start test/e2e/config/karma-jasmine.conf.js",
     "test:e2e-mocha": "karma start test/e2e/config/karma-mocha.conf.js",
     "test:e2e-jest": "jest",
-    "test:unit": "BABEL_ENV=test NODE_PATH=$NODE_PATH:$PWD/src mocha test/unit --compilers js:babel-core/register --recursive",
+    "test:unit": "BABEL_ENV=test NODE_PATH=$NODE_PATH:$PWD/src mocha test/unit --require babel-core/register --recursive",
     "check": "npm run lint && npm run test",
     "build": "npm run build:commonjs && npm run build:umd && npm run build:umd:min",
     "build:umd": "cross-env BABEL_ENV=commonjs NODE_ENV=dev webpack src/main.js dist/sazerac.js",
