@@ -9,7 +9,7 @@ jobs:
 
       - run:
           name: Upgrade npm (since this is Node 6)
-          command: sudo npm install -g npm
+          command: npm install -g npm
 
       - run:
           name: Install dependencies
