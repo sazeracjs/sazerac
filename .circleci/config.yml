@@ -9,10 +9,6 @@ jobs:
       - checkout
 
       - run:
-          name: Upgrade npm (since this is Node 6)
-          command: npm install -g npm
-
-      - run:
           name: Install dependencies
           command: npm ci
 
@@ -34,7 +30,7 @@ jobs:
 
       - run:
           name: Install dependencies
-          command: npm install
+          command: npm ci
 
       - run:
           name: Run tests
@@ -49,7 +45,7 @@ jobs:
 
       - run:
           name: Install dependencies
-          command: npm install
+          command: npm ci
 
       - run:
           name: Run tests
