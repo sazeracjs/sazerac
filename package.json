@@ -31,7 +31,7 @@
     "lodash.at": "^4.6.0",
     "lodash.concat": "^4.5.0",
     "lodash.filter": "^4.6.0",
-    "lodash.isfunction": "^3.0.8",
+    "lodash.isfunction": "^3.0.9",
     "lodash.isobject": "^3.0.2",
     "lodash.isstring": "^4.0.1",
     "lodash.isundefined": "^3.0.1",
