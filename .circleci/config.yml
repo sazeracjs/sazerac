@@ -1,8 +1,8 @@
 version: 2
 jobs:
-  build:
+  build@node-latest:
     docker:
-      - image: circleci/node:6
+      - image: circleci/node:latest
 
     steps:
       - checkout
@@ -19,3 +19,33 @@ jobs:
           name: Check lint
           command: npm run lint
           when: always
+
+  build@node-10:
+    docker:
+      - image: circleci/node:8
+
+    steps:
+      - checkout
+
+      - run:
+          name: Install dependencies
+          command: npm install
+
+      - run:
+          name: Run tests
+          command: npm test
+
+  build@node-8:
+    docker:
+      - image: circleci/node:8
+
+    steps:
+      - checkout
+
+      - run:
+          name: Install dependencies
+          command: npm install
+
+      - run:
+          name: Run tests
+          command: npm test
