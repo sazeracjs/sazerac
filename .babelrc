@@ -1,13 +1,33 @@
 {
-  "presets": ["es2015"],
-  "plugins": ["syntax-object-rest-spread", "transform-object-rest-spread"],
+  "presets": [
+    "@babel/preset-env"
+  ],
+  "plugins": [
+    "@babel/plugin-syntax-object-rest-spread",
+    "@babel/plugin-proposal-object-rest-spread"
+  ],
   "env": {
     "test": {
-      "plugins": ["syntax-object-rest-spread", "transform-object-rest-spread", "rewire"]
+      "plugins": [
+        "@babel/plugin-syntax-object-rest-spread",
+        "@babel/plugin-proposal-object-rest-spread",
+        "rewire",
+        [
+          "@babel/plugin-transform-modules-commonjs",
+          {
+            "loose": true
+          }
+        ]
+      ]
     },
     "commonjs": {
       "plugins": [
-        ["transform-es2015-modules-commonjs", { "loose": true }]
+        [
+          "@babel/plugin-transform-modules-commonjs",
+          {
+            "loose": true
+          }
+        ]
       ]
     }
   }
