@@ -9,7 +9,7 @@ jobs:
 
       - run:
           name: Install dependencies
-          command: npm install
+          command: npm ci
 
       - run:
           name: Run tests
