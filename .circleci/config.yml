@@ -1,8 +1,9 @@
 version: 2
+
 jobs:
-  build:
+  node@latest:
     docker:
-      - image: circleci/node:6
+      - image: circleci/node:latest
 
     steps:
       - checkout
@@ -19,3 +20,42 @@ jobs:
           name: Check lint
           command: npm run lint
           when: always
+
+  node@10:
+    docker:
+      - image: circleci/node:10
+
+    steps:
+      - checkout
+
+      - run:
+          name: Install dependencies
+          command: npm install
+
+      - run:
+          name: Run tests
+          command: npm test
+
+  node@8:
+    docker:
+      - image: circleci/node:8
+
+    steps:
+      - checkout
+
+      - run:
+          name: Install dependencies
+          command: npm install
+
+      - run:
+          name: Run tests
+          command: npm test
+
+workflows:
+  version: 2
+
+  on-commit:
+    jobs:
+      - node@latest
+      - node@10
+      - node@8

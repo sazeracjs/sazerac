@@ -80,6 +80,9 @@
     "build:umd:min": "cross-env BABEL_ENV=commonjs NODE_ENV=prod webpack src/main.js dist/sazerac.min.js",
     "build:commonjs": "cross-env BABEL_ENV=commonjs babel src --out-dir lib"
   },
+  "engine": {
+    "node": ">= 8"
+  },
   "jest": {
     "testRegex": "/test/e2e/spec/.*",
     "moduleNameMapper": {
