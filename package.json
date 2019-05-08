@@ -15,15 +15,18 @@
     "src",
     "types"
   ],
-  "repository": {
-    "type": "git",
-    "url": "git+https://github.com/mikec/sazerac.git"
-  },
+  "repository": "sazeracjs/sazerac",
   "keywords": [
-    "sazerac"
+    "sazerac",
+    "jasmine",
+    "mocha",
+    "jest",
+    "assertions",
+    "unit-testing",
+    "data-driven-tests"
   ],
   "bugs": {
-    "url": "https://github.com/mikec/sazerac/issues"
+    "url": "https://github.com/sazeracjs/sazerac/issues"
   },
   "license": "MIT",
   "dependencies": {
