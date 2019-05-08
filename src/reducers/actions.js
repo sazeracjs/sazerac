@@ -2,10 +2,10 @@ import isFunction from 'lodash.isfunction'
 import convertCase from '../convertCase'
 import store from './store'
 
-let actions = {}
-let actionTypes = {}
+const actions = {}
+const actionTypes = {}
 let state = {}
-let listenerFns = []
+const listenerFns = []
 
 const actionsArray = [
   'INIT',

@@ -41,7 +41,7 @@ export const testExecuter = (testFn, inputParams, expectedVal) => {
 
 export const errorTestExecuter = (testFn, inputParams, expectedError) => {
   let actualErrMsg
-  let expectedErrMsg = expectedError
+  const expectedErrMsg = expectedError
   try {
     testFn.apply(null, inputParams)
   } catch (err) {
@@ -92,7 +92,7 @@ const getCaseDescriberDef = (tCase, frameworkFunctions, testFn, assertions, befo
 
 const getCaseItCalls = (tCase, itFn, testFn, assertions, beforeFns, afterFns) => {
   const { shouldMessage, inputParams, expectation } = tCase
-  let calls = []
+  const calls = []
   if (!isUndefined(expectation)) {
     calls.push({
       func: itFn,
