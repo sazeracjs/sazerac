@@ -82,7 +82,8 @@
     "build": "npm run build:commonjs && npm run build:umd && npm run build:umd:min",
     "build:umd": "cross-env BABEL_ENV=commonjs NODE_ENV=dev webpack src/main.js dist/sazerac.js",
     "build:umd:min": "cross-env BABEL_ENV=commonjs NODE_ENV=prod webpack src/main.js dist/sazerac.min.js",
-    "build:commonjs": "cross-env BABEL_ENV=commonjs babel src --out-dir lib"
+    "build:commonjs": "cross-env BABEL_ENV=commonjs babel src --out-dir lib",
+    "prepare": "npm run build"
   },
   "engine": {
     "node": ">= 8"
