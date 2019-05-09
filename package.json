@@ -1,6 +1,6 @@
 {
   "name": "sazerac",
-  "version": "0.4.2",
+  "version": "1.0.0",
   "author": {
     "email": "mfcalvanese@gmail.com",
     "name": "Mike Calvanese",
@@ -17,7 +17,6 @@
   ],
   "repository": "sazeracjs/sazerac",
   "keywords": [
-    "sazerac",
     "jasmine",
     "mocha",
     "jest",
