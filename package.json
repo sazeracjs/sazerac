@@ -57,7 +57,7 @@
     "cross-env": "^5.2.0",
     "eslint": "^5.16.0",
     "jasmine": "^3.4.0",
-    "jest": "^24.7.1",
+    "jest": "^24.8.0",
     "karma": "^4.1.0",
     "karma-babel-preprocessor": "^8.0.0",
     "karma-jasmine": "^2.0.1",
