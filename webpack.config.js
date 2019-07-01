@@ -16,7 +16,7 @@ var config = {
     libraryTarget: 'umd',
     umdNamedDefine: true
   },
-  plugins: []
+  plugins: [],
   mode: env === 'prod' ? 'production': 'development',
 }
 
