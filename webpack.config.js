@@ -17,12 +17,7 @@ var config = {
     umdNamedDefine: true
   },
   plugins: []
-}
-
-if (env === 'prod') {
-  config.plugins.push(
-    new webpack.optimize.UglifyJsPlugin()
-  )
+  mode: env === 'prod' ? 'production': 'development',
 }
 
 module.exports = config
