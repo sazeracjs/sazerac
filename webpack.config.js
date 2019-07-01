@@ -7,9 +7,13 @@ var env = process.env.NODE_ENV
 var config = {
   entry: './src/main.js',
   module: {
-    loaders: [
-      { test: /\.js$/, loaders: ['babel-loader'], exclude: [/node_modules/, `/test/sazerac-v0.2.2.js/`] }
-    ]
+    rules: [
+      {
+        test: /\.js$/,
+        exclude: [/node_modules/, '/test/sazerac-v0.2.2.js/'],
+        use: {loader: 'babel-loader'}
+      }
+    ],
   },
   output: {
     library: 'Sazerac',
