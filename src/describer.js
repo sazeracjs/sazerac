@@ -16,7 +16,7 @@ export const executeDescribers = (def) => {
 
       executeFns(beforeFns)
 
-      if (Object.prototoype.hasOwnProperty.call(test, 'expectation')) {
+      if (Object.prototype.hasOwnProperty.call(test, 'expectation')) {
         if (
           Object.prototype.hasOwnProperty.call(
             expectation,
