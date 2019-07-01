@@ -16,11 +16,29 @@ export const executeDescribers = (def) => {
 
       executeFns(beforeFns)
 
-      if (test.hasOwnProperty('expectation')) {
-        if (expectation.hasOwnProperty(expectationTypes.VALUE)) {
-          testExecuter(testFn, inputParams, expectation[expectationTypes.VALUE])
-        } else if (expectation.hasOwnProperty(expectationTypes.ERROR)) {
-          errorTestExecuter(testFn, inputParams, expectation[expectationTypes.ERROR])
+      if (Object.prototype.hasOwnProperty.call(test, 'expectation')) {
+        if (
+          Object.prototype.hasOwnProperty.call(
+            expectation,
+            expectationTypes.VALUE
+          )
+        ) {
+          testExecuter(
+            testFn,
+            inputParams,
+            expectation[expectationTypes.VALUE]
+          )
+        } else if (
+          Object.prototype.hasOwnProperty.call(
+            expectation,
+            expectationTypes.ERROR
+          )
+        ) {
+          errorTestExecuter(
+            testFn,
+            inputParams,
+            expectation[expectationTypes.ERROR]
+          )
         }
       } else if (assertFn) {
         assertionExecuter(testFn, inputParams, assertFn)
