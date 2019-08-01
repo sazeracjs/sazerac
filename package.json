@@ -65,7 +65,7 @@
     "karma-phantomjs-launcher": "^1.0.4",
     "karma-spec-reporter": "0.0.32",
     "karma-webpack": "^3.0.5",
-    "mocha": "^6.1.4",
+    "mocha": "^6.2.0",
     "sinon": "^7.3.2",
     "webpack": "^3.12.0"
   },
