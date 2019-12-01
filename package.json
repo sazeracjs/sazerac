@@ -47,7 +47,7 @@
     "@babel/plugin-external-helpers": "^7.0.0",
     "@babel/plugin-proposal-object-rest-spread": "^7.0.0",
     "@babel/plugin-syntax-object-rest-spread": "^7.0.0",
-    "@babel/plugin-transform-modules-commonjs": "^7.0.0",
+    "@babel/plugin-transform-modules-commonjs": "^7.7.4",
     "@babel/preset-env": "^7.4.5",
     "@babel/register": "^7.4.4",
     "babel-jest": "^24.8.0",
