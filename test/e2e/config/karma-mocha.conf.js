@@ -14,7 +14,7 @@ module.exports = function(config) {
           {
             test: /\.js$/,
             exclude: [/node_modules/],
-            use: { loader: "babel-loader" }
+            use: { loader: 'babel-loader' }
           }
         ]
       },
@@ -24,7 +24,7 @@ module.exports = function(config) {
           'sazerac': '../../../src/main'
         }
       },
-      mode: "development"
+      mode: 'development'
     },
     webpackServer: {
       noInfo: true

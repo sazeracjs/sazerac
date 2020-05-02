@@ -18,7 +18,7 @@ var config = {
   output: {
     library: 'Sazerac',
     libraryTarget: 'umd',
-    umdNamedDefine: true
+    umdNamedDefine: true,
   },
   plugins: [],
   mode: env === 'prod' ? 'production': 'development',
