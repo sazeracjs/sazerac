@@ -1,6 +1,18 @@
 Changelog
 =========
 
+1.1.0
+-----
+
+### New features
+
+- Add type declaration for `forCases()`.
+
+### Other changes
+
+- Update build dependencies.
+
+
 1.0.0
 -----
 
