@@ -50,7 +50,7 @@
     "@babel/plugin-transform-modules-commonjs": "^7.9.6",
     "@babel/preset-env": "^7.9.0",
     "@babel/register": "^7.4.4",
-    "babel-jest": "^24.8.0",
+    "babel-jest": "^25.5.1",
     "babel-loader": "^8.0.6",
     "babel-plugin-rewire": "^1.2.0",
     "chai": "^4.2.0",
