@@ -4,7 +4,7 @@
   "author": {
     "email": "mfcalvanese@gmail.com",
     "name": "Mike Calvanese",
-    "url": "github.com/mikec"
+    "url": "https://github.com/mikec"
   },
   "browser": "dist/sazerac.js",
   "main": "lib/main.js",
@@ -87,7 +87,7 @@
     "prepare": "npm run build"
   },
   "engine": {
-    "node": ">= 8"
+    "node": ">= 10"
   },
   "jest": {
     "testRegex": "/test/e2e/spec/.*",
