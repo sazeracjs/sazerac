@@ -21,9 +21,9 @@ jobs:
           command: npm run lint
           when: always
 
-  node@10:
+  node@12:
     docker:
-      - image: circleci/node:10
+      - image: circleci/node:12
 
     steps:
       - checkout
@@ -36,9 +36,9 @@ jobs:
           name: Run tests
           command: npm test
 
-  node@8:
+  node@10:
     docker:
-      - image: circleci/node:8
+      - image: circleci/node:10
 
     steps:
       - checkout
@@ -57,5 +57,5 @@ workflows:
   on-commit:
     jobs:
       - node@latest
+      - node@12
       - node@10
-      - node@8

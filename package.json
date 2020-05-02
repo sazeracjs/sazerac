@@ -4,7 +4,7 @@
   "author": {
     "email": "mfcalvanese@gmail.com",
     "name": "Mike Calvanese",
-    "url": "github.com/mikec"
+    "url": "https://github.com/mikec"
   },
   "browser": "dist/sazerac.js",
   "main": "lib/main.js",
@@ -59,7 +59,7 @@
     "jasmine": "^3.4.0",
     "jest": "^24.8.0",
     "karma": "^4.2.0",
-    "karma-babel-preprocessor": "^8.0.0",
+    "karma-babel-preprocessor": "^8.0.1",
     "karma-jasmine": "^2.0.1",
     "karma-mocha": "^2.0.1",
     "karma-phantomjs-launcher": "^1.0.4",
@@ -87,7 +87,7 @@
     "prepare": "npm run build"
   },
   "engine": {
-    "node": ">= 8"
+    "node": ">= 10"
   },
   "jest": {
     "testRegex": "/test/e2e/spec/.*",
