@@ -1,8 +1,17 @@
-Changelog
-=========
+# Changelog
 
-1.1.0
------
+## 2.0.0
+
+### BREAKING CHANGES
+
+- Require Node 10+.
+
+### Other changes
+
+- Upgrade to Webpack 4.
+
+
+## 1.1.0
 
 ### New features
 
@@ -13,8 +22,7 @@ Changelog
 - Update build dependencies.
 
 
-1.0.0
------
+## 1.0.0
 
 ### BREAKING CHANGES
 
